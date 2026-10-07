@@ -4,7 +4,7 @@ export const personalInfo = {
   title: 'AI Engineer',
   company: 'Krates ehf.',
   location: 'Garðabær, Iceland',
-  email: 'rationallyprime@gmail.com',
+  email: 'hakon@sokrates.is',
   phone: '+354 660-9570',
   github: 'https://github.com/RationallyPrime',
   website: 'https://hakonfreyr.com',
