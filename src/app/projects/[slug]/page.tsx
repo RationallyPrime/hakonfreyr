@@ -50,8 +50,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
       <Sheet
         id={project.slug}
-        sheet={letter}
-        sheetLabel={`Detail ${letter}`}
+        sheet={`Detail ${letter}`}
         title={project.name}
         lede={
           <>
@@ -61,18 +60,8 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       >
         <div className="sheet-body sheet-body-detail">
           <div className="detail-main">
-            <Notes>
-              {project.highlights.map((h) => (
-                <li key={h}>{h}</li>
-              ))}
-            </Notes>
-            {project.architectureNotes && (
-              <Notes title="Construction notes">
-                {project.architectureNotes.map((n) => (
-                  <li key={n}>{n}</li>
-                ))}
-              </Notes>
-            )}
+            <Notes items={project.highlights} />
+            {project.architectureNotes && <Notes title="Construction notes" items={project.architectureNotes} />}
           </div>
           <div className="sheet-side">
             {project.metrics && (

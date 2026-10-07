@@ -86,6 +86,23 @@
     U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
+@font-face {
+  font-family: 'Barlow';
+  font-weight: 800;
+  font-display: swap;
+  src: url('/fonts/barlow-latin-800.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308,
+    U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Barlow';
+  font-weight: 800;
+  font-display: swap;
+  src: url('/fonts/barlow-latin-ext-800.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
 :root {
   --film: #edf6f8;
   --grid: rgb(64 128 190 / 0.13);
@@ -110,7 +127,19 @@ body.drawing-set {
   background-image:
     linear-gradient(var(--grid) 1px, transparent 1px),
     linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-  background-size: calc(var(--u) * 20) calc(var(--u) * 20);
+  background-size: max(16px, calc(var(--u) * 20)) max(16px, calc(var(--u) * 20));
+  scrollbar-color: var(--graphite-soft) var(--film);
+  overflow-x: clip;
+}
+
+.drawing-set ::selection {
+  background: var(--drafting);
+  color: var(--film);
+}
+
+.cover-index table,
+.parts {
+  font-variant-numeric: tabular-nums;
 }
 
 :where(.drawing-set) a {
@@ -120,6 +149,42 @@ body.drawing-set {
 .drawing-set :focus-visible {
   outline: 2px solid var(--drafting);
   outline-offset: 3px;
+}
+
+/* ---------- Zone markers on every sheet frame ---------- */
+
+.cover-frame::before,
+.sheet::before {
+  --m: max(8px, calc(var(--u) * 14));
+  --len: max(10px, calc(var(--u) * 18));
+  content: '';
+  position: absolute;
+  inset: calc(var(--m) * -1 + var(--rule));
+  pointer-events: none;
+  background:
+    /* centre ticks */
+    linear-gradient(var(--graphite-soft), var(--graphite-soft)) 50% 0 / 1.5px var(--len) no-repeat,
+    linear-gradient(var(--graphite-soft), var(--graphite-soft)) 50% 100% / 1.5px var(--len) no-repeat,
+    linear-gradient(var(--graphite-soft), var(--graphite-soft)) 0 50% / var(--len) 1.5px no-repeat,
+    linear-gradient(var(--graphite-soft), var(--graphite-soft)) 100% 50% / var(--len) 1.5px no-repeat,
+    /* quarter ticks */
+    linear-gradient(var(--graphite-soft), var(--graphite-soft)) 25% 0 / 1px calc(var(--len) * 0.6) no-repeat,
+    linear-gradient(var(--graphite-soft), var(--graphite-soft)) 75% 0 / 1px calc(var(--len) * 0.6) no-repeat,
+    linear-gradient(var(--graphite-soft), var(--graphite-soft)) 25% 100% / 1px calc(var(--len) * 0.6) no-repeat,
+    linear-gradient(var(--graphite-soft), var(--graphite-soft)) 75% 100% / 1px calc(var(--len) * 0.6) no-repeat,
+    /* corner crosses */
+    linear-gradient(var(--graphite), var(--graphite)) 0 calc(var(--len) / 2) / var(--len) 1.5px no-repeat,
+    linear-gradient(var(--graphite), var(--graphite)) calc(var(--len) / 2) 0 / 1.5px var(--len) no-repeat,
+    linear-gradient(var(--graphite), var(--graphite)) 100% calc(var(--len) / 2) / var(--len) 1.5px no-repeat,
+    linear-gradient(var(--graphite), var(--graphite)) calc(100% - var(--len) / 2) 0 / 1.5px var(--len) no-repeat,
+    linear-gradient(var(--graphite), var(--graphite)) 0 calc(100% - var(--len) / 2) / var(--len) 1.5px no-repeat,
+    linear-gradient(var(--graphite), var(--graphite)) calc(var(--len) / 2) 100% / 1.5px var(--len) no-repeat,
+    linear-gradient(var(--graphite), var(--graphite)) 100% calc(100% - var(--len) / 2) / var(--len) 1.5px no-repeat,
+    linear-gradient(var(--graphite), var(--graphite)) calc(100% - var(--len) / 2) 100% / 1.5px var(--len) no-repeat;
+}
+
+.cover-frame::before {
+  --m: calc(var(--u) * 7);
 }
 
 /* ---------- Cover sheet: the first viewport ---------- */
@@ -249,10 +314,12 @@ body.drawing-set {
   height: calc(var(--u) * 86);
   box-sizing: border-box;
   background: var(--film);
+  font-family: 'Barlow', var(--label);
   font-weight: 800;
-  font-size: calc(var(--u) * 68);
+  font-size: calc(var(--u) * 64);
   line-height: 1;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
+  word-spacing: 0.22em;
   text-transform: uppercase;
 }
 
@@ -323,32 +390,32 @@ body.drawing-set {
 
 /* The revision cloud: drawn around the current row, and it moves to any row
    the visitor points at or focuses. */
-.cover-index tbody td:first-child::after {
-  --r: calc(var(--u) * 11);
-  --line: calc(var(--r) + 2.5px);
-  content: '';
+.cloud {
   position: absolute;
-  left: calc(var(--u) * -10);
-  top: calc(var(--u) * -9);
-  width: calc(var(--u) * 1004);
-  height: calc(100% + var(--u) * 18);
+  left: calc(var(--u) * -12);
+  top: calc(var(--u) * -10);
+  width: calc(var(--u) * 1008);
+  height: calc(100% + var(--u) * 20);
+  overflow: visible;
   pointer-events: none;
   opacity: 0;
   transition: opacity 160ms ease-out;
-  background:
-    radial-gradient(circle at 50% 100%, transparent calc(var(--r) - 1px), var(--revision) var(--r), var(--revision) var(--line), transparent calc(var(--line) + 0.5px)) top left / calc(var(--r) * 2) var(--r) repeat-x,
-    radial-gradient(circle at 50% 0, transparent calc(var(--r) - 1px), var(--revision) var(--r), var(--revision) var(--line), transparent calc(var(--line) + 0.5px)) bottom left / calc(var(--r) * 2) var(--r) repeat-x,
-    radial-gradient(circle at 100% 50%, transparent calc(var(--r) - 1px), var(--revision) var(--r), var(--revision) var(--line), transparent calc(var(--line) + 0.5px)) top left / var(--r) calc(var(--r) * 2) repeat-y,
-    radial-gradient(circle at 0 50%, transparent calc(var(--r) - 1px), var(--revision) var(--r), var(--revision) var(--line), transparent calc(var(--line) + 0.5px)) top right / var(--r) calc(var(--r) * 2) repeat-y;
 }
 
-.cover-index tbody tr[data-current] td:first-child::after,
-.cover-index tbody tr:hover td:first-child::after,
-.cover-index tbody tr:focus-within td:first-child::after {
+.cloud path {
+  fill: none;
+  stroke: var(--revision);
+  stroke-width: 2.25px;
+  stroke-linejoin: round;
+}
+
+.cover-index tbody tr[data-current] .cloud,
+.cover-index tbody tr:hover .cloud,
+.cover-index tbody tr:focus-within .cloud {
   opacity: 1;
 }
 
-.cover-index tbody:has(tr:hover, tr:focus-within) tr[data-current]:not(:hover, :focus-within) td:first-child::after {
+.cover-index tbody:has(tr:hover, tr:focus-within) tr[data-current]:not(:hover, :focus-within) .cloud {
   opacity: 0;
 }
 
@@ -462,21 +529,8 @@ body.drawing-set {
 .sheet-lede {
   margin: 0;
   max-width: calc(var(--s) * 900);
-  padding-right: calc(var(--s) * 150);
   font-size: max(18px, calc(var(--s) * 30));
   line-height: 1.3;
-}
-
-.sheet-no {
-  position: absolute;
-  right: 0;
-  top: calc(var(--s) * -8);
-  font-family: var(--display);
-  font-stretch: 75%;
-  font-size: max(64px, calc(var(--s) * 150));
-  line-height: 1;
-  color: transparent;
-  -webkit-text-stroke: 2px var(--drafting);
 }
 
 .sheet-body {
@@ -537,41 +591,6 @@ body.drawing-set {
   mix-blend-mode: multiply;
 }
 
-.drawing-exploded .callout {
-  position: absolute;
-  display: grid;
-  gap: 4px;
-  max-width: calc(var(--s) * 300);
-  padding: calc(var(--s) * 12) calc(var(--s) * 16);
-  border: var(--rule) solid var(--drafting);
-  background: var(--film);
-  font-size: max(14px, calc(var(--s) * 20));
-  line-height: 1.3;
-}
-
-.drawing-exploded .callout a {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--drafting);
-  font-weight: 700;
-  font-size: max(18px, calc(var(--s) * 30));
-  text-transform: uppercase;
-  text-decoration: none;
-}
-
-.callout-key {
-  display: inline-grid;
-  place-items: center;
-  width: 1.25em;
-  height: 1.25em;
-  border: 2px solid currentColor;
-  border-radius: 50%;
-  font-size: 0.8em;
-}
-
-.callout-a { left: 0; top: 2%; }
-.callout-b { right: 0; bottom: 2%; }
 
 /* Dimension lines: a measured figure drawn with extension ticks. */
 
@@ -635,7 +654,7 @@ body.drawing-set {
 @media (prefers-reduced-motion: reduce) {
   .dim-line { transition: none; }
   [data-draw-in] .sheet:not([data-drawn]) .dim-line { transform: none; }
-  .cover-index tbody td:first-child::after { transition: none; }
+  .cloud { transition: none; }
 }
 
 /* General notes */
@@ -668,10 +687,13 @@ body.drawing-set {
 /* The Weave's loop */
 
 .loop {
-  aspect-ratio: 1;
-  max-width: calc(var(--s) * 820);
-  margin-inline: auto;
+  max-width: calc(var(--s) * 860);
   width: 100%;
+}
+
+.loop-field {
+  position: relative;
+  aspect-ratio: 1;
 }
 
 .loop-stages {
@@ -712,12 +734,6 @@ body.drawing-set {
   font-size: max(24px, calc(var(--s) * 46));
 }
 
-.loop-stages li:nth-child(3) .loop-node {
-  border-color: var(--revision);
-  border-width: 2px;
-  color: var(--revision);
-}
-
 .loop-label {
   position: absolute;
   left: 50%;
@@ -731,14 +747,32 @@ body.drawing-set {
   text-transform: uppercase;
 }
 
-.loop-caption {
+.loop-arrows {
   position: absolute;
-  left: 50%;
-  top: 50%;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.loop-arrows li {
+  --a: calc(var(--i) * 72deg - 54deg);
+  position: absolute;
+  left: calc(50% + cos(var(--a)) * 34%);
+  top: calc(50% + sin(var(--a)) * 34%);
+  width: max(9px, calc(var(--s) * 14));
+  height: max(9px, calc(var(--s) * 14));
   translate: -50% -50%;
-  width: 40%;
-  text-align: center;
-  font-size: max(14px, calc(var(--s) * 22));
+  rotate: calc(var(--a) + 135deg);
+  border-top: 2px solid var(--drafting);
+  border-right: 2px solid var(--drafting);
+}
+
+.loop-caption {
+  margin-top: calc(var(--s) * 18);
+  padding-left: calc(var(--s) * 84);
+  max-width: calc(var(--s) * 640);
+  font-size: max(15px, calc(var(--s) * 22));
   line-height: 1.35;
 }
 
@@ -872,7 +906,7 @@ body.drawing-set {
   right: calc(var(--s) * 20);
   bottom: calc(var(--s) * 20);
   display: grid;
-  grid-template-columns: auto auto auto auto;
+  grid-template-columns: repeat(5, auto);
   margin: 0;
   border: var(--rule) solid var(--graphite);
   background: var(--film);
@@ -1019,7 +1053,7 @@ body.drawing-set {
   }
 
   .cover-name {
-    font-size: calc((100vw - 56px) / 2.3);
+    font-size: calc((100vw - 56px) / 2.55);
     line-height: 0.92;
     white-space: normal;
     -webkit-text-stroke: 1px var(--graphite);
@@ -1067,12 +1101,15 @@ body.drawing-set {
     padding: 8px 0;
   }
 
-  .cover-index tbody td:first-child::after {
-    --r: 6px;
+  .cloud {
     left: -6px;
     top: -5px;
     width: calc(100vw - 55px + 12px);
     height: calc(100% + 10px);
+  }
+
+  .cover-index caption {
+    font-size: 28px;
   }
 
   .cover-keyplan {
@@ -1126,9 +1163,8 @@ body.drawing-set {
     font-size: 18px;
   }
 
-  .sheet-no {
-    font-size: 56px;
-    top: 0;
+  .sheet-title {
+    max-width: 100%;
   }
 
   .sheet-body-drawing,
@@ -1138,36 +1174,47 @@ body.drawing-set {
     gap: 28px;
   }
 
-  .drawing-exploded .callout {
-    position: static;
-    max-width: none;
-    margin-top: 10px;
-  }
-
   .loop {
-    aspect-ratio: auto;
     max-width: none;
   }
 
-  .loop-stages {
-    position: relative;
-    aspect-ratio: 1;
-    margin: 36px 8px 40px;
+  .loop-field {
+    margin: 12px 8px 24px;
   }
 
   .loop-caption {
-    position: static;
-    translate: none;
-    width: auto;
+    padding-left: 0;
     font-size: 16px;
-  }
-
-  .sheet-title {
-    max-width: calc(100% - 72px);
   }
 
   .loop-label {
     font-size: 13px;
+  }
+
+  .dimensioned {
+    padding: 48px 0 0 40px;
+  }
+
+  .loop.dimensioned {
+    padding-bottom: 52px;
+  }
+
+  .dim-on-top,
+  .dim-on-bottom {
+    left: 40px;
+  }
+
+  .dim-on-left {
+    top: 48px;
+    width: 40px;
+  }
+
+  .loop.dimensioned .dim-on-left {
+    bottom: 52px;
+  }
+
+  .dim-line-v {
+    margin-right: 8px;
   }
 
   .elevation {
@@ -1192,25 +1239,68 @@ body.drawing-set {
     left: -26px;
   }
 
-  .table-scroll {
-    overflow-x: auto;
+  /* The parts list reflows into one record per organisation. */
+  .parts-list thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
   }
 
-  .table-scroll .parts {
-    min-width: 640px;
+  .parts-list,
+  .parts-list tbody,
+  .parts-list tr,
+  .parts-list th,
+  .parts-list td {
+    display: block;
+  }
+
+  .parts-list tr {
+    border: 1px solid var(--graphite-soft);
+    background: rgb(237 246 248 / 0.7);
+  }
+
+  .parts-list tr + tr {
+    border-top: 0;
+  }
+
+  .parts-list th,
+  .parts-list td {
+    border: 0;
+    background: none;
+    padding: 2px 12px;
+  }
+
+  .parts-list tbody th {
+    padding-top: 10px;
+    font-size: 18px;
+  }
+
+  .parts-list td[data-label='Item'] {
+    display: none;
+  }
+
+  .parts-list td[data-label='Period'] {
+    color: var(--graphite-soft);
+  }
+
+  .parts-list td[data-label='Key result'] {
+    padding-bottom: 10px;
+    font-weight: 600;
   }
 
   .titleblock {
     position: static;
     margin-top: 24px;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
   }
 
-  .titleblock div:nth-child(3) {
+  .titleblock div:nth-child(4) {
     border-left: 0;
   }
 
-  .titleblock div:nth-child(n + 3) {
+  .titleblock div:nth-child(n + 4) {
     border-top: 1px solid var(--graphite-soft);
   }
 
@@ -1298,5 +1388,171 @@ body.drawing-set {
   .sheet-body-detail {
     grid-template-columns: 1fr;
     gap: 28px;
+  }
+}
+
+/* ---------- Dimensions laid on the drawings ---------- */
+
+.dimensioned {
+  position: relative;
+  padding: calc(var(--s) * 76) 0 0 calc(var(--s) * 84);
+}
+
+.loop.dimensioned {
+  padding-bottom: calc(var(--s) * 84);
+}
+
+.dim-on {
+  position: absolute;
+  margin: 0;
+  font-size: max(14px, calc(var(--s) * 21));
+  line-height: 1.2;
+}
+
+.dim-on strong {
+  font-family: var(--display);
+  font-stretch: 85%;
+  font-weight: 400;
+  font-size: max(24px, calc(var(--s) * 42));
+  line-height: 1;
+  color: var(--drafting);
+  margin-right: 0.12em;
+  vertical-align: -0.06em;
+}
+
+.dim-on-top {
+  top: 0;
+  left: calc(var(--s) * 84);
+  right: 0;
+  display: grid;
+  justify-items: center;
+  gap: calc(var(--s) * 8);
+}
+
+.dim-on-top .dim-text {
+  order: -1;
+}
+
+.dim-on-top .dim-line,
+.dim-on-bottom .dim-line {
+  justify-self: stretch;
+  transform-origin: center;
+}
+
+.dim-on-bottom {
+  bottom: 0;
+  left: calc(var(--s) * 84);
+  right: 0;
+  display: grid;
+  justify-items: center;
+  gap: calc(var(--s) * 8);
+}
+
+.dim-on-left {
+  top: calc(var(--s) * 76);
+  bottom: 0;
+  left: 0;
+  width: calc(var(--s) * 84);
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-end;
+  gap: calc(var(--s) * 10);
+}
+
+.loop.dimensioned .dim-on-left {
+  bottom: calc(var(--s) * 84);
+}
+
+.dim-on-left .dim-text {
+  writing-mode: vertical-rl;
+  rotate: 180deg;
+  text-align: center;
+}
+
+.dim-line-v {
+  width: 2px;
+  height: auto;
+  margin-right: calc(var(--s) * 14);
+  transform-origin: center top;
+}
+
+.dim-line-v::before,
+.dim-line-v::after {
+  top: auto;
+  left: -8px;
+  width: 18px;
+  height: 2px;
+}
+
+.dim-line-v::before { top: 0; }
+.dim-line-v::after { bottom: 0; right: auto; }
+
+[data-draw-in] .sheet:not([data-drawn]) .dim-line-v {
+  transform: scaleY(0);
+}
+
+.plate-wrap {
+  position: relative;
+}
+
+.bubble,
+.bubble-inline {
+  display: inline-grid;
+  place-items: center;
+  width: max(28px, calc(var(--s) * 44));
+  height: max(28px, calc(var(--s) * 44));
+  border: 2px solid var(--drafting);
+  border-radius: 50%;
+  background: var(--film);
+  color: var(--drafting);
+  font-weight: 700;
+  font-size: max(15px, calc(var(--s) * 22));
+}
+
+.bubble {
+  position: absolute;
+  translate: -50% -50%;
+}
+
+.bubble-a { left: 47%; top: 12%; }
+.bubble-b { left: 80%; top: 50%; }
+
+.legend {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: calc(var(--s) * 32);
+  margin: calc(var(--s) * 28) 0 0 calc(var(--s) * 84);
+}
+
+.legend dt {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: max(18px, calc(var(--s) * 30));
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.legend dt a {
+  color: var(--drafting);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.legend dd {
+  margin: calc(var(--s) * 8) 0 0;
+  font-size: var(--body);
+  line-height: 1.35;
+}
+
+.sheet-body > .sheet-links {
+  margin-top: calc(var(--s) * 36);
+}
+
+@media (max-width: 860px) {
+  .legend {
+    grid-template-columns: 1fr;
+    margin-left: 0;
   }
 }

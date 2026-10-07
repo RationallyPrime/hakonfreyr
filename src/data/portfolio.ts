@@ -422,3 +422,46 @@ export const education: Education[] = [
     focus: 'Computational Mathematics and Computer Science.',
   },
 ]
+
+// Copy for the home page's sheets. Figures are the measured ones on the CV.
+export const sheetCopy = {
+  krates: {
+    lede: 'An AI-native back office for Icelandic enterprises, correct by construction: agents do the work, rules are executable logic, and a human consents before anything leaves the box. Founder, March 2026 to present; now in pilots.',
+    widthDim: { value: '14', label: 'services in five credential-isolated containers' },
+    heightDim: { value: '7', label: 'agent-first kernels' },
+    sokrates: 'The on-premises AI department: one NixOS appliance that ingests a company’s systems and lets named agents do back-office work over Slack, Teams, WhatsApp and email.',
+    krepis: 'Seven back-office kernels (accounting, payroll, workforce management and more) built for AI agents rather than for people clicking through screens.',
+    notes: [
+      'Business rules are Logica laws compiled to DuckDB SQL; each returns the set of violations, not a pass or fail.',
+      'An agent that dies mid-task never repeats an external action (DBOS, write-ahead attempt records).',
+      'Every governed action carries a signed consent token and is its own trace span in a queryable audit store.',
+      'Krepis kernels are event-sourced and append-only; every action is idempotent and has a dry run.',
+      'Two editions: a gateway-routed mini-PC, or fully local inference on a DGX Spark for air-gapped customers.',
+    ],
+  },
+  weave: {
+    lede: 'The engineering organisation that builds Krates: five named AI engineers (Claude and Codex), each with its own machine and role, working under a written doctrine. I designed it and lead it, in the role a CTO plays.',
+    topDim: { value: '106', label: 'merged changes a week, July to mid-September 2026' },
+    sideDim: { value: '94%', label: 'independently reviewed before merge (September)' },
+    bottomDim: { value: '250 ISK', label: '($2) of AI subscription per merged change' },
+    caption: 'Reviews always come from an agent other than the author. Repairs go back through review before the merge gate.',
+    notes: [
+      'Reviewers found issues in 83% of the changes they reviewed, and only 0.14% of merged changes have ever been reverted.',
+      'A scheduler I built gives each task to the agent best placed to take it, by remaining subscription capacity, skills, availability and parallelism.',
+      'Mistakes become procedure: a daily harvest turns what reviewers catch into 40 standard operating procedures holding 414 recorded lessons.',
+      'A self-built broker with outbound-only edges over Tailscale wakes the right agent on the right machine from Slack, Linear and GitHub.',
+    ],
+  },
+  films: {
+    lede: 'Short films, photoreal or animated, where a child is the hero of their own adventure, made with an AI video pipeline I built end to end.',
+    dim: { value: '60 fps', label: 'finishing: NVIDIA RTX VSR upscaling and RIFE interpolation, shot by shot' },
+    notes: [
+      'Generation runs on rented GPUs with my own open-source extensions to the MiniMax H3 video model.',
+      'Every film is reviewed frame by frame by an AI quality gate before a human sees it.',
+      'Interpolation never blends two shots: cuts are detected and every shot is finished on its own.',
+    ],
+  },
+  experience: {
+    lede: 'Mathematics and statistics first, then production systems in genomics, finance, travel and enterprise software, each a new domain learned within months.',
+  },
+}

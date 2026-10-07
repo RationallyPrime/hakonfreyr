@@ -1,4 +1,4 @@
-import { education, experience, featuredProjects, personalInfo, skills } from '@/data/portfolio'
+import { education, experience, featuredProjects, personalInfo, sheetCopy, skills } from '@/data/portfolio'
 
 export function TitleBlock({ sheet, title }: { sheet: string; title: string }) {
   return (
@@ -16,6 +16,10 @@ export function TitleBlock({ sheet, title }: { sheet: string; title: string }) {
         <dd>{title}</dd>
       </div>
       <div>
+        <dt>Scale</dt>
+        <dd>N.T.S.</dd>
+      </div>
+      <div>
         <dt>Rev</dt>
         <dd>2026-10</dd>
       </div>
@@ -26,14 +30,12 @@ export function TitleBlock({ sheet, title }: { sheet: string; title: string }) {
 export function Sheet({
   id,
   sheet,
-  sheetLabel = `${sheet} / 5`,
   title,
   lede,
   children,
 }: {
   id: string
-  sheet: number | string
-  sheetLabel?: string
+  sheet: string
   title: string
   lede: React.ReactNode
   children: React.ReactNode
@@ -45,18 +47,17 @@ export function Sheet({
           {title}
         </h2>
         <p className="sheet-lede">{lede}</p>
-        <span className="sheet-no" aria-hidden="true">
-          {typeof sheet === 'number' ? String(sheet).padStart(2, '0') : sheet}
-        </span>
       </header>
       {children}
-      <TitleBlock sheet={sheetLabel} title={title} />
+      <TitleBlock sheet={sheet} title={title} />
     </section>
   )
 }
 
+type Figure = { value: string; label: string }
+
 /** A measured figure, drawn as a dimension line with its value. */
-export function Dim({ value, label }: { value: string; label: string }) {
+export function Dim({ value, label }: Figure) {
   return (
     <div className="dim">
       <span className="dim-line" aria-hidden="true" />
@@ -67,11 +68,27 @@ export function Dim({ value, label }: { value: string; label: string }) {
   )
 }
 
-export function Notes({ title = 'General notes', children }: { title?: string; children: React.ReactNode }) {
+/** A dimension laid against one side of a drawing. */
+function DimOn({ side, figure }: { side: 'top' | 'left' | 'bottom'; figure: Figure }) {
+  return (
+    <p className={`dim-on dim-on-${side}`}>
+      <span className={`dim-line${side === 'left' ? ' dim-line-v' : ''}`} aria-hidden="true" />
+      <span className="dim-text">
+        <strong>{figure.value}</strong> {figure.label}
+      </span>
+    </p>
+  )
+}
+
+export function Notes({ title = 'General notes', items }: { title?: string; items: string[] }) {
   return (
     <div className="notes">
       <h3>{title}</h3>
-      <ol>{children}</ol>
+      <ol>
+        {items.map((item) => (
+          <li key={item}>{item}</li>
+        ))}
+      </ol>
     </div>
   )
 }
@@ -79,51 +96,48 @@ export function Notes({ title = 'General notes', children }: { title?: string; c
 const project = (slug: string) => featuredProjects.find((p) => p.slug === slug)!
 
 export function KratesSheet() {
+  const copy = sheetCopy.krates
   return (
-    <Sheet
-      id="krates"
-      sheet={2}
-      title="Krates"
-      lede="An AI-native back office for Icelandic enterprises, correct by construction: agents do the work, rules are executable logic, and a human consents before anything leaves the box. Founder, March 2026 to present; now in pilots."
-    >
+    <Sheet id="krates" sheet="2 / 5" title="Krates" lede={copy.lede}>
       <div className="sheet-body sheet-body-drawing">
-        <figure className="drawing drawing-exploded">
-          <img
-            src="/plates/exploded.webp"
-            alt="Exploded isometric drawing of the Krates appliance: lid, cooler, memory, board, drive and chassis pulled apart along assembly lines"
-            width={1024}
-            height={1088}
-            loading="lazy"
-          />
-          <figcaption className="callout callout-a">
-            <a href="/projects/sokrates/">
-              <span className="callout-key">A</span> Sókrates
-            </a>
-            <span>The on-premises AI department: one NixOS appliance, 14 services in five credential-isolated containers.</span>
-          </figcaption>
-          <figcaption className="callout callout-b">
-            <a href="/projects/krepis/">
-              <span className="callout-key">B</span> Krepis
-            </a>
-            <span>Seven back-office kernels built for AI agents rather than for people clicking through screens.</span>
-          </figcaption>
-        </figure>
+        <div>
+          <figure className="drawing drawing-exploded dimensioned">
+            <DimOn side="top" figure={copy.widthDim} />
+            <DimOn side="left" figure={copy.heightDim} />
+            <div className="plate-wrap">
+            <img
+              src="/plates/exploded.webp"
+              alt="Exploded isometric drawing of the Krates appliance: lid, cooler, memory, board, drive and chassis pulled apart along assembly lines"
+              width={1024}
+              height={1088}
+              loading="lazy"
+            />
+            <span className="bubble bubble-a" aria-hidden="true">A</span>
+            <span className="bubble bubble-b" aria-hidden="true">B</span>
+            </div>
+          </figure>
+          <dl className="legend">
+            <div>
+              <dt>
+                <span className="bubble-inline" aria-hidden="true">A</span>
+                <a href="/projects/sokrates/">Sókrates</a>
+              </dt>
+              <dd>{copy.sokrates}</dd>
+            </div>
+            <div>
+              <dt>
+                <span className="bubble-inline" aria-hidden="true">B</span>
+                <a href="/projects/krepis/">Krepis</a>
+              </dt>
+              <dd>{copy.krepis}</dd>
+            </div>
+          </dl>
+        </div>
         <div className="sheet-side">
-          <div className="dims">
-            <Dim value="14" label="services in five credential-isolated containers" />
-            <Dim value="7" label="agent-first kernels: accounting, payroll, workforce and more" />
-            <Dim value="2" label="editions: gateway-routed mini-PC, or fully local on a DGX Spark" />
-          </div>
-          <Notes>
-            <li>Business rules are Logica laws compiled to DuckDB SQL; each returns the set of violations, not a pass or fail.</li>
-            <li>An agent that dies mid-task never repeats an external action (DBOS, write-ahead attempt records).</li>
-            <li>Every governed action carries a signed consent token and is its own trace span in a queryable audit store.</li>
-            <li>Krepis kernels are event-sourced and append-only; every action is idempotent and has a dry run.</li>
-            <li>Agent behaviour is tested against invariants over live systems, not string matching.</li>
-          </Notes>
+          <Notes items={copy.notes} />
           <p className="sheet-links">
-            <a href="/projects/sokrates/">Sheet A: Sókrates</a>
-            <a href="/projects/krepis/">Sheet B: Krepis</a>
+            <a href="/projects/sokrates/">Detail: Sókrates</a>
+            <a href="/projects/krepis/">Detail: Krepis</a>
           </p>
         </div>
       </div>
@@ -134,43 +148,35 @@ export function KratesSheet() {
 const stages = ['Ticket', 'Write', 'Review', 'Repair', 'Merge']
 
 export function WeaveSheet() {
-  const weave = project('the-weave')
+  const copy = sheetCopy.weave
   return (
-    <Sheet
-      id="the-weave"
-      sheet={3}
-      title="The Weave"
-      lede="The engineering organisation that builds Krates: five named AI engineers (Claude and Codex), each with its own machine and role, working under a written doctrine. I designed it and lead it, in the role a CTO plays."
-    >
+    <Sheet id="the-weave" sheet="3 / 5" title="The Weave" lede={copy.lede}>
       <div className="sheet-body sheet-body-drawing">
-        <figure className="drawing loop" aria-label="The Weave's delivery loop: ticket, write, review, repair, merge">
-          <ol className="loop-stages">
-            {stages.map((stage, i) => (
-              <li key={stage} style={{ '--i': i } as React.CSSProperties}>
-                <span className="loop-node">{String(i + 1).padStart(2, '0')}</span>
-                <span className="loop-label">{stage}</span>
-              </li>
-            ))}
-          </ol>
-          <figcaption className="loop-caption">
-            Reviews always come from an agent other than the author. Repairs go back through review before the merge gate.
-          </figcaption>
+        <figure className="drawing loop dimensioned" aria-label="The Weave's delivery loop: ticket, write, review, repair, merge">
+          <DimOn side="top" figure={copy.topDim} />
+          <DimOn side="left" figure={copy.sideDim} />
+          <div className="loop-field">
+            <ol className="loop-stages">
+              {stages.map((stage, i) => (
+                <li key={stage} style={{ '--i': i } as React.CSSProperties}>
+                  <span className="loop-node">{String(i + 1).padStart(2, '0')}</span>
+                  <span className="loop-label">{stage}</span>
+                </li>
+              ))}
+            </ol>
+            <ol className="loop-arrows" aria-hidden="true">
+              {stages.map((stage, i) => (
+                <li key={stage} style={{ '--i': i } as React.CSSProperties} />
+              ))}
+            </ol>
+          </div>
+          <DimOn side="bottom" figure={copy.bottomDim} />
+          <figcaption className="loop-caption">{copy.caption}</figcaption>
         </figure>
         <div className="sheet-side">
-          <div className="dims">
-            <Dim value="106" label="merged changes a week, July to mid-September 2026" />
-            <Dim value="94%" label="of code changes independently reviewed before merge (September)" />
-            <Dim value="83%" label="of reviewed changes drew findings from the reviewer" />
-            <Dim value="0.14%" label="of merged changes ever reverted" />
-            <Dim value="250 ISK" label="($2) of AI subscription per merged change" />
-          </div>
-          <Notes>
-            <li>A scheduler I built gives each task to the agent best placed to take it, by remaining subscription capacity, skills, availability and parallelism.</li>
-            <li>Mistakes become procedure: a daily harvest turns what reviewers catch into 40 standard operating procedures holding 414 recorded lessons.</li>
-            <li>A self-built broker with outbound-only edges over Tailscale wakes the right agent on the right machine from Slack, Linear and GitHub.</li>
-          </Notes>
+          <Notes items={copy.notes} />
           <p className="sheet-links">
-            <a href={`/projects/${weave.slug}/`}>Full drawing: The Weave</a>
+            <a href="/projects/the-weave/">Detail: The Weave</a>
           </p>
         </div>
       </div>
@@ -186,13 +192,9 @@ const films = [
 
 export function FilmsSheet() {
   const hhf = project('homegrown-hero-films')
+  const copy = sheetCopy.films
   return (
-    <Sheet
-      id="homegrown-hero-films"
-      sheet={4}
-      title="Homegrown Hero Films"
-      lede="Short films, photoreal or animated, where a child is the hero of their own adventure, made with an AI video pipeline I built end to end."
-    >
+    <Sheet id="homegrown-hero-films" sheet="4 / 5" title="Homegrown Hero Films" lede={copy.lede}>
       <div className="sheet-body">
         <div className="elevation">
           {films.map((film) => (
@@ -208,19 +210,15 @@ export function FilmsSheet() {
         </div>
         <div className="sheet-side sheet-side-row">
           <div className="dims">
-            <Dim value="60 fps" label="finishing: NVIDIA RTX VSR upscaling and RIFE interpolation, shot by shot" />
-            <Dim value="Every film" label="reviewed frame by frame by an AI quality gate before a human sees it" />
+            <Dim value={copy.dim.value} label={copy.dim.label} />
           </div>
-          <Notes>
-            <li>Generation runs on rented GPUs with my own open-source extensions to the MiniMax H3 video model.</li>
-            <li>Interpolation never blends two shots: cuts are detected and every shot is finished on its own.</li>
-          </Notes>
-          <p className="sheet-links">
-            <a href={hhf.url}>homegrownherofilms.com</a>
-            <a href={hhf.githubUrl}>Model extensions on GitHub</a>
-            <a href={`/projects/${hhf.slug}/`}>Full drawing</a>
-          </p>
+          <Notes items={copy.notes} />
         </div>
+        <p className="sheet-links">
+          <a href={hhf.url}>homegrownherofilms.com</a>
+          <a href={hhf.githubUrl}>Model extensions on GitHub</a>
+          <a href={`/projects/${hhf.slug}/`}>Detail: Homegrown Hero Films</a>
+        </p>
       </div>
     </Sheet>
   )
@@ -230,15 +228,9 @@ const related = ['memory-palace', 'grimoire', 'autopod', 'sokrates-idr']
 
 export function ExperienceSheet() {
   return (
-    <Sheet
-      id="experience"
-      sheet={5}
-      title="Experience"
-      lede="Mathematics and statistics first, then production systems in genomics, finance, travel and enterprise software, each a new domain learned within months."
-    >
+    <Sheet id="experience" sheet="5 / 5" title="Experience" lede={sheetCopy.experience.lede}>
       <div className="sheet-body sheet-body-tables">
-        <div className="table-scroll">
-        <table className="parts">
+        <table className="parts parts-list">
           <caption>Parts list</caption>
           <thead>
             <tr>
@@ -252,16 +244,17 @@ export function ExperienceSheet() {
           <tbody>
             {experience.map((entry, i) => (
               <tr key={entry.company}>
-                <td>{String(i + 1).padStart(2, '0')}</td>
+                <td data-label="Item">{String(i + 1).padStart(2, '0')}</td>
                 <th scope="row">{entry.company}</th>
-                <td>{entry.role}</td>
-                <td className="nowrap">{entry.period.replace('—', '–')}</td>
-                <td>{entry.keyResult}</td>
+                <td data-label="Role">{entry.role}</td>
+                <td data-label="Period" className="nowrap">
+                  {entry.period.replace('—', '–')}
+                </td>
+                <td data-label="Key result">{entry.keyResult}</td>
               </tr>
             ))}
           </tbody>
         </table>
-        </div>
 
         <div className="tables-row">
           <table className="parts">

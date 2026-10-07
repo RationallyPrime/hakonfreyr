@@ -1,4 +1,5 @@
 import { drawingIndex, personalInfo } from '@/data/portfolio'
+import { RevisionCloud } from './revision-cloud'
 
 const locators = [
   { sheet: '02', href: '#krates', label: 'Sheet 02, Krates' },
@@ -56,7 +57,10 @@ export function CoverSheet() {
             <tbody>
               {drawingIndex.map((row) => (
                 <tr key={row.sheet} data-current={row.current ? '' : undefined}>
-                  <td>{row.sheet}</td>
+                  <td>
+                    {row.sheet}
+                    <RevisionCloud />
+                  </td>
                   <th scope="row">
                     <a href={row.href}>{row.title}</a>
                   </th>
