@@ -149,7 +149,6 @@ export const featuredProjects: Project[] = [
       'Model extensions: sparse attention, FETA and synchronized audio/video context windows for MiniMax H3, released as open source.',
       'An AI quality gate: a reviewing agent checks every candidate film frame by frame for story, identity continuity and photorealism, and sends its findings back to the producing agent before a human sees the film.',
       'Finishing: NVIDIA RTX VSR upscaling and RIFE frame interpolation to 60 fps, applied shot by shot so interpolation never blends two shots.',
-      'Automated publishing: scheduled uploads through the YouTube Data API, with AI disclosure on every post.',
     ],
     metrics: [
       { stat: '60 fps', text: 'Upscaled vertical finishing' },

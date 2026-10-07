@@ -214,7 +214,6 @@ export function FilmsSheet() {
           <Notes>
             <li>Generation runs on rented GPUs with my own open-source extensions to the MiniMax H3 video model.</li>
             <li>Interpolation never blends two shots: cuts are detected and every shot is finished on its own.</li>
-            <li>Publishing to YouTube and TikTok is scheduled through their APIs, with AI disclosure on every post.</li>
           </Notes>
           <p className="sheet-links">
             <a href={hhf.url}>homegrownherofilms.com</a>
