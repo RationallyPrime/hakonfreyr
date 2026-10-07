@@ -10,7 +10,7 @@ import {
   Stat,
   StatsThreeColumnWithDescription,
 } from '@/components/sections/stats-three-column-with-description'
-import { featuredProjects } from '@/data/portfolio'
+import { designPrinciple, featuredProjects } from '@/data/portfolio'
 import { notFound } from 'next/navigation'
 
 export function generateStaticParams() {
@@ -63,6 +63,11 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         }
         cta={
           <div className="flex flex-wrap items-center gap-4">
+            {project.url && (
+              <ButtonLink href={project.url} target="_blank">
+                {project.urlLabel ?? 'Website'}
+              </ButtonLink>
+            )}
             {project.githubUrl && (
               <ButtonLink href={project.githubUrl} target="_blank">
                 GitHub {project.githubLabel && `(${project.githubLabel})`}
@@ -115,10 +120,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       <CallToActionSimpleCentered
         headline="View more projects."
         subheadline={
-          <p>
-            Every project exhibits the same design principles: clean separation of concerns,
-            protocol-based extensibility, and comprehensive observability.
-          </p>
+          <p>{designPrinciple}</p>
         }
         cta={
           <ButtonLink href="/#projects">

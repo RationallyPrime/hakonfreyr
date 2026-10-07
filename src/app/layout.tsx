@@ -15,9 +15,9 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Hákon Freyr Gunnarsson — Backend Engineer',
+  title: 'Hákon Freyr Gunnarsson — AI Engineer',
   description:
-    'Portfolio of Hákon Freyr Gunnarsson. Systems-oriented backend engineer building enterprise infrastructure across Go, Python, and TypeScript.',
+    'Portfolio of Hákon Freyr Gunnarsson, AI engineer and founder of Krates: production AI systems, back-office software designed for AI agents, and an engineering team staffed by AI agents.',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

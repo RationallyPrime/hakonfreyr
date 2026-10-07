@@ -26,6 +26,7 @@ import {
   education,
   experience,
   featuredProjects,
+  designPrinciple,
   personalInfo,
   professionalSummary,
   skills,
@@ -50,7 +51,7 @@ export default function Page() {
       {/* Hero */}
       <HeroSimpleCentered
         id="hero"
-        headline="Backend Engineer."
+        headline="AI engineer and founder."
         subheadline={<p>{professionalSummary}</p>}
         cta={
           <div className="flex flex-wrap items-center justify-center gap-4">
@@ -70,10 +71,7 @@ export default function Page() {
         eyebrow="Featured projects"
         headline="Built to ship."
         subheadline={
-          <p>
-            Every project exhibits the same design principles: clean separation of concerns,
-            protocol-based extensibility, event-driven patterns, and comprehensive observability.
-          </p>
+          <p>{designPrinciple}</p>
         }
         features={
           <>
@@ -184,8 +182,8 @@ export default function Page() {
         headline="Let's connect."
         subheadline={
           <p>
-            Looking for a backend engineer who ships production systems across domains? I'm
-            always open to interesting conversations.
+            Building AI that has to work in production? I'm always open to interesting
+            conversations.
           </p>
         }
         cta={
