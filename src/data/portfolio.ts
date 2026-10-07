@@ -95,7 +95,7 @@ export const featuredProjects: Project[] = [
     description:
       'The team that builds Krates: five named AI engineers who plan, write, review, repair and merge production software around the clock.',
     longDescription:
-      "Most people use AI to write code. The Weave uses it to run an engineering team. Five named AI engineers (Claude and Codex), each with its own machine and role, work under a written doctrine and a shared library of standard operating procedures. They file their own tickets, write the code, review each other's changes, fix what the reviewers find and merge, and no agent approves its own work. A scheduler gives each task to the agent best placed to take it, weighing remaining subscription capacity, skills, availability and parallelism limits. From July to mid-September 2026 it merged 106 changes a week. By September, 94% of code changes got an independent review before merge, reviewers found something to fix in 83% of those, and 0.14% of merged changes have ever been reverted. My role is the one a CTO plays: architecture, standards, and the calls that should stay with a human.",
+      "Most people use AI to write code. The Weave uses it to run an engineering team. Five named AI engineers (Claude and Codex), each with its own machine and role, work under a written doctrine and a shared library of standard operating procedures. They file their own tickets, write the code, review each other's changes, fix what the reviewers find and merge, and reviews always come from an agent other than the author. A scheduler gives each task to the agent best placed to take it, weighing remaining subscription capacity, skills, availability and parallelism limits. From July to mid-September 2026 it merged 106 changes a week. By September, 94% of code changes got an independent review before merge, Reviewers caught issues in 83% of those, and only 0.14% of merged changes have ever been reverted. My role is the one a CTO plays: architecture, standards, and the calls that should stay with a human.",
     highlights: [
       'Independent review: changes are reviewed by an agent other than the one that wrote them, and repairs go back through review before the merge gate.',
       'Capacity-aware scheduling: work is routed by remaining subscription capacity, skills, availability and parallelism, turning AI subscriptions into reviewed production software at an average of 250 ISK ($2) per merged change.',
@@ -231,9 +231,9 @@ export const featuredProjects: Project[] = [
     subtitle: 'Multi-Tenant Podcast Orchestrator',
     techStack: 'Go, Python/FastAPI, SQLite, Docker, Cloudflare R2/Tunnel',
     description:
-      'My first Go project, shipped as a multi-tenant production system with full test coverage and CI/CD.',
+      'Drop in a video and it is published to YouTube, Spotify and Apple Podcasts with subtitles in English, Icelandic and Polish, a summary, tags and hashtags, and clips of the most quotable moments. My first Go project, in multi-tenant production.',
     longDescription:
-      'A multi-tenant podcast automation system built with a Go control plane driving a Python/FastAPI data plane. Handles the full pipeline from audio extraction through transcription, metadata generation, thumbnail creation, and multi-platform upload — all with crash-resilient state management and per-customer isolation enforced by directory structure and encryption boundaries.',
+      'A multi-tenant podcast automation system built with a Go control plane driving a Python/FastAPI data plane. Handles the full pipeline from audio extraction through transcription, subtitles in English, Icelandic and Polish, summaries, tags and hashtags, extraction of the most quotable clips, thumbnail creation, and multi-platform upload — all with crash-resilient state management and per-customer isolation enforced by directory structure and encryption boundaries.',
     highlights: [
       'Control plane / data plane split: Go orchestrator drives a 7-step pipeline by calling stateless Python/FastAPI endpoints with typed HTTP contracts mirrored across languages',
       'Crash-resilient job state machine with SQLite persistence — every state transition writes to disk before proceeding, GetActiveJobs() resumes all in-flight jobs on startup',
@@ -281,10 +281,10 @@ export const experience: ExperienceEntry[] = [
   },
   {
     role: 'Backend Engineer',
-    company: 'Wise (Iceland)',
+    company: 'Wise lausnir (Microsoft Dynamics partner)',
     period: 'Oct 2024 — Mar 2026',
     description:
-      'Enterprise knowledge management and internal tooling. Designed and deployed the Grimoire platform on Azure for team use, and built a self-healing ETL framework for ConnectWise data in Microsoft Fabric with models generated from OpenAPI schemas.',
+      "Designed and deployed Grimoire, an internal knowledge platform on Azure that Claude uses as an MCP server, rolled out to every technical employee through Claude Team admin. Built a self-healing ETL framework for Microsoft Fabric with models generated from OpenAPI schemas; in the Business Central solution for municipalities it cut onboarding from legacy on-premises systems into Fabric/OneLake from about three weeks to half a workday, and its schema-driven design became the starting point for Sókrates's universal schema connector.",
   },
   {
     role: 'Data Scientist & Business Intelligence Lead',
