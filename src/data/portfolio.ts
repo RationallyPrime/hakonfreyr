@@ -16,6 +16,28 @@ export const professionalSummary =
 export const designPrinciple =
   'One habit across every domain: put the guarantees in the architecture, so a system is correct by construction rather than by care.'
 
+export interface IndexSheet {
+  sheet: string
+  title: string
+  keyDimension: string
+  href: string
+  current?: boolean
+}
+
+// The cover sheet's drawing index: one row per sheet on the home page.
+export const drawingIndex: IndexSheet[] = [
+  { sheet: '02', title: 'Krates', keyDimension: '7 kernels', href: '#krates' },
+  {
+    sheet: '03',
+    title: 'The Weave',
+    keyDimension: '106 merged changes / week',
+    href: '#the-weave',
+    current: true,
+  },
+  { sheet: '04', title: 'Homegrown Hero Films', keyDimension: '60 fps', href: '#homegrown-hero-films' },
+  { sheet: '05', title: 'Experience', keyDimension: '6 organisations', href: '#experience' },
+]
+
 export interface Project {
   slug: string
   name: string
@@ -95,7 +117,7 @@ export const featuredProjects: Project[] = [
     description:
       'The team that builds Krates: five named AI engineers who plan, write, review, repair and merge production software around the clock.',
     longDescription:
-      "Most people use AI to write code. The Weave uses it to run an engineering team. Five named AI engineers (Claude and Codex), each with its own machine and role, work under a written doctrine and a shared library of standard operating procedures. They file their own tickets, write the code, review each other's changes, fix what the reviewers find and merge, and reviews always come from an agent other than the author. A scheduler gives each task to the agent best placed to take it, weighing remaining subscription capacity, skills, availability and parallelism limits. From July to mid-September 2026 it merged 106 changes a week. By September, 94% of code changes got an independent review before merge, Reviewers caught issues in 83% of those, and only 0.14% of merged changes have ever been reverted. My role is the one a CTO plays: architecture, standards, and the calls that should stay with a human.",
+      "Most people use AI to write code. The Weave uses it to run an engineering team. Five named AI engineers (Claude and Codex), each with its own machine and role, work under a written doctrine and a shared library of standard operating procedures. They file their own tickets, write the code, review each other's changes, fix what the reviewers find and merge, and reviews always come from an agent other than the author. A scheduler gives each task to the agent best placed to take it, weighing remaining subscription capacity, skills, availability and parallelism limits. From July to mid-September 2026 it merged 106 changes a week. By September, 94% of code changes got an independent review before merge. Reviewers caught issues in 83% of those, and only 0.14% of merged changes have ever been reverted. My role is the one a CTO plays: architecture, standards, and the calls that should stay with a human.",
     highlights: [
       'Independent review: changes are reviewed by an agent other than the one that wrote them, and repairs go back through review before the merge gate.',
       'Capacity-aware scheduling: work is routed by remaining subscription capacity, skills, availability and parallelism, turning AI subscriptions into reviewed production software at an average of 250 ISK ($2) per merged change.',
@@ -127,7 +149,6 @@ export const featuredProjects: Project[] = [
       'Model extensions: sparse attention, FETA and synchronized audio/video context windows for MiniMax H3, released as open source.',
       'An AI quality gate: a reviewing agent checks every candidate film frame by frame for story, identity continuity and photorealism, and sends its findings back to the producing agent before a human sees the film.',
       'Finishing: NVIDIA RTX VSR upscaling and RIFE frame interpolation to 60 fps, applied shot by shot so interpolation never blends two shots.',
-      'Automated publishing: scheduled uploads through the YouTube Data API, with AI disclosure on every post.',
     ],
     metrics: [
       { stat: '60 fps', text: 'Upscaled vertical finishing' },
@@ -263,6 +284,7 @@ export interface ExperienceEntry {
   company: string
   period: string
   description: string
+  keyResult: string
   highlights?: string[]
 }
 
@@ -271,6 +293,7 @@ export const experience: ExperienceEntry[] = [
     role: 'Founder',
     company: 'Krates ehf.',
     period: 'Mar 2026 — Present',
+    keyResult: 'Sókrates, Krepis and the Weave, now in pilots',
     description:
       'An AI-native back office for Icelandic enterprises, correct by construction: agents do the work, rules are executable logic, and a human consents before anything leaves the box. Now in pilots.',
     highlights: [
@@ -283,6 +306,7 @@ export const experience: ExperienceEntry[] = [
     role: 'Backend Engineer',
     company: 'Wise lausnir (Microsoft Dynamics partner)',
     period: 'Oct 2024 — Mar 2026',
+    keyResult: 'Fabric onboarding cut from about three weeks to half a workday',
     description:
       "Designed and deployed Grimoire, an internal knowledge platform on Azure that Claude uses as an MCP server, rolled out to every technical employee through Claude Team admin. Built a self-healing ETL framework for Microsoft Fabric with models generated from OpenAPI schemas; in the Business Central solution for municipalities it cut onboarding from legacy on-premises systems into Fabric/OneLake from about three weeks to half a workday, and its schema-driven design became the starting point for Sókrates's universal schema connector.",
   },
@@ -290,6 +314,7 @@ export const experience: ExperienceEntry[] = [
     role: 'Data Scientist & Business Intelligence Lead',
     company: 'Travelshift',
     period: 'Aug 2022 — Sep 2024',
+    keyResult: '0.42% forecast error on 2.4B ISK of cash flow, six months out',
     description:
       "Complete overhaul of data infrastructure, financial process automation, and predictive modeling for Iceland's largest travel marketplace.",
     highlights: [
@@ -303,6 +328,7 @@ export const experience: ExperienceEntry[] = [
     role: 'Data Analyst & Product Owner',
     company: 'Alfreð Atvinnuleit',
     period: 'May 2021 — Aug 2022',
+    keyResult: 'Grant proposal that secured 30M ISK from Rannís',
     description:
       'Product owner for the Giggó gig-economy platform. Established the BI environment with real-time dashboards. Authored the grant proposal that secured 30M ISK from Rannís.',
   },
@@ -310,6 +336,7 @@ export const experience: ExperienceEntry[] = [
     role: 'Instructor, Department of Computer Science',
     company: 'Reykjavík University',
     period: '2018 — 2021',
+    keyResult: 'Taught programming, data structures, calculus and statistics',
     description:
       'Taught while completing MSc: Programming, Data Structures, Calculus & Statistics, Discrete Mathematics II.',
   },
@@ -317,6 +344,7 @@ export const experience: ExperienceEntry[] = [
     role: 'Statistician & Bioinformatician',
     company: 'deCODE Genetics (Amgen)',
     period: '2015 — 2017',
+    keyResult: 'Haplotype compression more than 10× better than gzip',
     description:
       'Designed novel haplotype compression algorithm achieving >10× compression ratio versus gzip — enabled loading entire chromosomes into memory. Processed and analyzed large genetic datasets.',
   },
@@ -394,3 +422,46 @@ export const education: Education[] = [
     focus: 'Computational Mathematics and Computer Science.',
   },
 ]
+
+// Copy for the home page's sheets. Figures are the measured ones on the CV.
+export const sheetCopy = {
+  krates: {
+    lede: 'An AI-native back office for Icelandic enterprises, correct by construction: agents do the work, rules are executable logic, and a human consents before anything leaves the box. Founder, March 2026 to present; now in pilots.',
+    widthDim: { value: '14', label: 'services in five credential-isolated containers' },
+    heightDim: { value: '7', label: 'agent-first kernels' },
+    sokrates: 'The on-premises AI department: one NixOS appliance that ingests a company’s systems and lets named agents do back-office work over Slack, Teams, WhatsApp and email.',
+    krepis: 'Seven back-office kernels (accounting, payroll, workforce management and more) built for AI agents rather than for people clicking through screens.',
+    notes: [
+      'Business rules are Logica laws compiled to DuckDB SQL; each returns the set of violations, not a pass or fail.',
+      'An agent that dies mid-task never repeats an external action (DBOS, write-ahead attempt records).',
+      'Every governed action carries a signed consent token and is its own trace span in a queryable audit store.',
+      'Krepis kernels are event-sourced and append-only; every action is idempotent and has a dry run.',
+      'Two editions: a gateway-routed mini-PC, or fully local inference on a DGX Spark for air-gapped customers.',
+    ],
+  },
+  weave: {
+    lede: 'The engineering organisation that builds Krates: five named AI engineers (Claude and Codex), each with its own machine and role, working under a written doctrine. I designed it and lead it, in the role a CTO plays.',
+    topDim: { value: '106', label: 'merged changes a week, July to mid-September 2026' },
+    sideDim: { value: '94%', label: 'independently reviewed before merge (September)' },
+    bottomDim: { value: '250 ISK', label: '($2) of AI subscription per merged change' },
+    caption: 'Reviews always come from an agent other than the author. Repairs go back through review before the merge gate.',
+    notes: [
+      'Reviewers found issues in 83% of the changes they reviewed, and only 0.14% of merged changes have ever been reverted.',
+      'A scheduler I built gives each task to the agent best placed to take it, by remaining subscription capacity, skills, availability and parallelism.',
+      'Mistakes become procedure: a daily harvest turns what reviewers catch into 40 standard operating procedures holding 414 recorded lessons.',
+      'A self-built broker with outbound-only edges over Tailscale wakes the right agent on the right machine from Slack, Linear and GitHub.',
+    ],
+  },
+  films: {
+    lede: 'Short films, photoreal or animated, where a child is the hero of their own adventure, made with an AI video pipeline I built end to end.',
+    dim: { value: '60 fps', label: 'finishing: NVIDIA RTX VSR upscaling and RIFE interpolation, shot by shot' },
+    notes: [
+      'Generation runs on rented GPUs with my own open-source extensions to the MiniMax H3 video model.',
+      'Every film is reviewed frame by frame by an AI quality gate before a human sees it.',
+      'Interpolation never blends two shots: cuts are detected and every shot is finished on its own.',
+    ],
+  },
+  experience: {
+    lede: 'Mathematics and statistics first, then production systems in genomics, finance, travel and enterprise software, each a new domain learned within months.',
+  },
+}
