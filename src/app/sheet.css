@@ -1,0 +1,1232 @@
+/* The drawing-set world: drafting film, graphite linework, drafting blue for
+   dimensions and links, one red revision cloud for the current item. */
+
+@font-face {
+  font-family: 'League Gothic';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 75% 100%;
+  font-display: swap;
+  src: url('/fonts/league-gothic-latin-wdth.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308,
+    U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'League Gothic';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: 75% 100%;
+  font-display: swap;
+  src: url('/fonts/league-gothic-latin-ext-wdth.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/barlow-condensed-latin-500.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308,
+    U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/barlow-condensed-latin-600.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308,
+    U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/barlow-condensed-latin-700.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308,
+    U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-weight: 800;
+  font-display: swap;
+  src: url('/fonts/barlow-condensed-latin-800.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308,
+    U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/barlow-condensed-latin-ext-500.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/barlow-condensed-latin-ext-600.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/barlow-condensed-latin-ext-700.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-weight: 800;
+  font-display: swap;
+  src: url('/fonts/barlow-condensed-latin-ext-800.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+:root {
+  --film: #edf6f8;
+  --grid: rgb(64 128 190 / 0.13);
+  --graphite: #353d42;
+  --graphite-soft: #5d666c;
+  --drafting: #1f5ec4;
+  --revision: #d6322b;
+  --tint: #dbe8ef;
+  --rule: 1.5px;
+  /* One comp pixel: the 1586x992 cover sheet scaled to fit the viewport. */
+  --u: min(100vw / 1586, 100svh / 992);
+  --display: 'League Gothic', 'Arial Narrow', sans-serif;
+  --label: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+}
+
+body.drawing-set {
+  margin: 0;
+  color: var(--graphite);
+  font-family: var(--label);
+  font-weight: 500;
+  background-color: var(--film);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: calc(var(--u) * 20) calc(var(--u) * 20);
+}
+
+:where(.drawing-set) a {
+  color: inherit;
+}
+
+.drawing-set :focus-visible {
+  outline: 2px solid var(--drafting);
+  outline-offset: 3px;
+}
+
+/* ---------- Cover sheet: the first viewport ---------- */
+
+.cover {
+  position: relative;
+  width: calc(var(--u) * 1586);
+  height: calc(var(--u) * 992);
+  margin-inline: auto;
+}
+
+.cover-frame {
+  position: absolute;
+  inset: calc(var(--u) * 8);
+  border: var(--rule) solid var(--graphite);
+  box-shadow: inset 0 0 0 calc(var(--u) * 5) var(--film), inset 0 0 0 calc(var(--u) * 5 + 1px) var(--graphite-soft);
+}
+
+.cover-nav {
+  position: absolute;
+  left: calc(var(--u) * 20);
+  top: calc(var(--u) * 18);
+  width: calc(var(--u) * 1534);
+  height: calc(var(--u) * 56);
+  border: var(--rule) solid var(--graphite);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: calc(var(--u) * 27);
+  box-sizing: border-box;
+  background: var(--film);
+}
+
+.cover-mark {
+  font-size: calc(var(--u) * 25);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.cover-links {
+  display: flex;
+  gap: calc(var(--u) * 52);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cover-links a {
+  font-size: calc(var(--u) * 21);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--drafting);
+  text-decoration-thickness: 2px;
+  text-underline-offset: calc(var(--u) * 2);
+}
+
+.cover-links a:hover {
+  color: var(--drafting);
+}
+
+.cover-name {
+  position: absolute;
+  left: calc(var(--u) * 32);
+  top: calc(var(--u) * 84);
+  width: calc(var(--u) * 1510);
+  margin: 0;
+  font-family: var(--display);
+  font-stretch: 75%;
+  font-weight: 400;
+  font-size: calc(var(--u) * 301);
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--graphite);
+  -webkit-text-stroke: calc(var(--u) * 3) var(--graphite);
+}
+
+.cover-thesis {
+  position: absolute;
+  left: calc(var(--u) * 32);
+  top: calc(var(--u) * 384);
+  width: calc(var(--u) * 1510);
+  margin: 0;
+  font-size: calc(var(--u) * 48);
+  font-weight: 500;
+  letter-spacing: 0.008em;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.cover::after {
+  /* The sheet rule under the title band. */
+  content: '';
+  position: absolute;
+  left: calc(var(--u) * 8);
+  right: calc(var(--u) * 8);
+  top: calc(var(--u) * 468);
+  height: calc(var(--u) * 4);
+  border-top: var(--rule) solid var(--graphite-soft);
+  border-bottom: 1px solid var(--graphite-soft);
+}
+
+/* Drawing index */
+
+.cover-index {
+  position: absolute;
+  left: calc(var(--u) * 20);
+  top: calc(var(--u) * 480);
+  width: calc(var(--u) * 984);
+}
+
+.cover-index table {
+  width: 100%;
+  border-collapse: collapse;
+  border: var(--rule) solid var(--graphite);
+  background: var(--film);
+  table-layout: fixed;
+}
+
+.cover-index caption {
+  caption-side: top;
+  text-align: left;
+  border: var(--rule) solid var(--graphite);
+  border-bottom: 0;
+  padding: calc(var(--u) * 12) calc(var(--u) * 24) calc(var(--u) * 6);
+  height: calc(var(--u) * 86);
+  box-sizing: border-box;
+  background: var(--film);
+  font-weight: 800;
+  font-size: calc(var(--u) * 68);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.cover-index thead th {
+  height: calc(var(--u) * 56);
+  background: var(--tint);
+  border-bottom: var(--rule) solid var(--graphite);
+  font-weight: 600;
+  font-size: calc(var(--u) * 32);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: left;
+  padding-left: calc(var(--u) * 36);
+}
+
+.cover-index col:nth-child(1) {
+  width: calc(var(--u) * 150);
+}
+
+.cover-index col:nth-child(2) {
+  width: calc(var(--u) * 420);
+}
+
+.cover-index th + th,
+.cover-index td + th,
+.cover-index th + td {
+  border-left: var(--rule) solid var(--graphite-soft);
+}
+
+.cover-index tbody tr {
+  height: calc(var(--u) * 76);
+}
+
+.cover-index tbody tr:first-child {
+  height: calc(var(--u) * 68);
+}
+
+.cover-index tbody td:first-child {
+  position: relative;
+}
+
+.cover-index tbody tr + tr {
+  border-top: var(--rule) solid var(--graphite-soft);
+}
+
+.cover-index tbody td,
+.cover-index tbody th {
+  white-space: nowrap;
+  font-size: calc(var(--u) * 38);
+  font-weight: 500;
+  text-align: left;
+  padding-left: calc(var(--u) * 36);
+}
+
+.cover-index tbody td:first-child {
+  text-align: center;
+  padding-left: 0;
+}
+
+.cover-index tbody th a {
+  color: var(--drafting);
+  font-weight: 600;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: calc(var(--u) * 6);
+}
+
+/* The revision cloud: drawn around the current row, and it moves to any row
+   the visitor points at or focuses. */
+.cover-index tbody td:first-child::after {
+  --r: calc(var(--u) * 11);
+  --line: calc(var(--r) + 2.5px);
+  content: '';
+  position: absolute;
+  left: calc(var(--u) * -10);
+  top: calc(var(--u) * -9);
+  width: calc(var(--u) * 1004);
+  height: calc(100% + var(--u) * 18);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 160ms ease-out;
+  background:
+    radial-gradient(circle at 50% 100%, transparent calc(var(--r) - 1px), var(--revision) var(--r), var(--revision) var(--line), transparent calc(var(--line) + 0.5px)) top left / calc(var(--r) * 2) var(--r) repeat-x,
+    radial-gradient(circle at 50% 0, transparent calc(var(--r) - 1px), var(--revision) var(--r), var(--revision) var(--line), transparent calc(var(--line) + 0.5px)) bottom left / calc(var(--r) * 2) var(--r) repeat-x,
+    radial-gradient(circle at 100% 50%, transparent calc(var(--r) - 1px), var(--revision) var(--r), var(--revision) var(--line), transparent calc(var(--line) + 0.5px)) top left / var(--r) calc(var(--r) * 2) repeat-y,
+    radial-gradient(circle at 0 50%, transparent calc(var(--r) - 1px), var(--revision) var(--r), var(--revision) var(--line), transparent calc(var(--line) + 0.5px)) top right / var(--r) calc(var(--r) * 2) repeat-y;
+}
+
+.cover-index tbody tr[data-current] td:first-child::after,
+.cover-index tbody tr:hover td:first-child::after,
+.cover-index tbody tr:focus-within td:first-child::after {
+  opacity: 1;
+}
+
+.cover-index tbody:has(tr:hover, tr:focus-within) tr[data-current]:not(:hover, :focus-within) td:first-child::after {
+  opacity: 0;
+}
+
+/* Key plan */
+
+.cover-keyplan {
+  position: absolute;
+  left: calc(var(--u) * 1022);
+  top: calc(var(--u) * 488);
+  width: calc(var(--u) * 535);
+  height: calc(var(--u) * 402);
+  margin: 0;
+}
+
+.cover-keyplan img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  mix-blend-mode: multiply;
+}
+
+.cover-loc {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: calc(var(--u) * 48);
+  height: calc(var(--u) * 48);
+  margin: calc(var(--u) * -24) 0 0 calc(var(--u) * -24);
+  border: 2px solid var(--drafting);
+  border-radius: 50%;
+  background: var(--film);
+  color: var(--drafting);
+  font-size: calc(var(--u) * 24);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.cover-loc:hover {
+  background: var(--drafting);
+  color: var(--film);
+}
+
+.cover-loc-02 { left: 25.2%; top: 7.7%; }
+.cover-loc-03 { left: 86.4%; top: 10.7%; }
+.cover-loc-04 { left: 6.4%; top: 84.1%; }
+.cover-loc-05 { left: 88.6%; top: 84.6%; }
+
+.cover-titleblock {
+  position: absolute;
+  left: calc(var(--u) * 1014);
+  top: calc(var(--u) * 900);
+  width: calc(var(--u) * 540);
+  height: calc(var(--u) * 56);
+  margin: 0;
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  border: var(--rule) solid var(--graphite);
+  background: var(--film);
+  font-size: calc(var(--u) * 22.5);
+  font-weight: 600;
+  letter-spacing: 0.015em;
+  text-transform: uppercase;
+}
+
+/* ---------- Sheets 2 to 5 ---------- */
+
+:root {
+  /* One comp pixel for the sheets below the cover: scales with width only. */
+  --s: var(--u);
+  --body: max(16px, calc(var(--s) * 24));
+}
+
+.sheet {
+  position: relative;
+  width: calc(var(--u) * 1570);
+  margin: calc(var(--s) * 56) auto 0;
+  padding: calc(var(--s) * 44) calc(var(--s) * 52) calc(var(--s) * 132);
+  box-sizing: border-box;
+  border: var(--rule) solid var(--graphite);
+  box-shadow: inset 0 0 0 calc(var(--s) * 6) var(--film), inset 0 0 0 calc(var(--s) * 6 + 1px) var(--graphite-soft);
+  background: rgb(237 246 248 / 0.55);
+  scroll-margin-top: calc(var(--s) * 24);
+}
+
+.sheet-head {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: end;
+  gap: calc(var(--s) * 40);
+  padding-bottom: calc(var(--s) * 32);
+  border-bottom: var(--rule) solid var(--graphite-soft);
+}
+
+.sheet-title {
+  margin: 0;
+  padding: calc(var(--s) * 4) calc(var(--s) * 28) 0;
+  border: var(--rule) solid var(--graphite);
+  font-family: var(--display);
+  font-weight: 400;
+  font-stretch: 85%;
+  font-size: max(56px, calc(var(--s) * 150));
+  line-height: 1;
+  text-transform: uppercase;
+  -webkit-text-stroke: calc(var(--s) * 2) var(--graphite);
+  white-space: nowrap;
+}
+
+.sheet-lede {
+  margin: 0;
+  max-width: calc(var(--s) * 900);
+  padding-right: calc(var(--s) * 150);
+  font-size: max(18px, calc(var(--s) * 30));
+  line-height: 1.3;
+}
+
+.sheet-no {
+  position: absolute;
+  right: 0;
+  top: calc(var(--s) * -8);
+  font-family: var(--display);
+  font-stretch: 75%;
+  font-size: max(64px, calc(var(--s) * 150));
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--drafting);
+}
+
+.sheet-body {
+  margin-top: calc(var(--s) * 48);
+}
+
+.sheet-body-drawing {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) calc(var(--s) * 560);
+  gap: calc(var(--s) * 64);
+  align-items: start;
+}
+
+.sheet-side {
+  display: grid;
+  gap: calc(var(--s) * 40);
+}
+
+.sheet-side-row {
+  grid-template-columns: 1fr 1fr;
+  gap: calc(var(--s) * 64);
+  margin-top: calc(var(--s) * 48);
+}
+
+.sheet-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(var(--s) * 12) calc(var(--s) * 36);
+  margin: 0;
+  font-size: var(--body);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.sheet-links a {
+  color: var(--drafting);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.sheet-links a::after {
+  content: ' →';
+}
+
+/* Drawings */
+
+.drawing {
+  position: relative;
+  margin: 0;
+}
+
+.drawing img {
+  display: block;
+  width: 100%;
+  height: auto;
+  mix-blend-mode: multiply;
+}
+
+.drawing-exploded .callout {
+  position: absolute;
+  display: grid;
+  gap: 4px;
+  max-width: calc(var(--s) * 300);
+  padding: calc(var(--s) * 12) calc(var(--s) * 16);
+  border: var(--rule) solid var(--drafting);
+  background: var(--film);
+  font-size: max(14px, calc(var(--s) * 20));
+  line-height: 1.3;
+}
+
+.drawing-exploded .callout a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--drafting);
+  font-weight: 700;
+  font-size: max(18px, calc(var(--s) * 30));
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.callout-key {
+  display: inline-grid;
+  place-items: center;
+  width: 1.25em;
+  height: 1.25em;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  font-size: 0.8em;
+}
+
+.callout-a { left: 0; top: 2%; }
+.callout-b { right: 0; bottom: 2%; }
+
+/* Dimension lines: a measured figure drawn with extension ticks. */
+
+.dims {
+  display: grid;
+  gap: calc(var(--s) * 22);
+}
+
+.dim {
+  display: grid;
+  gap: calc(var(--s) * 6);
+}
+
+.dim-line {
+  position: relative;
+  height: 2px;
+  background: var(--drafting);
+  transform-origin: left center;
+  transition: transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.dim-line::before,
+.dim-line::after {
+  content: '';
+  position: absolute;
+  top: -8px;
+  width: 2px;
+  height: 18px;
+  background: var(--drafting);
+}
+
+.dim-line::before { left: 0; }
+.dim-line::after { right: 0; }
+
+.dim p {
+  margin: 0;
+  font-size: var(--body);
+  line-height: 1.3;
+}
+
+.dim strong {
+  font-family: var(--display);
+  font-stretch: 85%;
+  font-weight: 400;
+  font-size: max(30px, calc(var(--s) * 52));
+  line-height: 1;
+  color: var(--drafting);
+  margin-right: 0.15em;
+  vertical-align: -0.08em;
+}
+
+[data-draw-in] .sheet:not([data-drawn]) .dim-line {
+  transform: scaleX(0);
+}
+
+.dim:nth-child(2) .dim-line { transition-delay: 90ms; }
+.dim:nth-child(3) .dim-line { transition-delay: 180ms; }
+.dim:nth-child(4) .dim-line { transition-delay: 270ms; }
+.dim:nth-child(5) .dim-line { transition-delay: 360ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .dim-line { transition: none; }
+  [data-draw-in] .sheet:not([data-drawn]) .dim-line { transform: none; }
+  .cover-index tbody td:first-child::after { transition: none; }
+}
+
+/* General notes */
+
+.notes h3,
+.parts caption,
+.contact-title {
+  margin: 0 0 calc(var(--s) * 12);
+  font-size: max(15px, calc(var(--s) * 22));
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.notes ol {
+  margin: 0;
+  list-style: decimal;
+  padding-left: 1.6em;
+  display: grid;
+  gap: calc(var(--s) * 10);
+  font-size: var(--body);
+  line-height: 1.35;
+}
+
+.notes li::marker {
+  font-weight: 700;
+  color: var(--drafting);
+}
+
+/* The Weave's loop */
+
+.loop {
+  aspect-ratio: 1;
+  max-width: calc(var(--s) * 820);
+  margin-inline: auto;
+  width: 100%;
+}
+
+.loop-stages {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.loop-stages::before {
+  content: '';
+  position: absolute;
+  inset: 16%;
+  border: 2px dashed var(--drafting);
+  border-radius: 50%;
+}
+
+.loop-stages li {
+  --r: 34%;
+  --a: calc(var(--i) * 72deg - 90deg);
+  position: absolute;
+  left: calc(50% + cos(var(--a)) * var(--r));
+  top: calc(50% + sin(var(--a)) * var(--r));
+  translate: -50% -50%;
+}
+
+.loop-node {
+  display: grid;
+  place-items: center;
+  width: max(52px, calc(var(--s) * 104));
+  aspect-ratio: 1;
+  border: var(--rule) solid var(--graphite);
+  border-radius: 50%;
+  background: var(--film);
+  font-family: var(--display);
+  font-stretch: 85%;
+  font-size: max(24px, calc(var(--s) * 46));
+}
+
+.loop-stages li:nth-child(3) .loop-node {
+  border-color: var(--revision);
+  border-width: 2px;
+  color: var(--revision);
+}
+
+.loop-label {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + var(--s) * 6);
+  translate: -50% 0;
+  padding: 0 6px;
+  background: var(--film);
+  font-size: max(15px, calc(var(--s) * 26));
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.loop-caption {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  width: 40%;
+  text-align: center;
+  font-size: max(14px, calc(var(--s) * 22));
+  line-height: 1.35;
+}
+
+/* Film elevation */
+
+.elevation {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: calc(var(--s) * 72);
+  padding: calc(var(--s) * 36) calc(var(--s) * 24) 0 calc(var(--s) * 44);
+}
+
+.frame {
+  position: relative;
+  margin: 0;
+}
+
+.frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 9 / 16;
+  object-fit: cover;
+  border: var(--rule) solid var(--graphite);
+}
+
+.frame figcaption {
+  margin-top: calc(var(--s) * 14);
+  font-family: var(--display);
+  font-stretch: 85%;
+  font-size: max(22px, calc(var(--s) * 38));
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.frame-dims span {
+  position: absolute;
+  color: var(--drafting);
+  font-size: max(12px, calc(var(--s) * 17));
+  font-weight: 600;
+}
+
+.frame-w {
+  left: 0;
+  right: 0;
+  top: calc(var(--s) * -30);
+  text-align: center;
+  border-top: 2px solid var(--drafting);
+  padding-top: 2px;
+  line-height: 1;
+}
+
+.frame-h {
+  left: calc(var(--s) * -34);
+  top: 0;
+  height: calc(100% - var(--s) * 60);
+  writing-mode: vertical-rl;
+  rotate: 180deg;
+  text-align: center;
+  border-right: 2px solid var(--drafting);
+  padding-right: 2px;
+}
+
+/* Parts lists */
+
+.sheet-body-tables {
+  display: grid;
+  gap: calc(var(--s) * 44);
+}
+
+.tables-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: calc(var(--s) * 44);
+  align-items: start;
+}
+
+.parts {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: max(15px, calc(var(--s) * 22));
+  line-height: 1.3;
+}
+
+.parts caption {
+  caption-side: top;
+  text-align: left;
+}
+
+.parts th,
+.parts td {
+  padding: calc(var(--s) * 12) calc(var(--s) * 18);
+  border: 1px solid var(--graphite-soft);
+  text-align: left;
+  vertical-align: top;
+  font-weight: 500;
+  background: rgb(237 246 248 / 0.7);
+}
+
+.parts thead th {
+  background: var(--tint);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: max(13px, calc(var(--s) * 18));
+}
+
+.parts tbody th {
+  font-weight: 700;
+}
+
+.parts tbody td:first-child {
+  color: var(--graphite-soft);
+}
+
+.parts a {
+  color: var(--drafting);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.parts .nowrap {
+  white-space: nowrap;
+}
+
+/* Title block on every sheet */
+
+.titleblock {
+  position: absolute;
+  right: calc(var(--s) * 20);
+  bottom: calc(var(--s) * 20);
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  margin: 0;
+  border: var(--rule) solid var(--graphite);
+  background: var(--film);
+}
+
+.titleblock div {
+  padding: calc(var(--s) * 8) calc(var(--s) * 16);
+}
+
+.titleblock div + div {
+  border-left: 1px solid var(--graphite-soft);
+}
+
+.titleblock dt {
+  font-size: max(10px, calc(var(--s) * 12));
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--graphite-soft);
+}
+
+.titleblock dd {
+  margin: 0;
+  font-size: max(13px, calc(var(--s) * 18));
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Contact: the last block */
+
+.contact {
+  width: calc(var(--u) * 1570);
+  margin: calc(var(--s) * 56) auto calc(var(--s) * 64);
+  box-sizing: border-box;
+  padding: calc(var(--s) * 32) calc(var(--s) * 52);
+  border: var(--rule) solid var(--graphite);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: calc(var(--s) * 56);
+  align-items: center;
+  background: var(--film);
+}
+
+.contact-title {
+  margin: 0;
+  font-family: var(--display);
+  font-stretch: 85%;
+  font-weight: 400;
+  font-size: max(48px, calc(var(--s) * 110));
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.contact dl {
+  display: grid;
+  grid-template-columns: repeat(5, auto);
+  margin: 0;
+  border: 1px solid var(--graphite-soft);
+}
+
+.contact dl div {
+  padding: calc(var(--s) * 10) calc(var(--s) * 18);
+}
+
+.contact dl div + div {
+  border-left: 1px solid var(--graphite-soft);
+}
+
+.contact dt {
+  font-size: max(11px, calc(var(--s) * 13));
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--graphite-soft);
+}
+
+.contact dd {
+  margin: 0;
+  font-size: max(16px, calc(var(--s) * 24));
+  font-weight: 600;
+}
+
+.contact dd a {
+  color: var(--drafting);
+}
+
+/* ---------- Narrow screens: the sheets reflow into one column ---------- */
+
+@media (max-width: 860px) {
+  :root {
+    --u: calc(100vw / 1586);
+  }
+
+  .cover {
+    width: auto;
+    height: auto;
+    padding: 12px;
+  }
+
+  .cover::after {
+    display: none;
+  }
+
+  .cover-frame {
+    position: relative;
+    inset: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 14px;
+    box-shadow: none;
+  }
+
+  .cover-nav,
+  .cover-name,
+  .cover-thesis,
+  .cover-index,
+  .cover-keyplan,
+  .cover-titleblock {
+    position: static;
+    width: auto;
+    height: auto;
+  }
+
+  .cover-nav {
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    padding: 10px 12px;
+  }
+
+  .cover-mark {
+    font-size: 20px;
+  }
+
+  .cover-links {
+    gap: 16px;
+  }
+
+  .cover-links a {
+    font-size: 17px;
+    text-underline-offset: 4px;
+  }
+
+  .cover-name {
+    font-size: calc((100vw - 56px) / 2.3);
+    line-height: 0.92;
+    white-space: normal;
+    -webkit-text-stroke: 1px var(--graphite);
+  }
+
+  .cover-thesis {
+    font-size: 21px;
+    line-height: 1.3;
+    white-space: normal;
+  }
+
+  .cover-index caption {
+    height: auto;
+    padding: 10px 12px 6px;
+    font-size: 30px;
+  }
+
+  .cover-index col:nth-child(1) {
+    width: 52px;
+  }
+
+  .cover-index col:nth-child(2) {
+    width: 46%;
+  }
+
+  .cover-index thead th {
+    height: auto;
+    padding: 8px 10px;
+    font-size: 14px;
+  }
+
+  .cover-index tbody tr,
+  .cover-index tbody tr:first-child {
+    height: 54px;
+  }
+
+  .cover-index tbody td,
+  .cover-index tbody th {
+    padding: 8px 10px;
+    font-size: 17px;
+    white-space: normal;
+  }
+
+  .cover-index tbody td:first-child {
+    padding: 8px 0;
+  }
+
+  .cover-index tbody td:first-child::after {
+    --r: 6px;
+    left: -6px;
+    top: -5px;
+    width: calc(100vw - 55px + 12px);
+    height: calc(100% + 10px);
+  }
+
+  .cover-keyplan {
+    position: relative;
+    left: auto;
+    top: auto;
+  }
+
+  .cover-keyplan img {
+    height: auto;
+  }
+
+  .cover-loc {
+    width: 30px;
+    height: 30px;
+    margin: -15px 0 0 -15px;
+    font-size: 14px;
+  }
+
+  .cover-titleblock {
+    padding: 8px 10px;
+    font-size: 13px;
+    text-align: center;
+  }
+
+  .sheet,
+  .contact {
+    width: auto;
+    margin: 24px 12px 0;
+  }
+
+  .sheet {
+    padding: 20px 16px 24px;
+    box-shadow: none;
+  }
+
+  .sheet-head {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .sheet-title {
+    justify-self: start;
+    font-size: 52px;
+    padding: 2px 14px 0;
+    white-space: normal;
+  }
+
+  .sheet-lede {
+    padding-right: 0;
+    font-size: 18px;
+  }
+
+  .sheet-no {
+    font-size: 56px;
+    top: 0;
+  }
+
+  .sheet-body-drawing,
+  .sheet-side-row,
+  .tables-row {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .drawing-exploded .callout {
+    position: static;
+    max-width: none;
+    margin-top: 10px;
+  }
+
+  .loop {
+    aspect-ratio: auto;
+    max-width: none;
+  }
+
+  .loop-stages {
+    position: relative;
+    aspect-ratio: 1;
+    margin: 36px 8px 40px;
+  }
+
+  .loop-caption {
+    position: static;
+    translate: none;
+    width: auto;
+    font-size: 16px;
+  }
+
+  .sheet-title {
+    max-width: calc(100% - 72px);
+  }
+
+  .loop-label {
+    font-size: 13px;
+  }
+
+  .elevation {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 72%;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 26px 4px 8px 30px;
+  }
+
+  .frame {
+    scroll-snap-align: start;
+  }
+
+  .frame-w {
+    top: -22px;
+  }
+
+  .frame-h {
+    left: -26px;
+  }
+
+  .table-scroll {
+    overflow-x: auto;
+  }
+
+  .table-scroll .parts {
+    min-width: 640px;
+  }
+
+  .titleblock {
+    position: static;
+    margin-top: 24px;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .titleblock div:nth-child(3) {
+    border-left: 0;
+  }
+
+  .titleblock div:nth-child(n + 3) {
+    border-top: 1px solid var(--graphite-soft);
+  }
+
+  .contact {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding: 20px 16px;
+  }
+
+  .contact dl {
+    grid-template-columns: 1fr;
+  }
+
+  .contact dl div + div {
+    border-left: 0;
+    border-top: 1px solid var(--graphite-soft);
+  }
+}

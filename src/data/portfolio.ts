@@ -16,6 +16,28 @@ export const professionalSummary =
 export const designPrinciple =
   'One habit across every domain: put the guarantees in the architecture, so a system is correct by construction rather than by care.'
 
+export interface IndexSheet {
+  sheet: string
+  title: string
+  keyDimension: string
+  href: string
+  current?: boolean
+}
+
+// The cover sheet's drawing index: one row per sheet on the home page.
+export const drawingIndex: IndexSheet[] = [
+  { sheet: '02', title: 'Krates', keyDimension: '7 kernels', href: '#krates' },
+  {
+    sheet: '03',
+    title: 'The Weave',
+    keyDimension: '106 merged changes / week',
+    href: '#the-weave',
+    current: true,
+  },
+  { sheet: '04', title: 'Homegrown Hero Films', keyDimension: '60 fps', href: '#homegrown-hero-films' },
+  { sheet: '05', title: 'Experience', keyDimension: '6 organisations', href: '#experience' },
+]
+
 export interface Project {
   slug: string
   name: string
@@ -263,6 +285,7 @@ export interface ExperienceEntry {
   company: string
   period: string
   description: string
+  keyResult: string
   highlights?: string[]
 }
 
@@ -271,6 +294,7 @@ export const experience: ExperienceEntry[] = [
     role: 'Founder',
     company: 'Krates ehf.',
     period: 'Mar 2026 — Present',
+    keyResult: 'Sókrates, Krepis and the Weave, now in pilots',
     description:
       'An AI-native back office for Icelandic enterprises, correct by construction: agents do the work, rules are executable logic, and a human consents before anything leaves the box. Now in pilots.',
     highlights: [
@@ -283,6 +307,7 @@ export const experience: ExperienceEntry[] = [
     role: 'Backend Engineer',
     company: 'Wise lausnir (Microsoft Dynamics partner)',
     period: 'Oct 2024 — Mar 2026',
+    keyResult: 'Fabric onboarding cut from about three weeks to half a workday',
     description:
       "Designed and deployed Grimoire, an internal knowledge platform on Azure that Claude uses as an MCP server, rolled out to every technical employee through Claude Team admin. Built a self-healing ETL framework for Microsoft Fabric with models generated from OpenAPI schemas; in the Business Central solution for municipalities it cut onboarding from legacy on-premises systems into Fabric/OneLake from about three weeks to half a workday, and its schema-driven design became the starting point for Sókrates's universal schema connector.",
   },
@@ -290,6 +315,7 @@ export const experience: ExperienceEntry[] = [
     role: 'Data Scientist & Business Intelligence Lead',
     company: 'Travelshift',
     period: 'Aug 2022 — Sep 2024',
+    keyResult: '0.42% forecast error on 2.4B ISK of cash flow, six months out',
     description:
       "Complete overhaul of data infrastructure, financial process automation, and predictive modeling for Iceland's largest travel marketplace.",
     highlights: [
@@ -303,6 +329,7 @@ export const experience: ExperienceEntry[] = [
     role: 'Data Analyst & Product Owner',
     company: 'Alfreð Atvinnuleit',
     period: 'May 2021 — Aug 2022',
+    keyResult: 'Grant proposal that secured 30M ISK from Rannís',
     description:
       'Product owner for the Giggó gig-economy platform. Established the BI environment with real-time dashboards. Authored the grant proposal that secured 30M ISK from Rannís.',
   },
@@ -310,6 +337,7 @@ export const experience: ExperienceEntry[] = [
     role: 'Instructor, Department of Computer Science',
     company: 'Reykjavík University',
     period: '2018 — 2021',
+    keyResult: 'Taught programming, data structures, calculus and statistics',
     description:
       'Taught while completing MSc: Programming, Data Structures, Calculus & Statistics, Discrete Mathematics II.',
   },
@@ -317,6 +345,7 @@ export const experience: ExperienceEntry[] = [
     role: 'Statistician & Bioinformatician',
     company: 'deCODE Genetics (Amgen)',
     period: '2015 — 2017',
+    keyResult: 'Haplotype compression more than 10× better than gzip',
     description:
       'Designed novel haplotype compression algorithm achieving >10× compression ratio versus gzip — enabled loading entire chromosomes into memory. Processed and analyzed large genetic datasets.',
   },
