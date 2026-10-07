@@ -1,6 +1,6 @@
 import { education, experience, featuredProjects, personalInfo, skills } from '@/data/portfolio'
 
-function TitleBlock({ sheet, title }: { sheet: number; title: string }) {
+export function TitleBlock({ sheet, title }: { sheet: string; title: string }) {
   return (
     <dl className="titleblock">
       <div>
@@ -9,7 +9,7 @@ function TitleBlock({ sheet, title }: { sheet: number; title: string }) {
       </div>
       <div>
         <dt>Sheet</dt>
-        <dd>{sheet} / 5</dd>
+        <dd>{sheet}</dd>
       </div>
       <div>
         <dt>Title</dt>
@@ -23,15 +23,17 @@ function TitleBlock({ sheet, title }: { sheet: number; title: string }) {
   )
 }
 
-function Sheet({
+export function Sheet({
   id,
   sheet,
+  sheetLabel = `${sheet} / 5`,
   title,
   lede,
   children,
 }: {
   id: string
-  sheet: number
+  sheet: number | string
+  sheetLabel?: string
   title: string
   lede: React.ReactNode
   children: React.ReactNode
@@ -44,17 +46,17 @@ function Sheet({
         </h2>
         <p className="sheet-lede">{lede}</p>
         <span className="sheet-no" aria-hidden="true">
-          {String(sheet).padStart(2, '0')}
+          {typeof sheet === 'number' ? String(sheet).padStart(2, '0') : sheet}
         </span>
       </header>
       {children}
-      <TitleBlock sheet={sheet} title={title} />
+      <TitleBlock sheet={sheetLabel} title={title} />
     </section>
   )
 }
 
 /** A measured figure, drawn as a dimension line with its value. */
-function Dim({ value, label }: { value: string; label: string }) {
+export function Dim({ value, label }: { value: string; label: string }) {
   return (
     <div className="dim">
       <span className="dim-line" aria-hidden="true" />
@@ -65,10 +67,10 @@ function Dim({ value, label }: { value: string; label: string }) {
   )
 }
 
-function Notes({ children }: { children: React.ReactNode }) {
+export function Notes({ title = 'General notes', children }: { title?: string; children: React.ReactNode }) {
   return (
     <div className="notes">
-      <h3>General notes</h3>
+      <h3>{title}</h3>
       <ol>{children}</ol>
     </div>
   )
