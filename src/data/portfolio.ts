@@ -95,17 +95,17 @@ export const featuredProjects: Project[] = [
     description:
       'The team that builds Krates: five named AI engineers who plan, write, review, repair and merge production software around the clock.',
     longDescription:
-      "Most people use AI to write code. The Weave uses it to run an engineering team. Five named AI engineers (Claude and Codex), each with its own machine and role, work under a written doctrine and a shared library of standard operating procedures. They file their own tickets, write the code, review each other's changes, fix what the reviewers find and merge, and no agent approves its own work. A scheduler gives each task to the agent best placed to take it, weighing remaining subscription capacity, skills, availability and parallelism limits. Through summer 2026 it merged about 100 changes a week. Since cross-review went live in August, four in five changes get an independent review before merge, reviewers find something to fix in most of them, and fewer than 1 in 500 merged changes has been reverted. My role is the one a CTO plays: architecture, standards, and the calls that should stay with a human.",
+      "Most people use AI to write code. The Weave uses it to run an engineering team. Five named AI engineers (Claude and Codex), each with its own machine and role, work under a written doctrine and a shared library of standard operating procedures. They file their own tickets, write the code, review each other's changes, fix what the reviewers find and merge, and no agent approves its own work. A scheduler gives each task to the agent best placed to take it, weighing remaining subscription capacity, skills, availability and parallelism limits. From July to mid-September 2026 it merged 106 changes a week. By September, 94% of code changes got an independent review before merge, reviewers found something to fix in 83% of those, and 0.14% of merged changes have ever been reverted. My role is the one a CTO plays: architecture, standards, and the calls that should stay with a human.",
     highlights: [
       'Independent review: changes are reviewed by an agent other than the one that wrote them, and repairs go back through review before the merge gate.',
       'Capacity-aware scheduling: work is routed by remaining subscription capacity, skills, availability and parallelism, turning AI subscriptions into reviewed production software at an average of 250 ISK ($2) per merged change.',
-      "Mistakes become procedure: a daily harvest turns what reviewers catch into about 40 standard operating procedures holding over 400 recorded lessons, which every agent loads before it touches the code they govern. The team's expertise compounds instead of resetting with each session.",
+      "Mistakes become procedure: a daily harvest turns what reviewers catch into 40 standard operating procedures holding 414 recorded lessons, which every agent loads before it touches the code they govern. The team's expertise compounds instead of resetting with each session.",
       'Event-driven wake fabric: a self-built broker with outbound-only edges over Tailscale wakes the right agent on the right machine from Slack, Linear and GitHub events.',
     ],
     metrics: [
-      { stat: '~100/week', text: 'Merged changes, summer 2026' },
-      { stat: '4 in 5', text: 'Changes independently reviewed before merge' },
-      { stat: '<1 in 500', text: 'Merged changes reverted' },
+      { stat: '106/week', text: 'Merged changes, July to mid-September 2026' },
+      { stat: '94%', text: 'Code changes independently reviewed (September)' },
+      { stat: '250 ISK', text: 'Subscription cost per merged change' },
     ],
     architectureNotes: [
       'Delivery ledger: the broker records every wake in a SQLite ledger, so a missed or duplicated delivery is visible rather than silent.',
