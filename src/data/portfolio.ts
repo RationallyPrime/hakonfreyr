@@ -71,9 +71,12 @@ export const featuredProjects: Project[] = [
       'Evaluated like software: agent behaviour is tested against invariants over live systems (typed output, a selection from the valid set, the shape of the span tree) rather than string matching.',
     ],
     metrics: [
-      { stat: '1 box', text: 'On-premises NixOS appliance' },
-      { stat: '4', text: 'Channels: Slack, Teams, WhatsApp, email' },
-      { stat: 'Local', text: 'Inference on the air-gapped edition' },
+      { stat: '254', text: 'ratified IFRS law primitives; 245 compile and run against their expected violations in CI' },
+      { stat: '14', text: 'services in five credential-isolated containers on one appliance' },
+      { stat: '47', text: 'numbered architecture invariants, 27 of them enforced mechanically in CI' },
+      { stat: '16', text: 'packages in a nine-layer dependency graph, boundaries enforced by import-linter and tach' },
+      { stat: '4', text: 'schema languages compiled into agent tools: OpenAPI, JSON Schema, GraphQL and SQL DDL' },
+      { stat: '2', text: 'editions: a gateway-routed mini-PC, or fully local inference on a DGX Spark' },
     ],
     architectureNotes: [
       'Durable execution: external actions run as DBOS workflows with write-ahead attempt records, so a crash never repeats an action against a customer system.',
