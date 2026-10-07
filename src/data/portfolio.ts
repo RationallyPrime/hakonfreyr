@@ -95,22 +95,23 @@ export const featuredProjects: Project[] = [
     description:
       'The team that builds Krates: five named AI engineers who plan, write, review, repair and merge production software around the clock.',
     longDescription:
-      "Most people use AI to write code. The Weave uses it to run an engineering team. Five named AI engineers (Claude and Codex), each with its own machine and role, work under a written doctrine and a shared library of standard operating procedures. They file their own tickets, write the code, review each other's changes, fix what the reviewers find and merge, and no agent approves its own work. A scheduler gives each task to the agent best placed to take it, weighing remaining subscription capacity, skills, availability and parallelism limits. On a good day it lands dozens of real improvements. My role is the one a CTO plays: architecture, standards, and the calls that should stay with a human.",
+      "Most people use AI to write code. The Weave uses it to run an engineering team. Five named AI engineers (Claude and Codex), each with its own machine and role, work under a written doctrine and a shared library of standard operating procedures. They file their own tickets, write the code, review each other's changes, fix what the reviewers find and merge, and no agent approves its own work. A scheduler gives each task to the agent best placed to take it, weighing remaining subscription capacity, skills, availability and parallelism limits. Through summer 2026 it merged about 100 changes a week. Since cross-review went live in August, four in five changes get an independent review before merge, reviewers find something to fix in most of them, and fewer than 1 in 500 merged changes has been reverted. My role is the one a CTO plays: architecture, standards, and the calls that should stay with a human.",
     highlights: [
       'Independent review: changes are reviewed by an agent other than the one that wrote them, and repairs go back through review before the merge gate.',
       'Capacity-aware scheduling: work is routed by remaining subscription capacity, skills, availability and parallelism, turning AI subscriptions into reviewed production software.',
-      'Doctrine over prompts: conventions live in versioned standard operating procedures that every agent loads before it touches the code they govern.',
+      "Mistakes become procedure: a daily harvest turns what reviewers catch into about 40 standard operating procedures holding over 400 recorded lessons, which every agent loads before it touches the code they govern. The team's expertise compounds instead of resetting with each session.",
       'Event-driven wake fabric: a self-built broker with outbound-only edges over Tailscale wakes the right agent on the right machine from Slack, Linear and GitHub events.',
     ],
     metrics: [
-      { stat: '5', text: 'Named AI engineers' },
-      { stat: '24/7', text: 'Planning, building and reviewing' },
-      { stat: 'Dozens', text: 'Merged improvements on a good day' },
+      { stat: '~100/week', text: 'Merged changes, summer 2026' },
+      { stat: '4 in 5', text: 'Changes independently reviewed before merge' },
+      { stat: '<1 in 500', text: 'Merged changes reverted' },
     ],
     architectureNotes: [
       'Delivery ledger: the broker records every wake in a SQLite ledger, so a missed or duplicated delivery is visible rather than silent.',
       "Usage telemetry: per-agent collectors report remaining subscription capacity, which feeds the scheduler's view of who can take the next task.",
       'Linear as the ledger: a ticket marked ready for an agent wakes the team, and an agent claims it by assigning itself.',
+      'Review is measured too: findings are graded by severity, and a finding that recurs at the same line across review rounds is tracked as a repair that did not stick.',
     ],
   },
   {
