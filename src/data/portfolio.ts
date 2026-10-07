@@ -1,10 +1,8 @@
-import type { ReactNode } from 'react'
-
 export const personalInfo = {
   name: 'Hákon Freyr Gunnarsson',
   displayName: 'Hákon Freyr',
-  title: 'Backend Engineer',
-  company: 'Wise',
+  title: 'AI Engineer',
+  company: 'Krates ehf.',
   location: 'Garðabær, Iceland',
   email: 'rationallyprime@gmail.com',
   phone: '+354 660-9570',
@@ -13,7 +11,10 @@ export const personalInfo = {
 }
 
 export const professionalSummary =
-  "Systems-oriented backend engineer with a track record of rapid domain acquisition and production-grade delivery across genomics, finance, legal AI, and enterprise knowledge management. Consistent architectural approach across all domains: clean separation of concerns, protocol-based extensibility, event-driven patterns, and comprehensive observability. Currently building enterprise knowledge infrastructure on Azure."
+  "I build production AI systems that can be trusted with real work. Trained as a mathematician and statistician, I have shipped production systems in genomics, finance, travel and enterprise software, each time learning a new domain within months. Since March 2026 I have been building Krates: an on-premises AI department for Icelandic enterprises and the agent-first back-office software it runs on, developed by an engineering team of AI agents that I designed and lead."
+
+export const designPrinciple =
+  'One habit across every domain: put the guarantees in the architecture, so a system is correct by construction rather than by care.'
 
 export interface Project {
   slug: string
@@ -27,39 +28,115 @@ export interface Project {
   architectureNotes?: string[]
   githubUrl?: string
   githubLabel?: string
+  url?: string
+  urlLabel?: string
 }
 
 export const featuredProjects: Project[] = [
   {
-    slug: 'autopod',
-    name: 'Autopod',
-    subtitle: 'Multi-Tenant Podcast Orchestrator',
-    techStack: 'Go, Python/FastAPI, SQLite, Docker, Cloudflare R2/Tunnel',
+    slug: 'sokrates',
+    name: 'Sókrates',
+    subtitle: 'An On-Premises AI Department',
+    techStack: 'Python, pydantic-ai, FastAPI, DBOS, Postgres, DuckDB/DuckLake, Logica, Logfire, MCP, NixOS, SvelteKit',
     description:
-      'First Go code ever written — deployed as a multi-tenant production system with full test coverage and CI/CD.',
+      'An AI department in a box for Icelandic enterprises: named agents do back-office work under executable rules, and a human consents before anything leaves the box.',
     longDescription:
-      'A multi-tenant podcast automation system built with a Go control plane driving a Python/FastAPI data plane. Handles the full pipeline from audio extraction through transcription, metadata generation, thumbnail creation, and multi-platform upload — all with crash-resilient state management and per-customer isolation enforced by directory structure and encryption boundaries.',
+      "Sókrates ships as a single NixOS appliance on the customer's premises. It ingests the company's existing systems, keeps a governed knowledge graph of the business, and lets named agents do back-office work over Slack, Teams, WhatsApp and email. It comes in two editions: a mini-PC that routes inference through a gateway, and a DGX Spark that runs every model locally for air-gapped customers. Correctness lives in the architecture rather than in the prompt: rules are executable logic, every external action is durable and consented, and every action an agent takes is traced.",
     highlights: [
-      'Control plane / data plane split: Go orchestrator drives a 7-step pipeline by calling stateless Python/FastAPI endpoints with typed HTTP contracts mirrored across languages',
-      'Crash-resilient job state machine with SQLite persistence — every state transition writes to disk before proceeding, GetActiveJobs() resumes all in-flight jobs on startup',
-      'Multi-tenancy by construction: per-customer watch directories, age-encrypted secrets decrypted at runtime, namespaced cloud storage on Cloudflare R2',
-      '21 Go tests + 36 Python tests, GitHub Actions CI with -race flag, Docker multi-stage builds',
+      'One appliance: a 14-service stack across five credential-isolated containers, each holding at most one kind of customer credential.',
+      'Universal schema connector: OpenAPI, JSON Schema, GraphQL and SQL DDL compiled into typed Pydantic models and served to agents as MCP tools.',
+      'Rules as executable logic: business rules are Logica laws compiled to DuckDB SQL, and each returns the set of violations rather than a pass/fail.',
+      'Evaluated like software: agent behaviour is tested against invariants over live systems (typed output, a selection from the valid set, the shape of the span tree) rather than string matching.',
     ],
     metrics: [
-      { stat: '7-step', text: 'Automated pipeline from ingestion to multi-platform publish' },
-      { stat: '57', text: 'Combined Go + Python tests with race detection' },
-      { stat: '2-lang', text: 'Typed HTTP contracts mirrored across Go and Python' },
+      { stat: '1 box', text: 'On-premises NixOS appliance' },
+      { stat: '4', text: 'Channels: Slack, Teams, WhatsApp, email' },
+      { stat: 'Local', text: 'Inference on the air-gapped edition' },
     ],
     architectureNotes: [
-      'Goroutine semaphore (chan struct{}, capacity 2) with mutex-protected file map preventing watcher re-triggering on pipeline-generated outputs',
-      'File stability detection polls size every 2s until stable (30s timeout) to handle large Google Drive sync uploads',
-      'Idiomatic Go: internal/ package layout, sql.NullString, table-driven tests, httptest.NewServer for contract verification, error wrapping with %w',
-      'OAuth consent flow → token capture → age encrypt → save. Stale flow pruning (10-min TTL)',
-      'AI-powered error recovery: ffprobe analysis → Gemini diagnosis → suggested ffmpeg fix → validated execution',
-      'Systemd timer for Google Drive sync with randomized delay (thundering herd prevention)',
+      'Durable execution: external actions run as DBOS workflows with write-ahead attempt records, so a crash never repeats an action against a customer system.',
+      'Consent: every governed write carries an HMAC-signed consent token. Agents propose; a human approves anything that leaves the box.',
+      "Observability as identity: a governed act's identity is its trace span, and spans are mirrored into a DuckLake lakehouse on the box for audit queries, with no data leaving the premises.",
+      'Model independence: model identity is injected by configuration, so models can be swapped and compared on real workloads without code changes.',
+      'Architecture as law: a registry of numbered invariants and a layered package graph, enforced in CI by import-linter and tach.',
     ],
-    githubUrl: 'https://github.com/RationallyPrime/autopod',
-    githubLabel: 'Private',
+  },
+  {
+    slug: 'krepis',
+    name: 'Krepis',
+    subtitle: 'Back-Office Software Designed for AI Agents',
+    techStack: 'Python, Pydantic, Postgres, Event sourcing, Logica, FastAPI, OpenAPI',
+    description:
+      'Accounting, payroll and workforce management rebuilt from first principles for AI agents, rather than for people clicking through screens.',
+    longDescription:
+      "Business software is built for people who navigate screens: menus, forms and formatted tables. Agents work through APIs and logs, and before anyone trusts them with money or payroll they need guarantees that today's suites don't give. Krepis starts from one question: what would an accounting system look like if it were designed for agents? The answer is a family of kernels, each limited to the critical core of its domain, in which every action can be previewed, retried and traced. Customer-specific policy lives above the kernels as logic, so the guarantees extend to the parts of each domain the kernels don't cover.",
+    highlights: [
+      'Seven kernels: double-entry accounting, payroll, workforce management, money movement, inventory, commitments and a work ledger.',
+      'Event-sourced and append-only: balances are computed from the log rather than stored, so every number traces back to the events behind it.',
+      'Safe for agents by construction: every action is idempotent and has a dry run, so an agent can preview any effect and retry without doubling it.',
+      'Rules as logic: business policy is expressed as Logica predicates above the kernels, so it can change without touching kernel code.',
+    ],
+    metrics: [
+      { stat: '7', text: 'Agent-first kernels' },
+      { stat: 'Append-only', text: 'Event-sourced ledgers' },
+      { stat: 'Dry run', text: 'On every action' },
+    ],
+    architectureNotes: [
+      'One family: kernels couple through a shared core, never by importing each other, and every kernel must pass the same conformance suite.',
+      'One Postgres: a schema per kernel, mirrored into a lakehouse for analytics.',
+      "Contracts for agents: each kernel publishes its OpenAPI contract, which Sókrates compiles into the agents' tools.",
+    ],
+  },
+  {
+    slug: 'the-weave',
+    name: 'The Weave',
+    subtitle: 'An Engineering Organisation Staffed by AI Agents',
+    techStack: 'Claude, Codex, TypeScript, Bun, Slack, Linear, GitHub Actions, Tailscale',
+    description:
+      'The team that builds Krates: five named AI engineers who plan, write, review, repair and merge production software around the clock.',
+    longDescription:
+      "Most people use AI to write code. The Weave uses it to run an engineering team. Five named AI engineers (Claude and Codex), each with its own machine and role, work under a written doctrine and a shared library of standard operating procedures. They file their own tickets, write the code, review each other's changes, fix what the reviewers find and merge, and no agent approves its own work. A scheduler gives each task to the agent best placed to take it, weighing remaining subscription capacity, skills, availability and parallelism limits. On a good day it lands dozens of real improvements. My role is the one a CTO plays: architecture, standards, and the calls that should stay with a human.",
+    highlights: [
+      'Independent review: changes are reviewed by an agent other than the one that wrote them, and repairs go back through review before the merge gate.',
+      'Capacity-aware scheduling: work is routed by remaining subscription capacity, skills, availability and parallelism, turning AI subscriptions into reviewed production software.',
+      'Doctrine over prompts: conventions live in versioned standard operating procedures that every agent loads before it touches the code they govern.',
+      'Event-driven wake fabric: a self-built broker with outbound-only edges over Tailscale wakes the right agent on the right machine from Slack, Linear and GitHub events.',
+    ],
+    metrics: [
+      { stat: '5', text: 'Named AI engineers' },
+      { stat: '24/7', text: 'Planning, building and reviewing' },
+      { stat: 'Dozens', text: 'Merged improvements on a good day' },
+    ],
+    architectureNotes: [
+      'Delivery ledger: the broker records every wake in a SQLite ledger, so a missed or duplicated delivery is visible rather than silent.',
+      "Usage telemetry: per-agent collectors report remaining subscription capacity, which feeds the scheduler's view of who can take the next task.",
+      'Linear as the ledger: a ticket marked ready for an agent wakes the team, and an agent claims it by assigning itself.',
+    ],
+  },
+  {
+    slug: 'homegrown-hero-films',
+    name: 'Homegrown Hero Films',
+    subtitle: 'Short Films Where a Child Is the Hero',
+    techStack: 'MiniMax H3, PyTorch, ComfyUI, RunPod, NVIDIA RTX VSR, RIFE, YouTube Data API, Next.js',
+    description:
+      'Short films, photoreal or animated, where a child is the hero of their own adventure, made with an AI video pipeline I built end to end.',
+    longDescription:
+      'Homegrown Hero Films makes short films in which a child is the hero. Behind them is a production pipeline: generation on rented GPUs with my own open-source extensions to the MiniMax H3 video model, AI agents that review every film for story, continuity and photorealism before release, upscaling and frame-interpolation finishing, and scheduled publishing to YouTube and TikTok.',
+    highlights: [
+      'Model extensions: sparse attention, FETA and synchronized audio/video context windows for MiniMax H3, released as open source.',
+      'An AI quality gate: a reviewing agent checks every candidate film frame by frame for story, identity continuity and photorealism, and sends its findings back to the producing agent before a human sees the film.',
+      'Finishing: NVIDIA RTX VSR upscaling and RIFE frame interpolation to 60 fps, applied shot by shot so interpolation never blends two shots.',
+      'Automated publishing: scheduled uploads through the YouTube Data API, with AI disclosure on every post.',
+    ],
+    metrics: [
+      { stat: '60 fps', text: 'Upscaled vertical finishing' },
+      { stat: 'AI-reviewed', text: 'Every film before release' },
+      { stat: '2', text: 'Platforms: YouTube and TikTok' },
+    ],
+    url: 'https://homegrownherofilms.com',
+    urlLabel: 'homegrownherofilms.com',
+    githubUrl: 'https://github.com/RationallyPrime/ComfyUI-H3Forge',
+    githubLabel: 'model extensions',
   },
   {
     slug: 'memory-palace',
@@ -67,7 +144,7 @@ export const featuredProjects: Project[] = [
     subtitle: 'Graph-Based Semantic Memory System',
     techStack: 'Python/FastAPI, Neo4j, Voyage AI, OAuth, Cloudflare Tunnel, MCP',
     description:
-      'Personal/learning project. Query language design, graph databases, and the specification pattern — all learned from scratch for this build.',
+      "Long-term memory for language models, in daily use as Claude's persistent memory since 2025. Query language design, graph databases and the specification pattern, all learned from scratch for this build.",
     longDescription:
       'A graph-based semantic memory system that stores, relates, and retrieves knowledge using Neo4j and vector embeddings. Features a custom query language built on the discriminated union specification pattern, a type-safe Cypher query builder with compile-time validation, and integration as an MCP server so Claude.ai can use it as persistent external memory.',
     highlights: [
@@ -88,7 +165,7 @@ export const featuredProjects: Project[] = [
       'Typed error architecture: ApplicationError base with ErrorCode enum, ErrorLevel, typed ErrorDetails models. @with_error_handling decorator with configurable reraise behavior',
       'Event-driven background processing: DreamJobOrchestrator runs scheduled jobs including salience decay (configurable half-life), DBSCAN topic clustering, and re-indexing',
     ],
-    githubUrl: 'https://github.com/RationallyPrime/found-family',
+    githubUrl: 'https://github.com/Skrates/found-family',
     githubLabel: 'Public',
   },
   {
@@ -120,14 +197,14 @@ export const featuredProjects: Project[] = [
     ],
   },
   {
-    slug: 'sokrates',
-    name: 'Sokrates IDR',
+    slug: 'sokrates-idr',
+    name: 'Sókrates IDR',
     subtitle: 'Legal Document Intelligence Platform',
     techStack: 'Python/FastAPI, React/TypeScript, PostgreSQL, Neo4j, MinIO, PGVector, Celery',
     description:
-      'Solo-built full-stack enterprise platform (estimated 4,000–8,000+ development hours by independent review).',
+      'A full-stack legal document intelligence platform, built solo in 2025.',
     longDescription:
-      'A full-stack enterprise legal document intelligence platform built solo — estimated at 4,000–8,000+ development hours by independent review. Features Domain-Driven Design with enforced architectural boundaries, polyglot persistence across four database systems, OpenTelemetry with 13+ instrumentations, and comprehensive testing from unit to E2E with Playwright.',
+      'A full-stack enterprise legal document intelligence platform, built solo in 2025. Features Domain-Driven Design with enforced architectural boundaries, polyglot persistence across four database systems, OpenTelemetry with 13+ instrumentations, and comprehensive testing from unit to E2E with Playwright.',
     highlights: [
       'DDD with architectural boundaries enforced by import-linter contracts: domain → core → infrastructure → api. Repository pattern with protocol-based interfaces',
       'Polyglot persistence: PostgreSQL (asyncpg + SQLAlchemy + Alembic), Neo4j knowledge graph, MinIO document storage, PGVector embeddings',
@@ -135,9 +212,9 @@ export const featuredProjects: Project[] = [
       'Comprehensive testing: pytest-asyncio, factory-boy, Playwright E2E. Automatic TypeScript client generation from OpenAPI specs',
     ],
     metrics: [
-      { stat: '4,000+', text: 'Solo development hours (independent estimate)' },
-      { stat: '13+', text: 'OpenTelemetry instrumentations for full observability' },
       { stat: '4', text: 'Persistence backends (PostgreSQL, Neo4j, MinIO, PGVector)' },
+      { stat: '13+', text: 'OpenTelemetry instrumentations for full observability' },
+      { stat: 'E2E', text: 'Playwright tests from login to document' },
     ],
     architectureNotes: [
       'DDD with architectural boundaries enforced by import-linter contracts (not just convention): domain → core → infrastructure → api. Repository pattern with protocol-based interfaces. Dependency injection throughout (dependency-injector)',
@@ -146,6 +223,37 @@ export const featuredProjects: Project[] = [
       'Comprehensive testing: pytest-asyncio, factory-boy, freezegun, Playwright E2E. Automatic TypeScript client generation from OpenAPI specs via Orval',
       'JWT/bcrypt authentication, Celery distributed task queues, Docker multi-stage builds, GitHub Actions CI/CD',
     ],
+  },
+  {
+    slug: 'autopod',
+    name: 'Autopod',
+    subtitle: 'Multi-Tenant Podcast Orchestrator',
+    techStack: 'Go, Python/FastAPI, SQLite, Docker, Cloudflare R2/Tunnel',
+    description:
+      'My first Go project, shipped as a multi-tenant production system with full test coverage and CI/CD.',
+    longDescription:
+      'A multi-tenant podcast automation system built with a Go control plane driving a Python/FastAPI data plane. Handles the full pipeline from audio extraction through transcription, metadata generation, thumbnail creation, and multi-platform upload — all with crash-resilient state management and per-customer isolation enforced by directory structure and encryption boundaries.',
+    highlights: [
+      'Control plane / data plane split: Go orchestrator drives a 7-step pipeline by calling stateless Python/FastAPI endpoints with typed HTTP contracts mirrored across languages',
+      'Crash-resilient job state machine with SQLite persistence — every state transition writes to disk before proceeding, GetActiveJobs() resumes all in-flight jobs on startup',
+      'Multi-tenancy by construction: per-customer watch directories, age-encrypted secrets decrypted at runtime, namespaced cloud storage on Cloudflare R2',
+      '21 Go tests + 36 Python tests, GitHub Actions CI with -race flag, Docker multi-stage builds',
+    ],
+    metrics: [
+      { stat: '7-step', text: 'Automated pipeline from ingestion to multi-platform publish' },
+      { stat: '57', text: 'Combined Go + Python tests with race detection' },
+      { stat: '2-lang', text: 'Typed HTTP contracts mirrored across Go and Python' },
+    ],
+    architectureNotes: [
+      'Goroutine semaphore (chan struct{}, capacity 2) with mutex-protected file map preventing watcher re-triggering on pipeline-generated outputs',
+      'File stability detection polls size every 2s until stable (30s timeout) to handle large Google Drive sync uploads',
+      'Idiomatic Go: internal/ package layout, sql.NullString, table-driven tests, httptest.NewServer for contract verification, error wrapping with %w',
+      'OAuth consent flow → token capture → age encrypt → save. Stale flow pruning (10-min TTL)',
+      'AI-powered error recovery: ffprobe analysis → Gemini diagnosis → suggested ffmpeg fix → validated execution',
+      'Systemd timer for Google Drive sync with randomized delay (thundering herd prevention)',
+    ],
+    githubUrl: 'https://github.com/RationallyPrime/autopod',
+    githubLabel: 'Private',
   },
 ]
 
@@ -159,11 +267,23 @@ export interface ExperienceEntry {
 
 export const experience: ExperienceEntry[] = [
   {
+    role: 'Founder',
+    company: 'Krates ehf.',
+    period: 'Mar 2026 — Present',
+    description:
+      'An AI-native back office for Icelandic enterprises, correct by construction: agents do the work, rules are executable logic, and a human consents before anything leaves the box. Now in pilots.',
+    highlights: [
+      'Sókrates: an on-premises AI department in a single NixOS appliance, with named agents working over Slack, Teams, WhatsApp and email',
+      'Krepis: seven back-office kernels (accounting, payroll, workforce management and more) designed for AI agents rather than for people',
+      'The Weave: the engineering organisation that builds both, staffed by five AI engineers that I direct',
+    ],
+  },
+  {
     role: 'Backend Engineer',
     company: 'Wise (Iceland)',
-    period: 'Oct 2024 — Present',
+    period: 'Oct 2024 — Mar 2026',
     description:
-      'Enterprise knowledge management and internal tooling. Designed and deployed the Grimoire/SETS platform on Azure infrastructure for team use. Working with Microsoft Business Central integrations and connector development.',
+      'Enterprise knowledge management and internal tooling. Designed and deployed the Grimoire platform on Azure for team use, and built a self-healing ETL framework for ConnectWise data in Microsoft Fabric with models generated from OpenAPI schemas.',
   },
   {
     role: 'Data Scientist & Business Intelligence Lead',
@@ -183,14 +303,7 @@ export const experience: ExperienceEntry[] = [
     company: 'Alfreð Atvinnuleit',
     period: 'May 2021 — Aug 2022',
     description:
-      'Established BI environment with real-time dashboards. Product owner for gig economy freelancing platform. Authored grant proposal securing 30M ISK funding from Rannís.',
-  },
-  {
-    role: 'Statistician & Bioinformatician',
-    company: 'deCODE Genetics (Amgen)',
-    period: '2015 — 2017',
-    description:
-      'Designed novel haplotype compression algorithm achieving >10× compression ratio versus gzip — enabled loading entire chromosomes into memory. Processed and analyzed large genetic datasets.',
+      'Product owner for the Giggó gig-economy platform. Established the BI environment with real-time dashboards. Authored the grant proposal that secured 30M ISK from Rannís.',
   },
   {
     role: 'Instructor, Department of Computer Science',
@@ -200,11 +313,11 @@ export const experience: ExperienceEntry[] = [
       'Taught while completing MSc: Programming, Data Structures, Calculus & Statistics, Discrete Mathematics II.',
   },
   {
-    role: 'Founder',
-    company: 'Taurus Supplements',
-    period: '2013 — 2017',
+    role: 'Statistician & Bioinformatician',
+    company: 'deCODE Genetics (Amgen)',
+    period: '2015 — 2017',
     description:
-      'Founded and operated a specialized supplement product line. End-to-end ownership: product development, manufacturing coordination, marketing, sales, and daily operations.',
+      'Designed novel haplotype compression algorithm achieving >10× compression ratio versus gzip — enabled loading entire chromosomes into memory. Processed and analyzed large genetic datasets.',
   },
 ]
 
@@ -214,10 +327,10 @@ export interface StatEntry {
 }
 
 export const stats: StatEntry[] = [
-  { stat: '0.42%', text: 'Forecast accuracy on 2.4B ISK cash flow volume' },
+  { stat: '0.42%', text: 'Forecast error on 2.4B ISK of cash flow, six months out' },
   { stat: '>10×', text: 'Compression ratio vs gzip for haplotype data' },
-  { stat: '97%', text: 'Improvement in transaction reconciliation' },
-  { stat: '4,000+', text: 'Solo development hours on Sokrates IDR' },
+  { stat: '97%', text: 'Fewer unreconcilable payment transactions' },
+  { stat: '7 → 2', text: 'Booking contractors, with better performance' },
 ]
 
 export interface SkillCategory {
@@ -228,49 +341,34 @@ export interface SkillCategory {
 
 export const skills: SkillCategory[] = [
   {
+    name: 'AI & agents',
+    items: 'pydantic-ai, MCP, Anthropic/OpenAI/Gemini APIs, agent evaluation, RAG and embeddings, durable agent workflows (DBOS), multi-agent engineering teams, local inference, video diffusion models',
+    iconName: 'sparkles',
+  },
+  {
     name: 'Languages',
-    items: 'Go (building proficiency — see Autopod), Python (expert), TypeScript/React, SQL, R, DAX/M',
+    items: 'Python (expert), SQL, TypeScript, Go, R, Logica',
     iconName: 'code-square',
   },
   {
     name: 'Backend & APIs',
-    items: 'FastAPI, RESTful API design, OpenAPI specification, automatic client generation (Orval), WebSockets, Pydantic, dependency injection',
+    items: 'FastAPI, Pydantic, OpenAPI, typed client generation, OAuth 2.0 (RFC 7591/8414/9728), event sourcing, idempotent and replayable APIs',
     iconName: 'cpu',
   },
   {
-    name: 'Databases & Storage',
-    items: 'PostgreSQL (asyncpg, SQLAlchemy, Alembic), Neo4j (Cypher, graph modeling), Snowflake, MinIO (S3-compatible), PGVector, SQLite',
-    iconName: 'hard-drive',
+    name: 'Data',
+    items: 'Postgres, DuckDB/DuckLake, Snowflake, Neo4j, Microsoft Fabric/PySpark, Kimball modelling, Power BI, forecasting',
+    iconName: 'chart-bar',
   },
   {
-    name: 'Cloud & Infrastructure',
-    items: 'Azure (Container Apps, ACR, Bicep IaC, Databricks, Log Analytics), Docker (multi-stage builds, non-root), Cloudflare (R2, Tunnel), GitHub Actions CI/CD',
+    name: 'Infrastructure',
+    items: 'NixOS, Docker, Azure (Container Apps, Bicep), AWS, Cloudflare, Tailscale, RunPod, GitHub Actions with self-hosted runners',
     iconName: 'cloud',
   },
   {
-    name: 'Architecture & Patterns',
-    items: 'Domain-Driven Design, clean/hexagonal architecture, specification pattern, repository pattern, event-driven design, control plane/data plane, Kimball-dimensional modeling',
-    iconName: 'squares-2-stacked',
-  },
-  {
-    name: 'Observability & Quality',
-    items: 'OpenTelemetry (13+ instrumentations), Logfire, Sentry, structlog, Ruff, basedpyright, Biome, import-linter, pre-commit hooks',
+    name: 'Engineering & observability',
+    items: 'Domain-driven design, architecture enforced in CI (import-linter, tach), typed error hierarchies, Logfire/OpenTelemetry, uv/ruff/ty',
     iconName: 'chart-line',
-  },
-  {
-    name: 'Security',
-    items: 'OAuth 2.0 (RFC 7591/8414/9728), JWT, bcrypt, age encryption, Google Cloud OAuth, CORS, non-root containers',
-    iconName: 'lock',
-  },
-  {
-    name: 'AI & ML',
-    items: 'LLM integration (Anthropic, OpenAI, Google Gemini), RAG systems, vector embeddings (Voyage AI), pydantic-ai, Claude Code, DBSCAN clustering',
-    iconName: 'sparkles',
-  },
-  {
-    name: 'Data Engineering',
-    items: 'ETL pipeline design, Microsoft Fabric, Power BI, PySpark, Celery distributed task queues, star schema design, data warehouse architecture',
-    iconName: 'chart-bar',
   },
 ]
 
@@ -294,13 +392,4 @@ export const education: Education[] = [
     period: '2011 — 2016',
     focus: 'Computational Mathematics and Computer Science.',
   },
-]
-
-export const domainAcquisitions = [
-  { domain: 'Go', achievement: 'First code → deployed multi-tenant production system with tests, CI, and Docker' },
-  { domain: 'Finance', achievement: 'Zero knowledge → audit-ready annual financial reports within months' },
-  { domain: 'Genomics', achievement: 'Novel compression algorithm (>10× vs gzip) during first research position' },
-  { domain: 'Graph databases', achievement: 'Self-taught Neo4j → type-safe query builder with state machine validation' },
-  { domain: 'Azure cloud', achievement: 'First cloud deployment → Bicep IaC with auto-scaling and CI/CD' },
-  { domain: 'OAuth 2.0', achievement: 'Self-taught → full 3-RFC implementation for enterprise MCP deployment' },
 ]
