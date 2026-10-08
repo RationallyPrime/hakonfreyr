@@ -26,13 +26,12 @@ export interface IndexSheet {
 
 // The cover sheet's drawing index: one row per sheet on the home page.
 export const drawingIndex: IndexSheet[] = [
-  { sheet: '02', title: 'Krates', keyDimension: '7 kernels', href: '#krates' },
+  { sheet: '02', title: 'Krates', keyDimension: '4,913 checks, 0 differences', href: '#krates', current: true },
   {
     sheet: '03',
     title: 'The Weave',
     keyDimension: '106 merged changes / week',
     href: '#the-weave',
-    current: true,
   },
   { sheet: '04', title: 'Homegrown Hero Films', keyDimension: '60 fps', href: '#homegrown-hero-films' },
   { sheet: '05', title: 'Experience', keyDimension: '6 organisations', href: '#experience' },
@@ -96,18 +95,22 @@ export const featuredProjects: Project[] = [
     longDescription:
       "Business software is built for people who navigate screens: menus, forms and formatted tables. Agents work through APIs and logs, and before anyone trusts them with money or payroll they need guarantees that today's suites don't give. Krepis starts from one question: what would an accounting system look like if it were designed for agents? The answer is a family of kernels, each limited to the critical core of its domain, in which every action can be previewed, retried and traced. Customer-specific policy lives above the kernels as logic, so the guarantees extend to the parts of each domain the kernels don't cover.",
     highlights: [
+      'Operated by agents, unsupervised: AI agents ran a fictional 12-employee company’s September (180 shifts, payroll, two supplier deliveries, inventory close, 14 payments and the books) through six kernels in one process on PostgreSQL, with no human supervising at any point. An independent checker that computed every expected figure from the source facts found zero differences across 4,913 comparisons (3 October 2026).',
       'Seven kernels: double-entry accounting, payroll, workforce management, money movement, inventory, commitments and a work ledger.',
       'Event-sourced and append-only: balances are computed from the log rather than stored, so every number traces back to the events behind it.',
       'Safe for agents by construction: every action is idempotent and has a dry run, so an agent can preview any effect and retry without doubling it.',
       'Rules as logic: business policy is expressed as Logica predicates above the kernels, so it can change without touching kernel code.',
     ],
     metrics: [
-      { stat: '7', text: 'Agent-first kernels' },
-      { stat: 'Append-only', text: 'Event-sourced ledgers' },
-      { stat: 'Dry run', text: 'On every action' },
+      { stat: '4,913', text: 'independent checks against the source facts, zero differences, in a business month run entirely by AI agents with no human supervisor' },
+      { stat: '4,125,040', text: 'ISK gross payroll for 12 employees, exact to the króna' },
+      { stat: '14', text: 'payments settled (4,835,120 ISK), each matching its source amount, into a 27-transaction ledger with zero unbalanced entries' },
+      { stat: '30/30', text: 'stored records identical after a restart; replayed handoffs and duplicate submissions created no new effects' },
     ],
     architectureNotes: [
       'One family: kernels couple through a shared core, never by importing each other, and every kernel must pass the same conformance suite.',
+      'Safe to hand to an agent: an overlapping shift and a journal off by 1 ISK were both refused with nothing written, and every invalid call the operator made was rejected the same way.',
+      'The first full run surfaced five gaps between kernels; agents fixed and merged all five overnight, and a different agent’s clean rerun passed with nothing outstanding.',
       'One Postgres: a schema per kernel, mirrored into a lakehouse for analytics.',
       "Contracts for agents: each kernel publishes its OpenAPI contract, which Sókrates compiles into the agents' tools.",
     ],
@@ -465,6 +468,7 @@ export const sheetCopy = {
     sokrates: 'The on-premises AI department: one NixOS appliance that ingests a company’s systems and lets named agents do back-office work over Slack, Teams, WhatsApp and email.',
     krepis: 'Seven back-office kernels (accounting, payroll, workforce management and more) built for AI agents rather than for people clicking through screens.',
     notes: [
+      'Run by agents, unsupervised: AI agents operated a fictional 12-employee company’s whole month through all six Krepis kernels with no human supervisor. Payroll, 14 payments and the books came out exact: 4,913 independent checks, zero differences.',
       'Business rules are Logica laws compiled to DuckDB SQL; each returns the set of violations, not a pass or fail.',
       'An agent that dies mid-task never repeats an external action (DBOS, write-ahead attempt records).',
       'Every governed action carries a signed consent token and is its own trace span in a queryable audit store.',
