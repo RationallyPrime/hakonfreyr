@@ -166,17 +166,18 @@ export const featuredProjects: Project[] = [
   {
     slug: 'residual-modeling',
     name: 'Residual Modeling',
-    subtitle: 'Decomposed Valuation of Icelandic Homes',
+    subtitle: 'Interpretable, Counterfactual Valuation of Icelandic Homes',
     techStack: 'Python, LightGBM, Postgres/PostGIS, FastAPI, Next.js, Pydantic, uv workspace',
     description:
-      'Icelandic home valuation that splits each sale price into multiplicative layers, so every estimate shows where its value comes from.',
+      'A stack of gradient-boosted residual layers that values Icelandic homes, explains every price in krónur per layer, and re-prices a home under what-if changes.',
     longDescription:
-      'A valuation model for Icelandic residential property that treats a sale price as a product of independent signals: the property itself, its broad location, the local market around it, liquidity and timing, and the agency that sold it. Each layer is fitted to the residual the earlier layers leave, in house-price-index-deflated log-price space, so an estimate comes with its decomposition rather than as a single number. It runs on a Postgres/PostGIS pipeline with precomputed baselines, live inference and a Next.js valuation app.',
+      'A valuation model for Icelandic residential property built as a stack of gradient-boosted residual layers. A sale price is treated as a product of independent signals: the property itself, its broad location, the local market around it, liquidity and timing, and the agency that sold it. In house-price-index-deflated log-price space each signal becomes an additive term, and each LightGBM layer is trained on the residual the layers before it leave. The estimate is therefore a sum of attributable parts, and every valuation comes back as krónur contributed by each layer rather than as one opaque number. The same model answers counterfactual questions: change the floor area, rooms, floor, construction year or selling agency, and it re-prices the home and shows which layers moved.',
     highlights: [
-      'Price as a product of signals: structure, broad location, local market, liquidity and timing, and agency, each fitted to the residual the layers before it leave.',
+      'Gradient-boosted residual stacking: one LightGBM model per layer, each fitted to what the earlier layers could not explain, in HPI-deflated log-price space.',
+      'Interpretable by construction: every valuation returns the krónur contributed by structure, broad location, local market, and liquidity and timing, each layer with its own cross-validated R², ready for a waterfall chart.',
+      'Counterfactual pricing: a batch scenarios endpoint re-prices a property under changed rooms, floor area, lot size, floor, construction year, property type, postal code, view or selling agency, and returns the price delta and the per-layer breakdown for each scenario.',
       'Comparables done properly: the local-market layer learns only comparable-sale deltas, anchored on the frozen structure-and-location prediction and recomputed out of fold, so training and serving use the same comparables.',
       'Leakage hunted down: early cross-validation scores of 94.5% traced back to asking-price and assessment leakage and random splits. The model is now judged only on time-ordered out-of-fold sales.',
-      'Served end to end: precomputed market baselines in Postgres, live inference that applies agency effects on request, a FastAPI service and a Next.js valuation app with what-if scenarios.',
     ],
     metrics: [
       { stat: '12,709', text: 'time-ordered out-of-fold sales in the evaluation' },
@@ -189,6 +190,7 @@ export const featuredProjects: Project[] = [
       'A listing-presentation layer is quarantined until it beats the holdout: it raised cross-validation scores without improving held-out sales.',
       'Spatial structure combines a postal-area prior with a continuous-coordinate residual, promoted to depth 10 after an ablation study.',
       'Every trained model carries its lineage, and the serving cache is refreshed from the production artifacts so the API and the model never disagree.',
+      'Served end to end: precomputed market baselines in Postgres, live inference that applies agency effects on request, a FastAPI service and a Next.js valuation app with a waterfall of layer contributions and a scenarios panel.',
     ],
   },
   {
