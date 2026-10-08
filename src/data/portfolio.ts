@@ -109,8 +109,7 @@ export const featuredProjects: Project[] = [
     ],
     architectureNotes: [
       'One family: kernels couple through a shared core, never by importing each other, and every kernel must pass the same conformance suite.',
-      'Safe to hand to an agent: an overlapping shift and a journal off by 1 ISK were both refused with nothing written, and every invalid call the operator made was rejected the same way.',
-      'The first full run surfaced five gaps between kernels; agents fixed and merged all five overnight, and a different agent’s clean rerun passed with nothing outstanding.',
+      'Safe to hand to an agent: of the 330 calls the operating agent made, the kernels rejected 11 invalid ones (2 deliberate probes, such as an overlapping shift and a journal off by 1 ISK, and 9 ordinary agent slips) and wrote nothing for any of them.',
       'One Postgres: a schema per kernel, mirrored into a lakehouse for analytics.',
       "Contracts for agents: each kernel publishes its OpenAPI contract, which Sókrates compiles into the agents' tools.",
     ],
@@ -468,7 +467,7 @@ export const sheetCopy = {
     sokrates: 'The on-premises AI department: one NixOS appliance that ingests a company’s systems and lets named agents do back-office work over Slack, Teams, WhatsApp and email.',
     krepis: 'Seven back-office kernels (accounting, payroll, workforce management and more) built for AI agents rather than for people clicking through screens.',
     notes: [
-      'Run by agents, unsupervised: AI agents operated a fictional 12-employee company’s whole month through all six Krepis kernels with no human supervisor. Payroll, 14 payments and the books came out exact: 4,913 independent checks, zero differences.',
+      'Run by agents, unsupervised: AI agents operated a fictional 12-employee company’s whole month through all six Krepis kernels with no human supervisor. Payroll, 14 payments and the books came out exact: 4,913 independent checks, zero differences. Along the way the kernels rejected 11 invalid calls from the agents and wrote nothing for any of them.',
       'Business rules are Logica laws compiled to DuckDB SQL; each returns the set of violations, not a pass or fail.',
       'An agent that dies mid-task never repeats an external action (DBOS, write-ahead attempt records).',
       'Every governed action carries a signed consent token and is its own trace span in a queryable audit store.',
