@@ -224,7 +224,7 @@ export function FilmsSheet() {
   )
 }
 
-const related = ['memory-palace', 'grimoire', 'autopod', 'sokrates-idr']
+const related = ['residual-modeling', 'memory-palace', 'grimoire', 'autopod', 'sokrates-idr']
 
 export function ExperienceSheet() {
   return (
