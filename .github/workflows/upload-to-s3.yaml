@@ -37,7 +37,7 @@ jobs:
         aws-region: ${{ secrets.AWS_REGION }}
 
     - name: Upload to S3
-      run: aws s3 sync ./out s3://$S3_BUCKET/ --delete --exclude "residual-modeling" --exclude "residual-modeling/*"
+      run: aws s3 sync ./out s3://$S3_BUCKET/ --delete --exclude "residual-modeling" --exclude "residual-modeling/*" --exclude "projects/residual-modeling/explorer" --exclude "projects/residual-modeling/explorer/*"
       env:
         S3_BUCKET: ${{ secrets.S3_BUCKET }}
 

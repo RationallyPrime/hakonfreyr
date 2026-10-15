@@ -41,14 +41,14 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
-      - name: Publish only the residual-modeling prefix
+      - name: Publish only the project explorer subdirectory
         env:
           S3_BUCKET: ${{ secrets.S3_BUCKET }}
         run: |
-          aws s3 sync site/ "s3://$S3_BUCKET/residual-modeling/" --delete --cache-control no-cache
-          aws s3 cp site/index.html "s3://$S3_BUCKET/residual-modeling" --content-type text/html --cache-control no-cache
+          aws s3 sync site/ "s3://$S3_BUCKET/projects/residual-modeling/explorer/" --delete --cache-control no-cache
+          aws s3 cp site/index.html "s3://$S3_BUCKET/projects/residual-modeling/explorer" --content-type text/html --cache-control no-cache
       - name: Invalidate only the published application
         env:
           DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
         run: |
-          aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION_ID" --paths '/residual-modeling' '/residual-modeling/*'
+          aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION_ID" --paths '/projects/residual-modeling/explorer' '/projects/residual-modeling/explorer/*'
