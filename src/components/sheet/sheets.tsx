@@ -98,7 +98,7 @@ const project = (slug: string) => featuredProjects.find((p) => p.slug === slug)!
 export function KratesSheet() {
   const copy = sheetCopy.krates
   return (
-    <Sheet id="krates" sheet="2 / 5" title="Krates" lede={copy.lede}>
+    <Sheet id="krates" sheet="2 / 6" title="Krates" lede={copy.lede}>
       <div className="sheet-body sheet-body-drawing">
         <div>
           <figure className="drawing drawing-exploded dimensioned">
@@ -150,7 +150,7 @@ const stages = ['Ticket', 'Write', 'Review', 'Repair', 'Merge']
 export function WeaveSheet() {
   const copy = sheetCopy.weave
   return (
-    <Sheet id="the-weave" sheet="3 / 5" title="The Weave" lede={copy.lede}>
+    <Sheet id="the-weave" sheet="3 / 6" title="The Weave" lede={copy.lede}>
       <div className="sheet-body sheet-body-drawing">
         <figure className="drawing loop dimensioned" aria-label="The Weave's delivery loop: ticket, write, review, repair, merge">
           <DimOn side="top" figure={copy.topDim} />
@@ -194,7 +194,7 @@ export function FilmsSheet() {
   const hhf = project('homegrown-hero-films')
   const copy = sheetCopy.films
   return (
-    <Sheet id="homegrown-hero-films" sheet="4 / 5" title="Homegrown Hero Films" lede={copy.lede}>
+    <Sheet id="homegrown-hero-films" sheet="4 / 6" title="Homegrown Hero Films" lede={copy.lede}>
       <div className="sheet-body">
         <div className="elevation">
           {films.map((film) => (
@@ -224,11 +224,87 @@ export function FilmsSheet() {
   )
 }
 
+// The app's nine screens as its sidebar orders them, laid out as a serpentine flow:
+// left to right, back, and left to right again. The cutting plane separates what the
+// Mac does from what the rented GPU computer does.
+const flow = [
+  { label: 'Images', x: 1, y: 1 },
+  { label: 'Concepts', x: 3, y: 1 },
+  { label: 'Mapping', x: 5, y: 1 },
+  { label: 'Captioning', x: 5, y: 3 },
+  { label: 'Review', x: 3, y: 3 },
+  { label: 'Publish', x: 1, y: 3 },
+  { label: 'GPU pods', x: 1, y: 5 },
+  { label: 'Training', x: 3, y: 5 },
+  { label: 'Monitor', x: 5, y: 5 },
+]
+
+export function ConceptStudioSheet() {
+  const copy = sheetCopy.conceptstudio
+  const cs = project('ConceptStudio')
+  return (
+    <Sheet id="conceptstudio" sheet="5 / 6" title="ConceptStudio" lede={copy.lede}>
+      <div className="sheet-body sheet-body-drawing">
+        <figure
+          className="drawing flow dimensioned"
+          aria-label="ConceptStudio's nine screens: images, concepts, mapping, captioning, review and publish on the Mac; GPU pods, training and monitor on a rented GPU computer"
+        >
+          <DimOn side="top" figure={copy.topDim} />
+          <DimOn side="left" figure={copy.sideDim} />
+          <div className="flow-field">
+            <ol className="flow-links" aria-hidden="true">
+              {flow.slice(1).map((step, i) => {
+                const from = flow[i]
+                return (
+                  <li
+                    key={step.label}
+                    style={
+                      {
+                        '--x0': Math.min(from.x, step.x),
+                        '--x1': Math.max(from.x, step.x),
+                        '--y0': Math.min(from.y, step.y),
+                        '--y1': Math.max(from.y, step.y),
+                        '--turn': step.x > from.x ? '45deg' : step.x < from.x ? '-135deg' : '135deg',
+                      } as React.CSSProperties
+                    }
+                    data-axis={from.y === step.y ? 'row' : 'column'}
+                  />
+                )
+              })}
+            </ol>
+            <p className="flow-plane" aria-hidden="true">
+              <span className="flow-plane-above">Mac</span>
+              <span className="flow-plane-below">Rented GPU</span>
+            </p>
+            <ol className="flow-steps">
+              {flow.map((step, i) => (
+                <li key={step.label} style={{ '--x': step.x, '--y': step.y } as React.CSSProperties}>
+                  <span className="loop-node">{String(i + 1).padStart(2, '0')}</span>
+                  <span className="loop-label">{step.label}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+          <DimOn side="bottom" figure={copy.bottomDim} />
+          <figcaption className="loop-caption">{copy.caption}</figcaption>
+        </figure>
+        <div className="sheet-side">
+          <Notes items={copy.notes} />
+          <p className="sheet-links">
+            <a href={cs.githubUrl}>Code on GitHub</a>
+            <a href={`/projects/${cs.slug}/`}>Detail: ConceptStudio</a>
+          </p>
+        </div>
+      </div>
+    </Sheet>
+  )
+}
+
 const related = ['residual-modeling', 'memory-palace', 'grimoire', 'autopod', 'sokrates-idr']
 
 export function ExperienceSheet() {
   return (
-    <Sheet id="experience" sheet="5 / 5" title="Experience" lede={sheetCopy.experience.lede}>
+    <Sheet id="experience" sheet="6 / 6" title="Experience" lede={sheetCopy.experience.lede}>
       <div className="sheet-body sheet-body-tables">
         <table className="parts parts-list">
           <caption>Parts list</caption>

@@ -34,7 +34,8 @@ export const drawingIndex: IndexSheet[] = [
     href: '#the-weave',
   },
   { sheet: '04', title: 'Homegrown Hero Films', keyDimension: '60 fps', href: '#homegrown-hero-films' },
-  { sheet: '05', title: 'Experience', keyDimension: '6 organisations', href: '#experience' },
+  { sheet: '05', title: 'ConceptStudio', keyDimension: '10,004 steps for US$3.99', href: '#conceptstudio' },
+  { sheet: '06', title: 'Experience', keyDimension: '6 organisations', href: '#experience' },
 ]
 
 export interface Project {
@@ -164,6 +165,45 @@ export const featuredProjects: Project[] = [
     urlLabel: 'homegrownherofilms.com',
     githubUrl: 'https://github.com/RationallyPrime/ComfyUI-H3Forge',
     githubLabel: 'model extensions',
+  },
+  {
+    slug: 'ConceptStudio',
+    name: 'ConceptStudio',
+    subtitle: 'Teach an Image or Video Model Something New, from a Mac',
+    techStack:
+      'Swift, SwiftUI, Python, pydantic-ai, FastAPI, Docker, RunPod, Hugging Face, AI Toolkit, LTX trainer, vLLM, Agent Skills',
+    description:
+      'A native Mac app that turns a folder of photos or clips into a trained LoRA: it writes the captions, rents the GPU within your budget, trains and brings the adapter back.',
+    longDescription:
+      'ConceptStudio teaches a diffusion model one new concept (a person, a pet, a product, a style or a movement) from your own photos or clips, on a Mac with no graphics card and no machine-learning background. The Mac does the preparation: choosing and cropping the examples, captioning them with a language model of your choice, and reviewing every caption beside its media. Training runs on a GPU computer the app rents and controls within the budget you set, and the trained adapter arrives on Hugging Face. On 14 October 2026 the full workflow ran end to end in a signed, notarised build. I designed the product and its contracts and directed the AI engineers (Claude and Codex) who wrote it.',
+    highlights: [
+      'Captions shaped for the model being trained: caption instructions are an Agent Skills directory with one profile per caption style, so modern image models get dense prose, SDXL gets short lines that fit CLIP, and MiniMax H3 gets its structured shot fields. Every caption names the concept with its trigger and describes everything outside it.',
+      'Any captioning model, chosen at run time: sign in with a ChatGPT plan, connect OpenRouter, use a provider key, or point at a self-hosted vLLM server. An optional second model reviews each caption and can send it back once with notes.',
+      'Stronger defaults where they are measured: regularisation images drawn from the base model itself and captioned by the project’s own captioner keep the model’s sense of the class, and REPA aligns its features with a frozen DINOv2 encoder. Both are on by default for Qwen-Image-2.1.',
+      'Matched comparisons: the base and the trained model render the same prompts with the same seeds, so the effect of the adapter is the only difference on screen.',
+      'Built-in help explains every term in a 177-entry glossary, each entry in two readings: plain language for a beginner and the technical detail behind it.',
+    ],
+    metrics: [
+      {
+        stat: '10,004',
+        text: 'training steps in 1 h 19 min for US$3.99 of rented GPU, against a US$10 run budget: the first run driven entirely through the app (14 October 2026)',
+      },
+      {
+        stat: '0.05 → 0.34',
+        text: 'face match to held-out photos for a likeness adapter on Qwen-Image-2.1, from the base model to 2,500 training steps on ConceptStudio’s GPU images (15 October 2026)',
+      },
+      { stat: '26', text: 'trainable models in one shared table: 6 with tested recipes and 20 more through AI Toolkit' },
+      { stat: '9', text: 'screens, from a folder of photos to a trained adapter' },
+    ],
+    architectureNotes: [
+      'One model table, two readers: every supported model is one reviewed row of a JSON table. The Mac app builds its pickers, defaults and limits from it, and the GPU images carry the same file to write the trainer’s configuration, so adding a model is a row and an image rebuild rather than new code paths.',
+      'My own GPU images: each rented computer runs a container image I build, with a small control agent. The app talks to it over one authenticated HTTP API, and services start from a fixed catalogue, never from shell strings.',
+      'Money is guarded in the design: spending is capped per run and per computer, an idle computer is stopped (but not while the app is still uploading to it), and a computer holding a result that has not been saved cannot be removed.',
+      'Pinned upstream: trainer commits and Hugging Face weight revisions are pinned in code, so a training run never follows a moving main branch, and moving a pin is a reviewed change.',
+      'Native and private: SwiftUI, sandboxed, credentials in the Keychain, projects in ordinary folders the user chooses, and no subprocesses. The Python package behind it is the reference implementation and command-line tool for the same job file and caption skill.',
+    ],
+    githubUrl: 'https://github.com/RationallyPrime/concept-captioner',
+    githubLabel: 'source',
   },
   {
     slug: 'residual-modeling',
@@ -495,6 +535,19 @@ export const sheetCopy = {
       'Generation runs on rented GPUs with my own open-source extensions to the MiniMax H3 video model.',
       'Every film is reviewed frame by frame by an AI quality gate before a human sees it.',
       'Interpolation never blends two shots: cuts are detected and every shot is finished on its own.',
+    ],
+  },
+  conceptstudio: {
+    lede: 'A native Mac app that teaches an image or video model a new concept from your own photos or clips: it writes the training captions with a language model of your choice, rents a GPU within the budget you set, trains, and brings the adapter back. Development preview, October 2026.',
+    topDim: { value: '9', label: 'screens, from a folder of photos to a trained adapter' },
+    sideDim: { value: '26', label: 'trainable models in one shared table' },
+    bottomDim: { value: 'US$3.99', label: 'of rented GPU for a 10,004-step run through the app (14 October 2026)' },
+    caption: 'The Mac does the preparation; a GPU computer the app rents and controls does the training, inside the budget and idle limit set before renting.',
+    notes: [
+      'One model table, two readers: the app builds its pickers and limits from it, and my GPU images write the trainer’s configuration from the same file.',
+      'Captions are shaped for the model being trained by a swappable Agent Skill, written by any language model chosen at run time.',
+      'Rented computers run my own container images; the app starts services from a fixed catalogue over one authenticated API, never from shell strings.',
+      'A likeness adapter on Qwen-Image-2.1 went from 0.05 to 0.34 face match to held-out photos in 2,500 steps (15 October 2026).',
     ],
   },
   experience: {

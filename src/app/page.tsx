@@ -1,6 +1,13 @@
 import { CoverSheet } from '@/components/sheet/cover-sheet'
 import { DrawIn } from '@/components/sheet/draw-in'
-import { ContactBlock, ExperienceSheet, FilmsSheet, KratesSheet, WeaveSheet } from '@/components/sheet/sheets'
+import {
+  ConceptStudioSheet,
+  ContactBlock,
+  ExperienceSheet,
+  FilmsSheet,
+  KratesSheet,
+  WeaveSheet,
+} from '@/components/sheet/sheets'
 
 export default function Page() {
   return (
@@ -9,6 +16,7 @@ export default function Page() {
       <KratesSheet />
       <WeaveSheet />
       <FilmsSheet />
+      <ConceptStudioSheet />
       <ExperienceSheet />
       <ContactBlock />
       <DrawIn />
