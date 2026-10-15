@@ -350,11 +350,11 @@ body.drawing-set {
 }
 
 .cover-index tbody tr {
-  height: calc(var(--u) * 76);
+  height: calc(var(--u) * 60);
 }
 
 .cover-index tbody tr:first-child {
-  height: calc(var(--u) * 68);
+  height: calc(var(--u) * 56);
 }
 
 .cover-index tbody td:first-child {
@@ -463,6 +463,35 @@ body.drawing-set {
 .cover-loc-03 { left: 86.4%; top: 10.7%; }
 .cover-loc-04 { left: 6.4%; top: 84.1%; }
 .cover-loc-05 { left: 88.6%; top: 84.6%; }
+.cover-loc-06 { left: 6.6%; top: 14.5%; }
+
+/* The leader for 06 is drawn here; the plate carries the other four. */
+.cover-leader {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.cover-leader line {
+  stroke: var(--drafting);
+  stroke-width: 1.5px;
+  vector-effect: non-scaling-stroke;
+}
+
+.cover-leader-dot {
+  position: absolute;
+  left: 15.5%;
+  top: 37.5%;
+  width: max(5px, calc(var(--u) * 8));
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--drafting);
+  translate: -50% -50%;
+  pointer-events: none;
+}
 
 .cover-titleblock {
   position: absolute;
@@ -774,6 +803,125 @@ body.drawing-set {
   max-width: calc(var(--s) * 640);
   font-size: max(15px, calc(var(--s) * 22));
   line-height: 1.35;
+}
+
+/* ConceptStudio's flow: nine screens on a 6 x 6 grid of half-cells, with a
+   cutting plane between the Mac's work and the rented GPU's. */
+
+.flow {
+  max-width: calc(var(--s) * 860);
+  width: 100%;
+}
+
+.flow.dimensioned {
+  padding-bottom: calc(var(--s) * 84);
+}
+
+.flow.dimensioned .dim-on-left {
+  bottom: calc(var(--s) * 84);
+}
+
+.flow-field {
+  position: relative;
+  aspect-ratio: 5 / 4;
+}
+
+.flow-steps,
+.flow-links {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.flow-steps li {
+  position: absolute;
+  left: calc(var(--x) / 6 * 100%);
+  top: calc(var(--y) / 6 * 100%);
+  translate: -50% -50%;
+}
+
+.flow-links li {
+  position: absolute;
+  left: calc(var(--x0) / 6 * 100%);
+  top: calc(var(--y0) / 6 * 100%);
+  width: calc((var(--x1) - var(--x0)) / 6 * 100%);
+  height: calc((var(--y1) - var(--y0)) / 6 * 100%);
+}
+
+.flow-links li[data-axis='row'] {
+  border-top: 2px dashed var(--drafting);
+  translate: 0 -1px;
+}
+
+.flow-links li[data-axis='column'] {
+  border-left: 2px dashed var(--drafting);
+  translate: -1px 0;
+}
+
+.flow-links li::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: max(9px, calc(var(--s) * 14));
+  height: max(9px, calc(var(--s) * 14));
+  translate: -50% -50%;
+  rotate: var(--turn);
+  border-top: 2px solid var(--drafting);
+  border-right: 2px solid var(--drafting);
+}
+
+/* Below the label of the step above, and clear of the cutting plane. */
+.flow-links li[data-axis='column']::after {
+  left: 0;
+  top: 62%;
+}
+
+.flow-steps .loop-label {
+  white-space: nowrap;
+}
+
+.flow .loop-caption {
+  margin-top: calc(var(--s) * 64);
+}
+
+.flow-plane {
+  position: absolute;
+  left: -3%;
+  right: -3%;
+  top: calc(4 / 6 * 100%);
+  height: 1.5px;
+  margin: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--graphite) 0 calc(var(--s) * 30),
+    transparent 0 calc(var(--s) * 38),
+    var(--graphite) 0 calc(var(--s) * 44),
+    transparent 0 calc(var(--s) * 52)
+  );
+}
+
+.flow-plane span {
+  position: absolute;
+  right: 0;
+  padding: 0 6px;
+  background: var(--film);
+  color: var(--graphite-soft);
+  font-size: max(11px, calc(var(--s) * 16));
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.flow-plane-above {
+  bottom: calc(var(--s) * 10);
+}
+
+.flow-plane-below {
+  top: calc(var(--s) * 10);
 }
 
 /* Film elevation */
@@ -1174,8 +1322,23 @@ body.drawing-set {
     gap: 28px;
   }
 
-  .loop {
+  .loop,
+  .flow {
     max-width: none;
+  }
+
+  /* Taller on phones, so the plane's labels clear the second row's. */
+  .flow-field {
+    aspect-ratio: 4 / 5;
+    margin: 12px 8px 24px;
+  }
+
+  .flow-plane-above {
+    bottom: 6px;
+  }
+
+  .flow-plane-below {
+    top: 6px;
   }
 
   .loop-field {
@@ -1546,7 +1709,8 @@ body.drawing-set {
 /* Phones: dimensions run horizontally above and below each drawing. */
 @media (max-width: 860px) {
   .dimensioned,
-  .loop.dimensioned {
+  .loop.dimensioned,
+  .flow.dimensioned {
     display: grid;
     gap: 14px;
     padding: 8px 0 0;
@@ -1556,7 +1720,8 @@ body.drawing-set {
   .dim-on-top,
   .dim-on-left,
   .dim-on-bottom,
-  .loop.dimensioned .dim-on-left {
+  .loop.dimensioned .dim-on-left,
+  .flow.dimensioned .dim-on-left {
     position: static;
     width: auto;
     display: grid;

@@ -5,7 +5,8 @@ const locators = [
   { sheet: '02', href: '#krates', label: 'Sheet 02, Krates' },
   { sheet: '03', href: '#the-weave', label: 'Sheet 03, The Weave' },
   { sheet: '04', href: '#homegrown-hero-films', label: 'Sheet 04, Homegrown Hero Films' },
-  { sheet: '05', href: '#experience', label: 'Sheet 05, Experience' },
+  { sheet: '05', href: '#conceptstudio', label: 'Sheet 05, ConceptStudio' },
+  { sheet: '06', href: '#experience', label: 'Sheet 06, Experience' },
 ]
 
 export function CoverSheet() {
@@ -78,6 +79,11 @@ export function CoverSheet() {
             width={1344}
             height={1008}
           />
+          {/* The plate carries leaders for 02 to 05; the page draws the leader for 06. */}
+          <svg className="cover-leader" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+            <line x1="8.7" y1="19.8" x2="15.5" y2="37.5" />
+          </svg>
+          <span className="cover-leader-dot" aria-hidden="true" />
           {locators.map((loc) => (
             <a key={loc.sheet} href={loc.href} className={`cover-loc cover-loc-${loc.sheet}`} aria-label={loc.label}>
               {loc.sheet}
@@ -86,7 +92,7 @@ export function CoverSheet() {
         </figure>
 
         <p className="cover-titleblock">
-          Cover sheet · Sheet 1 of 5 · Rev 2026-10 · Drawn H.F.G.
+          Cover sheet · Sheet 1 of 6 · Rev 2026-10 · Drawn H.F.G.
         </p>
       </div>
     </div>

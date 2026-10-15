@@ -30,7 +30,7 @@ Hákon is an AI engineer and founder whose systems put correctness in the archit
 
 - The site is static, with no server runtime: no forms backend and no analytics beyond what CloudFront provides.
 - Pages: home (summary, projects, experience, skills, education, contact) and one detail page per project (overview, highlights, metrics, architecture notes, links).
-- Projects in order: Sókrates, Krepis, the Weave, Homegrown Hero Films, Memory Palace, Grimoire, Sókrates IDR, Autopod.
+- Projects in order: Sókrates, Krepis, the Weave, Homegrown Hero Films, ConceptStudio, Residual Modeling, Memory Palace, Grimoire, Sókrates IDR, Autopod. ConceptStudio's detail page lives at `/projects/ConceptStudio/` (the slug keeps the product's capitalisation).
 - The site is in English. An Icelandic version is undecided.
 
 ## Brand Commitments

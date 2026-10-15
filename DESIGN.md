@@ -129,7 +129,7 @@ components:
 
 **Creative North Star: "The Drawing Set"**
 
-The site is the drawing set for the systems Hákon builds. The home page is a bound set of sheets: a cover sheet carrying the name, a drawing index and a key plan, then one sheet per body of work (Krates, the Weave, Homegrown Hero Films, Experience), and a contact strip. Each project detail page is a further detail sheet in the same set. Every sheet is a ruled frame on drafting film with zone markers on its border and a title block in its lower-right corner, and every measured claim is drawn as a dimension line with its value.
+The site is the drawing set for the systems Hákon builds. The home page is a bound set of sheets: a cover sheet carrying the name, a drawing index and a key plan, then one sheet per body of work (Krates, the Weave, Homegrown Hero Films, ConceptStudio, Experience), and a contact strip. Each project detail page is a further detail sheet in the same set. Every sheet is a ruled frame on drafting film with zone markers on its border and a title block in its lower-right corner, and every measured claim is drawn as a dimension line with its value.
 
 The world is cool and exact. Cool white drafting film lies over a faint blue grid. Graphite technical-pen linework does almost all of the work, drafting blue is the ink of measurement and reference, and a single red revision cloud marks the row the reader is looking at. Type is heavy condensed technical capitals for names, sheet titles and figures, over a narrow grotesque for everything a draughtsman would letter by hand: notes, labels, tables, field names. Density is high but ordered, like a real sheet: tables, notes and drawings sit in a strict two-column arrangement that collapses to one column on a phone.
 
@@ -196,7 +196,7 @@ Tables and the index set numerals tabular (`font-variant-numeric: tabular-nums`)
 
 **The comp-pixel unit.** All desktop geometry is written in comp pixels. `--u` is one pixel of the approved 1586 × 992 cover, scaled to fit the viewport: `min(100vw / 1586, 100svh / 992)`. The cover is an absolutely positioned 1586 × 992 sheet in that unit, so the first viewport reproduces the comp at any desktop size. Sheets below the cover reuse the unit as `--s` (currently identical to `--u`) and are 1570 comp px wide, centred. Text sizes that would become unreadable on small screens carry a pixel floor through `max(<px>, calc(var(--s) * n))`.
 
-**The cover sheet.** Nav strip across the top (56 comp px), the name below it, the thesis line, a double rule at 468 comp px, then the lower half: the drawing index on the left (984 comp px) and the key plan with four locator bubbles on the right, with the one-line cover title block under the key plan.
+**The cover sheet.** Nav strip across the top (56 comp px), the name below it, the thesis line, a double rule at 468 comp px, then the lower half: the drawing index on the left (984 comp px) and the key plan with five locator bubbles on the right (the plate carries the leaders for 02–05; the page draws the leader for 06 in the same blue with its end dot), with the one-line cover title block under the key plan.
 
 **Sheets.** Each sheet is a framed section 56 comp px below the last, padded 44 / 52 / 132 comp px (the deep foot holds the title block). The head is a two-column grid: boxed title, then lede, over a soft-graphite rule. Bodies use one of three arrangements: drawing + side column (drawing fluid, side column 560 comp px, 64 comp px gap), an elevation of three frames with a two-up row of dimensions and notes, or stacked parts lists with a two-up row. Detail sheets use the drawing + side column arrangement with notes in the main column and figures, materials and links on the side.
 
@@ -240,7 +240,7 @@ An isometric line plate of the appliance with blue leader lines; the page draws 
 ### Sheet frame
 - **Frame:** double rule (see Elevation), film at 55%, zone markers outside the border.
 - **Head:** headline-boxed title, lede beside it, soft-graphite rule under both.
-- **Title block:** lower-right, a ruled five-cell strip — Project / Sheet / Title / Scale (N.T.S.) / Rev — with soft-graphite field names over uppercase 700 values. Home sheets number "2 / 5" to "5 / 5"; detail sheets letter "Detail A" onward. The cover carries a one-line strip instead: "Cover sheet · Sheet 1 of 5 · Rev 2026-10 · Drawn H.F.G.".
+- **Title block:** lower-right, a ruled five-cell strip — Project / Sheet / Title / Scale (N.T.S.) / Rev — with soft-graphite field names over uppercase 700 values. Home sheets number "2 / 6" to "6 / 6"; detail sheets letter "Detail A" onward. The cover carries a one-line strip instead: "Cover sheet · Sheet 1 of 6 · Rev 2026-10 · Drawn H.F.G.".
 
 ### Dimension (signature)
 Every measured figure is a dimension: a 2px Drafting Blue line with 18px extension ticks at both ends, and the value in the figure face followed by its label in body text. In a list (`.dims`) the line sits above its text; laid on a drawing it runs along the top, bottom or left edge of the plate (vertical on the left, text rotated) and spans the dimension it describes. On phones every laid dimension becomes a horizontal line above or below the drawing.
@@ -248,6 +248,9 @@ Every measured figure is a dimension: a 2px Drafting Blue line with 18px extensi
 
 ### General notes
 A drafting notes block: a Label heading ("General notes", "Construction notes") over a decimal-numbered list in body text.
+
+### Flow (ConceptStudio)
+The app's nine screens as a process chart on a 6 × 6 half-cell grid: three rows of three graphite node circles with Barlow labels, run as a serpentine (left to right, back, left to right). Connectors are 2px dashed Drafting Blue with chevron arrowheads, as on the Weave loop. A graphite chain line (long dash, short dash) is the cutting plane between the second and third rows, labelled MAC above and RENTED GPU below in field-label type at its right end. Dimensions sit top, left and bottom as on the other drawings. On phones the field becomes 4:5 so the plane's labels clear the second row.
 
 ### Film elevation
 Real stills framed as 9:16 elevations with a 1.5px graphite border, Drafting Blue width and height dimensions (1080 / 1920) drawn above and beside each frame, and an uppercase figure-face caption.
