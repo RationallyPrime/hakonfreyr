@@ -1508,6 +1508,16 @@ body.drawing-set {
   gap: calc(var(--s) * 40);
 }
 
+.valuation-explorer {
+  margin-top: calc(var(--s) * 40);
+}
+
+.valuation-explorer-frame {
+  display: block;
+  width: 100%;
+  border: 0;
+}
+
 .materials-list {
   display: flex;
   flex-wrap: wrap;

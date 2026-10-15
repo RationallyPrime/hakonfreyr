@@ -1,5 +1,6 @@
 import { DrawIn } from '@/components/sheet/draw-in'
 import { ContactBlock, Dim, Notes, Sheet } from '@/components/sheet/sheets'
+import { ValuationExplorer } from '@/components/sheet/valuation-explorer'
 import { featuredProjects, personalInfo } from '@/data/portfolio'
 import { notFound } from 'next/navigation'
 
@@ -80,6 +81,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
               </ul>
             </div>
             <p className="sheet-links">
+              {slug === 'residual-modeling' && <a href="#live-valuation">Try the live valuation model</a>}
               {project.url && <a href={project.url}>{project.urlLabel ?? project.url}</a>}
               {project.githubUrl && project.githubLabel !== 'Private' && (
                 <a href={project.githubUrl}>Code on GitHub</a>
@@ -89,6 +91,16 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           </div>
         </div>
       </Sheet>
+      {slug === 'residual-modeling' && (
+        <Sheet
+          id="live-valuation"
+          sheet={`Detail ${letter}.1`}
+          title="Live valuation"
+          lede="Explore the current model for apartments in Iceland’s capital area. Look up a property, inspect how Structure, Location and Time contribute to its estimated price, and compare scenarios. Agency and photo features are not active in this model."
+        >
+          <ValuationExplorer />
+        </Sheet>
+      )}
       <ContactBlock />
       <DrawIn />
     </>
