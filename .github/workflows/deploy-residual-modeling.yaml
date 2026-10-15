@@ -1,0 +1,54 @@
+name: Deploy residual modeling
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Draft release containing residual-modeling-site.zip
+        required: true
+        type: string
+      archive_sha256:
+        description: SHA256 of the reviewed static frontend archive
+        required: true
+        type: string
+
+permissions:
+  # GitHub restricts draft release visibility to callers with push access.
+  contents: write
+
+concurrency:
+  group: residual-modeling-publication
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download the reviewed frontend build
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+          ARCHIVE_SHA256: ${{ inputs.archive_sha256 }}
+        run: |
+          gh release download "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --pattern residual-modeling-site.zip
+          printf '%s  residual-modeling-site.zip\n' "$ARCHIVE_SHA256" | sha256sum --check -
+          mkdir site
+          unzip -q residual-modeling-site.zip -d site
+          test -f site/index.html
+          test -d site/_next
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: Publish only the residual-modeling prefix
+        env:
+          S3_BUCKET: ${{ secrets.S3_BUCKET }}
+        run: |
+          aws s3 sync site/ "s3://$S3_BUCKET/residual-modeling/" --delete --cache-control no-cache
+          aws s3 cp site/index.html "s3://$S3_BUCKET/residual-modeling" --content-type text/html --cache-control no-cache
+      - name: Invalidate only the published application
+        env:
+          DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+        run: |
+          aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION_ID" --paths '/residual-modeling' '/residual-modeling/*'
