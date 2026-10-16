@@ -352,6 +352,20 @@ export const featuredProjects: Project[] = [
     githubUrl: 'https://github.com/RationallyPrime/autopod',
     githubLabel: 'Private',
   },
+  {
+    slug: 'hive',
+    name: 'Hive',
+    subtitle: 'Coordination for Agents. Attention for a Human',
+    techStack: 'TypeScript, Bun, SQLite, Slack Block Kit, Claude, Codex, Tailscale',
+    description: 'The coordination fabric behind the Weave: agents ask for a decision in Slack, and the answer returns to the work that needs it, with its context attached.',
+    longDescription: 'A team of AI agents can work in parallel. A human cannot give every thread attention at once. Hive connects the Weave’s agents across machines and turns the moments that need my judgement into a focused queue. Hive Attention brings the brief into Slack, records my response and returns it to the originating work context.',
+    highlights: [
+      'A live Slack demonstration connected a structured intervention card, a human decision and an agent continuation with the saved work context.',
+      'An agent can finish its turn while a question waits. The human takes the next intervention when ready; the queue does not switch projects on its own.',
+      'The same broker coordinates ordinary agent handoffs and attention returns, with durable delivery records and visible outcomes.',
+    ],
+    githubUrl: 'https://github.com/Skrates/hive',
+  },
 ]
 
 export interface ExperienceEntry {
@@ -553,4 +567,52 @@ export const sheetCopy = {
   experience: {
     lede: 'Mathematics and statistics first, then production systems in genomics, finance, travel and enterprise software, each a new domain learned within months.',
   },
+}
+
+
+export const hiveStory = {
+  home: {
+    title: 'Hive',
+    description: 'The coordination fabric behind the Weave. Hive Attention brings a decision into Slack and returns the answer to the agent’s work context.',
+  },
+  loop: [
+    { title: 'Agent work', detail: 'A concrete decision needs a human.' },
+    { title: 'Human attention', detail: 'Read the brief. Record the response.' },
+    { title: 'Agent work', detail: 'Restore context. Apply the decision.' },
+  ],
+  intervention: {
+    title: 'Keep the attention queue current',
+    action: 'Approve one focused repair and an independent review.',
+    context: 'A deleted Slack card must stay retired. The Home queue must still reflect later changes to that intervention.',
+    unblocks: 'The engineer can repair the queue refresh; a different agent can verify the result.',
+    response: 'Proceed with the focused repair and independent review.',
+  },
+  steps: [
+    { title: 'Queue the ask', status: 'Queued', surface: 'Intervention brief', explanation: 'The agent binds the intervention to its work and saves a complete brief: the action requested, the context, the artifacts and what the answer will unblock. Its current turn can end.' },
+    { title: 'Display in Slack', status: 'Waiting for attention', surface: 'Slack direct-message card', explanation: 'Hive renders the brief as native Slack blocks. One direct-message card announces the intervention; later changes update that card. The app’s Home tab gathers the queue. Displaying an item does not make it active.' },
+    { title: 'Record a response', status: 'Active intervention', surface: 'Slack decision modal', explanation: 'Take next selects the oldest eligible intervention and opens its decision modal. The human can resolve, defer or cancel it. Answer this one is an explicit, recorded override. Only one intervention can be active.' },
+    { title: 'Return to context', status: 'Response recorded · return in flight', surface: 'Agent continuation', explanation: 'The response and the intent to return commit together. Ordinary Hive delivery carries the verbatim answer and the saved packet to the originating work context. Recording a response and delivering it are separate events.' },
+    { title: 'Report the outcome', status: 'Return processed · outcome reported', surface: 'Delivery outcome', explanation: 'The receiving agent restores the right repository, work and artifacts, acts within its existing permissions, and reports an outcome. Processed means an outcome was reported. The work still needs its own verification, review and publication.' },
+  ],
+  coordination: [
+    { title: 'Conversation', text: 'Slack is where the team discusses work. Hive routes an explicit handoff to the named agent, across machines and model providers.' },
+    { title: 'Work and decisions', text: 'Linear holds the durable work ledger. Git holds the code. Hive carries the deliveries between the people, agents and tools that move that work forward.' },
+    { title: 'Human judgement', text: 'A product choice, a visual selection or a blocker that no peer can resolve becomes a concrete intervention. Routine progress and peer review stay with the team.' },
+  ],
+  returns: [
+    { title: 'Return to the captured session', label: 'Same session, where supported', text: 'Hive captures the session and its working directory, then checks both again before delivery. If that route becomes unavailable, it fails visibly and needs an explicit reroute.' },
+    { title: 'Return with the work packet', label: 'Fresh turn, restored work context', text: 'A new turn receives the saved project, work, artifacts and human response. The agent must restore that context before acting. This is the mode used in the recovered live demonstration.' },
+  ],
+  evidence: [
+    { title: 'Demonstrated on the live fleet', text: 'The command-line pilot on 15 October 2026 proved the queue and return path. A real engineering intervention then followed the Slack selection and response path early on 16 October: the saved response returned to Ariadne, the delivery reported an outcome, and the card’s stored state reflected the processed return.' },
+    { title: 'Implemented in the public repository', text: 'The durable queue, source binding and return paths are implemented. The Slack extension renders direct-message cards, the app Home queue and decision modals using native Slack components. The Home queue, defer and cancel controls are implemented; the recovered live record does not establish a separate demonstration of each control.' },
+    { title: 'The wider design', text: 'The Attention specification defines explicit switching, durable commands, revision checks and visible return failures. Priority scheduling, calendar projection, focus inference and autonomous approvals remain outside this release. Returning into every desktop agent chat is not demonstrated; the specification leaves the Mac desktop delivery path for later work.' },
+  ],
+  sources: [
+    { title: 'Hive repository', description: 'The coordination service and its operating model.', href: 'https://github.com/Skrates/hive' },
+    { title: 'Hive Attention specification', description: 'The queue, return contract and Slack amendment.', href: 'https://github.com/Skrates/hive/blob/main/docs/adr/0004-human-attention-queue.md' },
+    { title: 'Slack implementation', description: 'Native blocks, Home queue and decision modal.', href: 'https://github.com/Skrates/hive/blob/main/src/attention/slack.ts' },
+    { title: 'Context return implementation', description: 'Response delivery and the meaning of processed.', href: 'https://github.com/Skrates/hive/blob/main/src/attention/returns.ts' },
+    { title: 'Slack extension history', description: 'The implemented change and its review history.', href: 'https://github.com/Skrates/hive/pull/93' },
+  ],
 }

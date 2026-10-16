@@ -1786,3 +1786,177 @@ body.drawing-set {
     max-width: none;
   }
 }
+
+/* Hive extends the drawing set with a process drawing and an interface elevation. */
+.hive-home-entry p {
+  margin: 0 0 16px;
+  font-size: var(--body);
+  line-height: 1.4;
+}
+
+.hive-project h3 {
+  margin: 0 0 16px;
+  font-weight: 700;
+  font-size: max(24px, calc(var(--s) * 34));
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.hive-project p,
+.hive-project dd {
+  font-size: var(--body);
+  line-height: 1.45;
+}
+
+.hive-project p { max-width: 72ch; }
+.hive-project p + h3 { margin-top: 40px; }
+.hive-project .sheet-head { align-items: start; }
+.hive-project .sheet-title { white-space: normal; text-wrap: balance; }
+.hive-project .sheet-head .sheet-lede { font-size: max(20px, calc(var(--s) * 30)); line-height: 1.35; }
+.hive-project .hive-caption { color: var(--graphite-soft); font-size: max(16px, calc(var(--s) * 21)); }
+
+.hive-loop { margin: 0; }
+.hive-loop ol {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 28px 0;
+  border-block: 1px solid var(--graphite-soft);
+}
+.hive-loop li {
+  position: relative;
+  display: grid;
+  gap: 10px;
+  padding: 0 32px;
+}
+.hive-loop li:first-child { padding-left: 0; }
+.hive-loop li + li { border-left: 1px solid var(--drafting); }
+.hive-loop li + li::before {
+  content: '';
+  position: absolute;
+  top: 18px;
+  left: -6px;
+  width: 10px;
+  height: 10px;
+  border-top: 1.5px solid var(--drafting);
+  border-right: 1.5px solid var(--drafting);
+  transform: rotate(45deg);
+  background: var(--film);
+}
+.hive-loop strong {
+  font-family: var(--display);
+  font-stretch: 85%;
+  font-weight: 400;
+  font-size: clamp(32px, 3.8vw, 58px);
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+.hive-loop span { font-size: var(--body); line-height: 1.3; }
+.hive-loop figcaption { margin-top: 14px; color: var(--drafting); font-size: var(--body); }
+.hive-intro { display: grid; grid-template-columns: 1.45fr 1fr; gap: 64px; margin-top: 48px; }
+.hive-intro p { margin: 0 0 16px; }
+.hive-intro-side { display: grid; align-content: start; gap: 32px; }
+
+.hive-attention { margin-top: 28px; }
+.hive-step-list {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin: 24px 0 32px;
+  padding: 0;
+  list-style: none;
+  border: 1px solid var(--graphite-soft);
+}
+.hive-step-list li + li { border-left: 1px solid var(--graphite-soft); }
+.hive-step-list button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 76px;
+  padding: 12px 14px;
+  border: 0;
+  background: var(--film);
+  color: var(--graphite);
+  font: 600 max(17px, calc(var(--s) * 23)) / 1.15 var(--label);
+  text-align: left;
+  cursor: pointer;
+}
+.hive-step-list button:hover { background: var(--tint); }
+.hive-step-list button[aria-pressed='true'] { box-shadow: inset 0 -3px var(--drafting); background: var(--tint); }
+.hive-step-number { font-family: var(--display); font-size: 32px; font-weight: 400; color: var(--drafting); }
+.hive-walkthrough { display: grid; grid-template-columns: 1.45fr 1fr; gap: 48px; align-items: start; }
+.hive-elevation { border: var(--rule) solid var(--graphite); background: var(--film); }
+.hive-surface-title { padding: 15px 22px; border-bottom: 1px solid var(--graphite-soft); background: var(--tint); }
+.hive-surface-title strong { display: block; font-size: max(21px, calc(var(--s) * 28)); }
+.hive-surface-title span { display: block; margin-top: 4px; color: var(--graphite-soft); font-size: max(16px, calc(var(--s) * 21)); }
+.hive-brief { padding: 26px; min-height: 440px; }
+.hive-brief dl { margin: 0; }
+.hive-brief dl > div + div { margin-top: 18px; }
+.hive-brief dt { font-size: max(16px, calc(var(--s) * 21)); text-transform: uppercase; font-weight: 700; letter-spacing: .04em; }
+.hive-brief dd { margin: 4px 0 0; }
+.hive-control-sample { margin-top: 28px; }
+.hive-control-sample > span { display: inline-block; padding: 7px 14px; margin: 0 8px 8px 0; border: 1px solid var(--graphite-soft); font-size: var(--body); font-weight: 600; }
+.hive-control-sample > span:first-child { border-color: var(--drafting); color: var(--drafting); }
+.hive-control-sample p { margin: 4px 0 0; color: var(--graphite-soft); font-size: 16px; }
+.hive-brief .hive-decision-sample,
+.hive-return-sample { margin-top: 28px; padding-top: 22px; border-top: 1px solid var(--graphite-soft); }
+.hive-return-sample p { margin: 0 0 18px; }
+.hive-step-explanation { padding-top: 8px; }
+.hive-step-explanation p { margin: 0 0 20px; }
+.hive-advance {
+  min-height: 44px;
+  padding: 8px 0;
+  border: 0;
+  color: var(--drafting);
+  background: transparent;
+  font: 600 var(--body) / 1.3 var(--label);
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+.hive-advance:hover { text-decoration-thickness: 2px; }
+.hive-construction { display: grid; grid-template-columns: 1.3fr 1fr; gap: 64px; }
+.hive-return-paths,
+.hive-coordination { margin: 0 0 40px; }
+.hive-return-paths > div,
+.hive-coordination > div { padding: 20px 0; border-bottom: 1px solid var(--graphite-soft); }
+.hive-return-paths > div:first-child,
+.hive-coordination > div:first-child { padding-top: 0; }
+.hive-project dt { font-weight: 700; font-size: var(--body); }
+.hive-return-paths dd,
+.hive-coordination dd { margin: 8px 0 0; }
+.hive-evidence { margin: 0 0 28px; }
+.hive-evidence > div { display: grid; grid-template-columns: 1fr 2fr; gap: 48px; padding: 26px 0; border-bottom: 1px solid var(--graphite-soft); }
+.hive-evidence > div:first-child { padding-top: 0; }
+.hive-evidence dt { font-family: var(--display); font-stretch: 85%; font-weight: 400; font-size: max(30px, calc(var(--s) * 44)); line-height: 1.15; }
+.hive-evidence dd { margin: 0; max-width: 72ch; }
+.hive-source-section { display: grid; grid-template-columns: 1.3fr 1fr; gap: 64px; margin-top: 48px; }
+.hive-source-section .sheet-links { margin-top: 28px; }
+.hive-sources { padding: 0; margin: 0; list-style: none; }
+.hive-sources li { margin-top: 18px; }
+.hive-sources a { font-size: var(--body); color: var(--drafting); text-decoration: underline; text-underline-offset: 3px; font-weight: 600; }
+.hive-sources span { display: block; font-size: var(--body); }
+.hive-static-steps li { margin-bottom: 18px; font-size: var(--body); }
+
+@media (max-width: 860px) {
+  .hive-project .sheet-head { grid-template-columns: 1fr; }
+  .hive-project .sheet-title { font-size: 52px; }
+  .hive-loop ol { grid-template-columns: 1fr; padding: 0; }
+  .hive-loop li, .hive-loop li:first-child { padding: 20px 0; }
+  .hive-loop li + li { border-left: 0; border-top: 1px solid var(--drafting); }
+  .hive-loop li + li::before { left: 24px; top: -6px; transform: rotate(135deg); }
+  .hive-loop strong { font-size: 36px; }
+  .hive-intro, .hive-walkthrough, .hive-construction, .hive-source-section { grid-template-columns: 1fr; gap: 28px; }
+  .hive-intro, .hive-source-section { margin-top: 32px; }
+  .hive-step-list { grid-template-columns: 1fr; margin-bottom: 24px; }
+  .hive-step-list li + li { border-left: 0; border-top: 1px solid var(--graphite-soft); }
+  .hive-step-list button { min-height: 48px; }
+  .hive-step-list button[aria-pressed='true'] { box-shadow: inset 3px 0 var(--drafting); }
+  .hive-step-number { font-size: 28px; width: 20px; }
+  .hive-brief { padding: 20px 16px; min-height: 0; }
+  .hive-surface-title { padding: 14px 16px; }
+  .hive-evidence > div { grid-template-columns: 1fr; gap: 14px; }
+  .hive-project .hive-caption { font-size: 16px; }
+}
