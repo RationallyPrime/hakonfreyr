@@ -1,4 +1,4 @@
-import { education, experience, featuredProjects, personalInfo, sheetCopy, skills } from '@/data/portfolio'
+import { education, experience, featuredProjects, hiveStory, personalInfo, sheetCopy, skills } from '@/data/portfolio'
 
 export function TitleBlock({ sheet, title }: { sheet: string; title: string }) {
   return (
@@ -178,6 +178,11 @@ export function WeaveSheet() {
           <p className="sheet-links">
             <a href="/projects/the-weave/">Detail: The Weave</a>
           </p>
+          <div className="notes hive-home-entry">
+            <h3>{hiveStory.home.title}</h3>
+            <p>{hiveStory.home.description}</p>
+            <p className="sheet-links"><a href="/projects/hive/">Detail: Hive</a></p>
+          </div>
         </div>
       </div>
     </Sheet>
@@ -300,7 +305,7 @@ export function ConceptStudioSheet() {
   )
 }
 
-const related = ['residual-modeling', 'memory-palace', 'grimoire', 'autopod', 'sokrates-idr']
+const related = ['hive', 'residual-modeling', 'memory-palace', 'grimoire', 'autopod', 'sokrates-idr']
 
 export function ExperienceSheet() {
   return (

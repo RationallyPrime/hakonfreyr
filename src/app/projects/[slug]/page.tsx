@@ -1,6 +1,7 @@
 import { DrawIn } from '@/components/sheet/draw-in'
 import { ContactBlock, Dim, Notes, Sheet } from '@/components/sheet/sheets'
 import { ValuationExplorer } from '@/components/sheet/valuation-explorer'
+import { HiveProject } from '@/components/sheet/hive-project'
 import { featuredProjects, personalInfo } from '@/data/portfolio'
 import { notFound } from 'next/navigation'
 
@@ -49,7 +50,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         </nav>
       </header>
 
-      <Sheet
+      {slug === 'hive' ? <HiveProject letter={letter} /> : <Sheet
         id={project.slug}
         sheet={`Detail ${letter}`}
         title={project.name}
@@ -90,7 +91,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             </p>
           </div>
         </div>
-      </Sheet>
+      </Sheet>}
       {slug === 'residual-modeling' && (
         <Sheet
           id="live-valuation"
