@@ -9,7 +9,7 @@ web
 ## Users
 
 - **Hiring managers and technical reviewers (about 70% of the weighting).** In October 2026 these are the reviewers for the AI-engineering roles Hákon is applying to (Alfreð, atNorth, 50skills). They click through from the CV or an application with about 90 seconds to spare. Their job is to decide whether this person can ship production AI systems and work inside a team, and then to find depth when they want it.
-- **Krates prospects and funders (about 30%).** These are Rannís and EIC Accelerator reviewers and Icelandic enterprise buyers. Their job is to judge whether the founder behind Krates can build what Krates promises.
+- **Krates reviewers (about 30%).** These are Rannís and EIC Accelerator reviewers and others who look at Krates. Krates continues as a side company after its build sprint, so the site shows them a finished, independently verified engineering build rather than a product in launch.
 
 ## Product Purpose
 
@@ -17,13 +17,13 @@ hakonfreyr.com is Hákon Freyr Gunnarsson's personal portfolio. It is the CV's c
 
 ## Positioning
 
-Hákon is an AI engineer and founder whose systems put correctness in the architecture, not in the prompt. Two facts are his alone. He designed and leads an engineering team of AI agents (the Weave) that builds his company's software, and that team is measured as a team would be (velocity, review coverage, reverts, unit cost). And his background spans mathematics, statistics (deCODE genetics), finance, travel and enterprise software, each a domain he learned within months.
+Hákon is an AI engineer whose systems put correctness in the architecture, not in the prompt. From March to October 2026 he ran a build sprint at his own company, Krates, that took agent-first back-office software to an independently verified working core; Krates continues as a side company, and he is returning to full-time engineering. Two facts are his alone. He designed and leads an engineering team of AI agents (the Weave) that builds his company's software, and that team is measured as a team would be (velocity, review coverage, reverts, unit cost). And his background spans mathematics, statistics (deCODE genetics), finance, travel and enterprise software, each a domain he learned within months.
 
 ## Operating Context
 
 - Readers arrive from links in the CV PDF, job applications and email signatures. Some are on a phone, others on a desktop between other candidates.
 - The site is a static Next.js 16 export (`output: 'export'`, `trailingSlash: true`) on S3 and CloudFront. Every push to `main` of RationallyPrime/hakonfreyr deploys through a GitHub Action.
-- `src/data/portfolio.ts` is the single source of content, and it must stay in sync with the CV (`~/Downloads/Hakon-Freyr-Gunnarsson-CV-2026-10.html`).
+- `src/data/portfolio.ts` is the single source of content, and it must stay in sync with the CV. The CV's source is `cv/Hakon-Freyr-Gunnarsson-CV.html` in this repository; render it to `public/Hakon-Freyr-Gunnarsson-CV.pdf` with headless Chrome (`--headless --no-pdf-header-footer --print-to-pdf`). The CV keeps the claims and headline numbers and links each one to its project page; the site carries the mechanism.
 - Routes: `/` (home) and `/projects/<slug>/` (one page per project).
 
 ## Capabilities and Constraints
@@ -35,7 +35,7 @@ Hákon is an AI engineer and founder whose systems put correctness in the archit
 
 ## Brand Commitments
 
-- The name is Hákon Freyr Gunnarsson (display name Hákon Freyr), and the title is "AI Engineer · Founder of Krates ehf." Contact is hakon@sokrates.is, +354 660-9570 and github.com/RationallyPrime.
+- The name is Hákon Freyr Gunnarsson (display name Hákon Freyr), the title is "AI Engineer", and the cover sheet's status is "Open to full-time roles". On the CV the Krates role is "Founder & Lead Engineer · Krates ehf." Contact is hakon@sokrates.is, +354 660-9570 and github.com/RationallyPrime.
 - Voice rules:
   - Write plainly, positive first, and confidently, with no hedging.
   - State measured numbers with their time window ("106 merged changes a week, July to mid-September 2026"). Never use vague bounds such as "under 300" or "four in five". Hákon's rule is "vague is not measured".
@@ -62,12 +62,13 @@ Hákon has approved using anything likely to be of value.
 - **Homegrown Hero Films:** published films on YouTube (@homegrown-hero-films) and homegrownherofilms.com. Stills and clips live in `~/Projects/Diffusion-Fun/deliveries/`.
 - **Public repositories:** github.com/Skrates/found-family (Memory Palace) and github.com/RationallyPrime/ComfyUI-H3Forge.
 - **Architecture material** for Sókrates and Krepis lives in the sokrates and krepis repositories. Customer names never appear.
-- **Absences that must not be fabricated:** no testimonials, no customer logos, no pilot results, no revenue figures, and no Krates user counts. Krates pilots are unpaid and ongoing.
+- **Absences that must not be fabricated:** no testimonials, no customer logos, no pilot results, no revenue figures, and no Krates user counts.
+- **Launch language stays out:** no "now in pilots", and no framing of Krates as a product sold to Icelandic enterprises. Krates is a completed build sprint (March to October 2026) that continues as a side company.
 
 ## Product Principles
 
 1. **Show the work, not the adjectives.** Every claim on the site links to an artefact, a number with its window, or an architecture note.
-2. **Krates is the centrepiece, framed as engineering proof.** A hiring manager should see it as evidence of what he can build for them, not as a reason he is unavailable.
+2. **Krates is a finished build, framed as engineering proof.** A hiring manager should see it as evidence of what he can build for them, not as a reason he is unavailable. The Krates sheet carries its revision note (Rev 2026-10: build phase complete).
 3. **Depth on demand.** Credibility in the first viewport; architecture detail one click away for a technical reader.
 4. **The site obeys its own thesis.** It is correct by construction: one content source, static, fast and accessible.
 

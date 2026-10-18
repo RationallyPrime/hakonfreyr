@@ -93,6 +93,29 @@ export function Notes({ title = 'General notes', items }: { title?: string; item
   )
 }
 
+/** A drawing's revision schedule: what changed at this revision. */
+function Revisions({ rev, description }: { rev: string; description: string }) {
+  return (
+    <table className="parts revisions">
+      <caption>Revisions</caption>
+      <thead>
+        <tr>
+          <th scope="col">Rev</th>
+          <th scope="col">Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row" className="nowrap">
+            {rev}
+          </th>
+          <td>{description}</td>
+        </tr>
+      </tbody>
+    </table>
+  )
+}
+
 const project = (slug: string) => featuredProjects.find((p) => p.slug === slug)!
 
 export function KratesSheet() {
@@ -134,6 +157,7 @@ export function KratesSheet() {
           </dl>
         </div>
         <div className="sheet-side">
+          <Revisions rev={copy.revision.rev} description={copy.revision.description} />
           <Notes items={copy.notes} />
           <p className="sheet-links">
             <a href="/projects/sokrates/">Detail: Sókrates</a>

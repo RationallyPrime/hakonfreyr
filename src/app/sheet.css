@@ -276,6 +276,37 @@ body.drawing-set {
   white-space: nowrap;
 }
 
+/* The sheet's status stamp, ruled like a title-block cell, at the end of the thesis line. */
+.cover-status {
+  position: absolute;
+  right: calc(var(--u) * 13);
+  top: calc(var(--u) * 386);
+  height: calc(var(--u) * 54);
+  margin: 0;
+  display: flex;
+  align-items: stretch;
+  box-sizing: border-box;
+  border: var(--rule) solid var(--graphite);
+  background: var(--film);
+  font-size: calc(var(--u) * 22.5);
+  font-weight: 700;
+  letter-spacing: 0.015em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.cover-status span {
+  display: flex;
+  align-items: center;
+  padding-inline: calc(var(--u) * 18);
+}
+
+.cover-status-field {
+  border-right: 1px solid var(--graphite-soft);
+  color: var(--graphite-soft);
+  font-weight: 600;
+}
+
 .cover::after {
   /* The sheet rule under the title band. */
   content: '';
@@ -1047,6 +1078,11 @@ body.drawing-set {
   white-space: nowrap;
 }
 
+/* A sheet's revision schedule: the Rev column holds its date code. */
+.revisions thead th:first-child {
+  width: 1%;
+}
+
 /* Title block on every sheet */
 
 .titleblock {
@@ -1173,6 +1209,7 @@ body.drawing-set {
   .cover-nav,
   .cover-name,
   .cover-thesis,
+  .cover-status,
   .cover-index,
   .cover-keyplan,
   .cover-titleblock {
@@ -1211,6 +1248,15 @@ body.drawing-set {
     font-size: 21px;
     line-height: 1.3;
     white-space: normal;
+  }
+
+  .cover-status {
+    align-self: flex-start;
+    font-size: 15px;
+  }
+
+  .cover-status span {
+    padding: 7px 10px;
   }
 
   .cover-index caption {
