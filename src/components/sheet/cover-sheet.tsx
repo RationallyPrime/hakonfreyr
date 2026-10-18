@@ -36,8 +36,10 @@ export function CoverSheet() {
         </header>
 
         <h1 className="cover-name">{personalInfo.name}</h1>
-        <p className="cover-thesis">
-          AI engineer and founder of Krates. I build AI systems that can be trusted with real work.
+        <p className="cover-thesis">AI engineer. I build AI systems that can be trusted with real work.</p>
+        <p className="cover-status">
+          <span className="cover-status-field">Status</span>
+          <span>{personalInfo.status}</span>
         </p>
 
         <section className="cover-index" aria-labelledby="drawing-index">

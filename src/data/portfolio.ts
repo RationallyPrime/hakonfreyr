@@ -2,6 +2,7 @@ export const personalInfo = {
   name: 'Hákon Freyr Gunnarsson',
   displayName: 'Hákon Freyr',
   title: 'AI Engineer',
+  status: 'Open to full-time roles',
   company: 'Krates ehf.',
   location: 'Garðabær, Iceland',
   email: 'hakon@sokrates.is',
@@ -11,7 +12,7 @@ export const personalInfo = {
 }
 
 export const professionalSummary =
-  "I build production AI systems that can be trusted with real work. Trained as a mathematician and statistician, I have shipped production systems in genomics, finance, travel and enterprise software, each time learning a new domain within months. Since March 2026 I have been building Krates: an on-premises AI department for Icelandic enterprises and the agent-first back-office software it runs on, developed by an engineering team of AI agents that I designed and lead."
+  "AI engineer with a mathematics and statistics foundation (BSc mathematics, MSc AI and data science, two years as a statistician at deCODE genetics) and production systems shipped in genomics, finance, travel and enterprise software. From March to October 2026 I ran a build sprint at my own company, Krates, taking agent-first back-office software and the AI engineering team that develops it to an independently verified working core. That system now largely runs on its own, and I'm returning to full-time engineering to build AI systems that can be trusted with real work."
 
 export const designPrinciple =
   'One habit across every domain: put the guarantees in the architecture, so a system is correct by construction rather than by care.'
@@ -61,7 +62,7 @@ export const featuredProjects: Project[] = [
     subtitle: 'An On-Premises AI Department',
     techStack: 'Python, pydantic-ai, FastAPI, DBOS, Postgres, DuckDB/DuckLake, Logica, Logfire, MCP, NixOS, SvelteKit',
     description:
-      'An AI department in a box for Icelandic enterprises: named agents do back-office work under executable rules, and a human consents before anything leaves the box.',
+      'An on-premises AI department in one NixOS appliance: named agents do back-office work under executable rules, and a human consents before anything leaves the box.',
     longDescription:
       "Sókrates ships as a single NixOS appliance on the customer's premises. It ingests the company's existing systems, keeps a governed knowledge graph of the business, and lets named agents do back-office work over Slack, Teams, WhatsApp and email. It comes in two editions: a mini-PC that routes inference through a gateway, and a DGX Spark that runs every model locally for air-gapped customers. Correctness lives in the architecture rather than in the prompt: rules are executable logic, every external action is durable and consented, and every action an agent takes is traced.",
     highlights: [
@@ -379,16 +380,17 @@ export interface ExperienceEntry {
 
 export const experience: ExperienceEntry[] = [
   {
-    role: 'Founder',
+    role: 'Founder & Lead Engineer',
     company: 'Krates ehf.',
     period: 'Mar 2026 — Present',
-    keyResult: 'Sókrates, Krepis and the Weave, now in pilots',
+    keyResult: 'Build sprint to a verified core: 4,913 checks, zero differences',
     description:
-      'An AI-native back office for Icelandic enterprises, correct by construction: agents do the work, rules are executable logic, and a human consents before anything leaves the box. Now in pilots.',
+      'A seven-month build sprint taking agent-first back-office software from design to a verified core. Krates continues as a side company, with development carried mainly by the agent team.',
     highlights: [
-      'Sókrates: an on-premises AI department in a single NixOS appliance, with named agents working over Slack, Teams, WhatsApp and email',
-      'Krepis: seven back-office kernels (accounting, payroll, workforce management and more) designed for AI agents rather than for people',
-      'The Weave: the engineering organisation that builds both, staffed by five AI engineers that I direct',
+      'Krepis: seven event-sourced, idempotent kernels (accounting, payroll, workforce, payments, inventory and more) with a dry run on every action',
+      'Verified unsupervised: AI agents ran a fictional 12-employee company’s month through six kernels, and an independent checker found zero differences across 4,913 comparisons',
+      'Sókrates: an on-premises NixOS appliance for agent back-office work, with crash-safe execution and a signed consent token on every external action',
+      'The Weave: the five-agent AI engineering team I designed and led, at 106 merged changes a week',
     ],
   },
   {
@@ -515,7 +517,11 @@ export const education: Education[] = [
 // Copy for the home page's sheets. Figures are the measured ones on the CV.
 export const sheetCopy = {
   krates: {
-    lede: 'An AI-native back office for Icelandic enterprises, correct by construction: agents do the work, rules are executable logic, and a human consents before anything leaves the box. Founder, March 2026 to present; now in pilots.',
+    lede: 'A seven-month build sprint, March to October 2026, that took agent-first back-office software from design to an independently verified working core. It is correct by construction: agents do the work, rules are executable logic, and a human consents before anything leaves the box.',
+    revision: {
+      rev: '2026-10',
+      description: 'Build phase complete. Krates continues as a side company, with development carried mainly by the agent team.',
+    },
     widthDim: { value: '14', label: 'services in five credential-isolated containers' },
     heightDim: { value: '7', label: 'agent-first kernels' },
     sokrates: 'The on-premises AI department: one NixOS appliance that ingests a company’s systems and lets named agents do back-office work over Slack, Teams, WhatsApp and email.',
@@ -526,7 +532,7 @@ export const sheetCopy = {
       'An agent that dies mid-task never repeats an external action (DBOS, write-ahead attempt records).',
       'Every governed action carries a signed consent token and is its own trace span in a queryable audit store.',
       'Krepis kernels are event-sourced and append-only; every action is idempotent and has a dry run.',
-      'Two editions: a gateway-routed mini-PC, or fully local inference on a DGX Spark for air-gapped customers.',
+      'Two editions: a gateway-routed mini-PC, or fully local inference on a DGX Spark for air-gapped sites.',
     ],
   },
   weave: {

@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hákon Freyr Gunnarsson — CV</title>
+<style>
+  @page { size: A4; margin: 13mm 15mm 12mm 15mm; }
+  :root {
+    --ink: #1b1f24;
+    --muted: #5b6470;
+    --accent: #1d5c63;
+    --rule: #d5dbe0;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body {
+    margin: 0;
+    color: var(--ink);
+    background: #fff;
+    font-family: "Charter", "Iowan Old Style", Georgia, serif;
+    font-size: 9.4pt;
+    line-height: 1.33;
+  }
+  .sans { font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+
+  header { display: flex; justify-content: space-between; align-items: flex-end;
+           border-bottom: 1.6pt solid var(--accent); padding-bottom: 7pt; margin-bottom: 9pt; }
+  h1 { font-family: "Avenir Next", "Helvetica Neue", sans-serif; font-weight: 600;
+       font-size: 22pt; letter-spacing: -0.2pt; margin: 0; line-height: 1.05; }
+  .tagline { font-family: "Avenir Next", "Helvetica Neue", sans-serif; font-size: 10.5pt;
+             color: var(--accent); font-weight: 500; margin-top: 3pt; }
+  .contact { font-family: "Avenir Next", "Helvetica Neue", sans-serif; font-size: 8.4pt;
+             color: var(--muted); text-align: right; line-height: 1.5; }
+  .contact a { color: var(--muted); text-decoration: none; }
+
+  h2 { font-family: "Avenir Next", "Helvetica Neue", sans-serif; font-size: 8.6pt; font-weight: 600;
+       text-transform: uppercase; letter-spacing: 0.5pt; color: var(--accent);
+       margin: 11pt 0 5pt; padding-bottom: 2pt; border-bottom: 0.6pt solid var(--rule); }
+  section:first-of-type h2 { margin-top: 0; }
+  h2 { break-after: avoid; }
+
+  .summary { margin: 0; }
+
+  .job { margin-bottom: 7pt; }
+  .job-head { break-after: avoid; }
+  .job-head { display: flex; justify-content: space-between; align-items: baseline; }
+  .role { font-family: "Avenir Next", "Helvetica Neue", sans-serif; font-weight: 600; font-size: 10pt; }
+  .org { font-family: "Avenir Next", "Helvetica Neue", sans-serif; font-weight: 400; color: var(--muted); font-size: 9.4pt; }
+  .dates { font-family: "Avenir Next", "Helvetica Neue", sans-serif; font-size: 8.4pt; color: var(--muted);
+           white-space: nowrap; padding-left: 10pt; }
+  .lede { margin: 2pt 0 3pt; }
+
+  ul { margin: 2pt 0 0; padding-left: 12pt; }
+  li { margin: 0 0 2pt; padding-left: 1pt; }
+  li::marker { color: var(--accent); }
+
+  li { break-inside: avoid; }
+  .lead { font-family: "Avenir Next", "Helvetica Neue", sans-serif; font-weight: 600; font-size: 9.2pt; }
+  .more { font-family: "Avenir Next", "Helvetica Neue", sans-serif; font-size: 7.9pt; color: var(--accent);
+          text-decoration: none; white-space: nowrap; }
+  strong { font-weight: 700; }
+
+  .projects { display: grid; grid-template-columns: 1fr 1fr; gap: 5pt 14pt; }
+  .project { break-inside: avoid; }
+  .project.wide { grid-column: 1 / -1; }
+  .project .name { font-family: "Avenir Next", "Helvetica Neue", sans-serif; font-weight: 600; font-size: 9.3pt; }
+  .project .meta { font-family: "Avenir Next", "Helvetica Neue", sans-serif; font-size: 7.9pt; color: var(--muted); }
+  .project p { margin: 1pt 0 0; }
+
+  .skills { display: grid; grid-template-columns: 27mm 1fr; gap: 2.5pt 8pt; }
+  .skills dt { font-family: "Avenir Next", "Helvetica Neue", sans-serif; font-weight: 600; font-size: 8.6pt; color: var(--ink); }
+  .skills dd { margin: 0; }
+
+  .edu { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 3pt; }
+  .edu .focus { color: var(--muted); }
+
+  .num { font-variant-numeric: lining-nums tabular-nums; }
+  a { color: inherit; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Hákon Freyr Gunnarsson</h1>
+    <div class="tagline">AI engineer</div>
+  </div>
+  <div class="contact">
+    Garðabær, Iceland<br>
+    +354 660-9570 · <a href="mailto:hakon@sokrates.is">hakon@sokrates.is</a><br>
+    <a href="https://hakonfreyr.com">hakonfreyr.com</a> · <a href="https://github.com/RationallyPrime">github.com/RationallyPrime</a>
+  </div>
+</header>
+
+<section>
+  <h2>Profile</h2>
+  <p class="summary">
+    AI engineer with a mathematics and statistics foundation (BSc mathematics, MSc AI and data science, two years as a
+    statistician at deCODE genetics) and production systems shipped in genomics, finance, travel and enterprise software.
+    From March to October 2026 I ran a build sprint at my own company, Krates, taking agent-first back-office software
+    and the AI engineering team that develops it to an independently verified working core. That system now largely
+    runs on its own, and I'm returning to full-time engineering to build AI systems that can be trusted with real work.
+    I trust measurements over demos.
+  </p>
+</section>
+
+<section>
+  <h2>Experience</h2>
+
+  <div class="job">
+    <div class="job-head">
+      <div><span class="role">Founder &amp; Lead Engineer</span> <span class="org">· Krates ehf.</span></div>
+      <div class="dates">Mar 2026 – present</div>
+    </div>
+    <p class="lede">A seven-month build sprint taking agent-first back-office software from design to a verified core.
+      Krates continues as a side company, with development carried mainly by the agent team.</p>
+    <ul class="num">
+      <li><span class="lead">Krepis:</span> seven event-sourced, idempotent kernels (accounting, payroll, workforce, payments,
+        inventory and more) with a dry run on every action. Business rules are Logica laws compiled to DuckDB SQL that
+        return violation sets. <a class="more" href="https://hakonfreyr.com/projects/krepis/">hakonfreyr.com/projects/krepis</a></li>
+      <li><span class="lead">Verified unsupervised:</span> AI agents ran a fictional 12-employee company's month through six
+        kernels. An independent checker found zero differences across 4,913 comparisons, and payroll was exact to the króna.</li>
+      <li><span class="lead">Sókrates:</span> an on-premises NixOS appliance for agent back-office work. Execution is crash-safe
+        (DBOS), and every external action carries a signed consent token and an audit trail.
+        <a class="more" href="https://hakonfreyr.com/projects/sokrates/">hakonfreyr.com/projects/sokrates</a></li>
+      <li><span class="lead">The Weave:</span> designed and led a five-agent AI engineering team: 106 merged changes a week
+        (July to mid-September 2026), 94% independently reviewed, 0.14% reverted, 250 ISK ($2) per change on average.
+        <a class="more" href="https://hakonfreyr.com/projects/the-weave/">hakonfreyr.com/projects/the-weave</a></li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-head">
+      <div><span class="role">Backend Engineer</span> <span class="org">· Wise lausnir (Microsoft Dynamics partner)</span></div>
+      <div class="dates">Oct 2024 – Mar 2026</div>
+    </div>
+    <ul>
+      <li>Designed and deployed Grimoire, an internal knowledge platform on Azure (Container Apps, Bicep IaC, Neo4j AuraDB)
+        that Claude uses as an MCP server, rolled out to every technical employee through Claude Team admin. A full OAuth 2.0 stack (RFC 7591, 8414, 9728) lets colleagues sign in with their company email and nothing to install.
+        <a class="more" href="https://hakonfreyr.com/projects/grimoire/">hakonfreyr.com/projects/grimoire</a></li>
+      <li>Cut municipal onboarding from legacy on-premises systems into Fabric/OneLake from about three weeks to half a workday.
+        Built the self-healing ETL framework for the Business Central solution using PySpark, a medallion architecture and models generated from OpenAPI schemas.</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-head">
+      <div><span class="role">Data Scientist &amp; Business Intelligence Lead</span> <span class="org">· Travelshift</span></div>
+      <div class="dates">Aug 2022 – Sep 2024</div>
+    </div>
+    <p class="lede">Rebuilt the data infrastructure and the financial automation of Iceland's largest travel marketplace.</p>
+    <ul class="num">
+      <li><span class="lead">Forecasting:</span> a cash-flow forecasting model with a <strong>0.42% margin of error</strong>
+        on 2.4B ISK of volume over a six-month horizon.</li>
+      <li><span class="lead">Reconciliation:</span> automated payment reconciliation across Adyen, Teya and internal systems.
+        Unreconcilable transactions fell from <strong>1 in 35 to under 1 in 1,000</strong>.</li>
+      <li><span class="lead">Data platform:</span> a Kimball star schema in Snowflake, ETL across internal and external
+        systems, and Power BI reporting.</li>
+      <li><span class="lead">Operations:</span> reduced the booking department from seven contractors to two while improving
+        its performance. Started with no finance background and within months was producing annual reports that passed audit.</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-head">
+      <div><span class="role">Data Analyst &amp; Product Owner</span> <span class="org">· Alfreð Atvinnuleit</span></div>
+      <div class="dates">May 2021 – Aug 2022</div>
+    </div>
+    <p class="lede num">Product owner for the Giggó gig-economy platform (system architecture, data model). Built the BI environment
+      with real-time dashboards. Wrote the grant proposal that secured 30M ISK from Rannís.</p>
+  </div>
+
+  <div class="job">
+    <div class="job-head">
+      <div><span class="role">Instructor, Department of Computer Science</span> <span class="org">· Reykjavík University</span></div>
+      <div class="dates">2018 – 2021</div>
+    </div>
+    <p class="lede">Programming, Data Structures, Calculus &amp; Statistics, and Discrete Mathematics II, taught alongside the MSc.</p>
+  </div>
+
+  <div class="job">
+    <div class="job-head">
+      <div><span class="role">Statistician &amp; Bioinformatician</span> <span class="org">· deCODE genetics (Amgen)</span></div>
+      <div class="dates">2015 – 2017</div>
+    </div>
+    <p class="lede">Designed a haplotype compression algorithm with more than 10× the compression of gzip, which let whole chromosomes
+      be loaded into memory instead of in segments. Large-scale genetic data analysis.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Selected projects</h2>
+  <div class="projects">
+    <div class="project">
+      <div class="name">Homegrown Hero Films · <a href="https://homegrownherofilms.com">homegrownherofilms.com</a></div>
+      <div class="meta">AI video · GPU pipelines · YouTube &amp; TikTok · 2026</div>
+      <p>Short films where a child is the hero. Behind them sits a video pipeline on rented GPUs, with my own <a href="https://github.com/RationallyPrime/ComfyUI-H3Forge">open-source extensions</a> to the MiniMax H3 video model, AI agents that review every film before release, upscaling and
+        frame-interpolation finishing, and scheduled publishing.</p>
+    </div>
+    <div class="project">
+      <div class="name">Residual Modeling</div>
+      <div class="meta">Python · LightGBM · Postgres/PostGIS · FastAPI · Next.js · 2026</div>
+      <p>Icelandic home valuation that splits each sale price into multiplicative layers (structure, location, local market,
+        liquidity and timing), fitted as residuals in log-price space, so every estimate shows where its value comes from.
+        On 12,709 time-ordered out-of-fold sales the median error is 6.6%, and 5.9% for apartments.
+        <a class="more" href="https://hakonfreyr.com/projects/residual-modeling/">hakonfreyr.com/projects/residual-modeling</a></p>
+    </div>
+    <div class="project wide">
+      <div class="name">Autopod</div>
+      <div class="meta">Go · Python/FastAPI · SQLite · Cloudflare R2 · speech-to-text · LLMs</div>
+      <p>Drop in a video and it is published to YouTube, Spotify and Apple Podcasts with subtitles in three languages, a
+        summary and clips of the most quotable moments. My first Go project, shipped to multi-tenant production.
+        <a class="more" href="https://hakonfreyr.com/projects/autopod/">hakonfreyr.com/projects/autopod</a></p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Skills</h2>
+  <dl class="skills">
+    <dt>AI &amp; agents</dt>
+    <dd>pydantic-ai, MCP, Anthropic/OpenAI/Gemini APIs, agent evaluation, RAG and embeddings, durable agent workflows,
+      tracing with Logfire/OpenTelemetry, local inference, diffusion models</dd>
+    <dt>Languages</dt>
+    <dd>Python (expert), SQL, TypeScript, Go, R, Logica</dd>
+    <dt>Data</dt>
+    <dd>Postgres, DuckDB/DuckLake, Snowflake, Neo4j, Fabric/PySpark, Kimball modelling, event sourcing, Power BI</dd>
+    <dt>Infrastructure</dt>
+    <dd>NixOS, Docker, Azure (Container Apps, Bicep), Cloudflare, Tailscale, GitHub Actions</dd>
+    <dt>Engineering</dt>
+    <dd>Domain-driven design, architecture enforced in CI (import-linter, tach), typed errors, uv/ruff/ty</dd>
+    <dt>Spoken</dt>
+    <dd>Icelandic (native), English (fluent)</dd>
+  </dl>
+</section>
+
+<section>
+  <h2>Education</h2>
+  <div class="edu">
+    <div><span class="role">MSc Computer Science</span> <span class="org">· Reykjavík University</span>
+      <span class="focus">— AI and data science; thesis on recommendation systems</span></div>
+    <div class="dates">2017 – 2021</div>
+  </div>
+  <div class="edu">
+    <div><span class="role">BSc Mathematics</span> <span class="org">· University of Iceland</span>
+      <span class="focus">— computational mathematics and computer science</span></div>
+    <div class="dates">2011 – 2016</div>
+  </div>
+</section>
+
+</body>
+</html>
