@@ -62,8 +62,8 @@ Hákon has approved using anything likely to be of value.
 - **Homegrown Hero Films:** published films on YouTube (@homegrown-hero-films) and homegrownherofilms.com. Stills and clips live in `~/Projects/Diffusion-Fun/deliveries/`.
 - **Public repositories:** github.com/Skrates/found-family (Memory Palace) and github.com/RationallyPrime/ComfyUI-H3Forge.
 - **Architecture material** for Sókrates and Krepis lives in the sokrates and krepis repositories. Customer names never appear.
-- **Absences that must not be fabricated:** no testimonials, no customer logos, no pilot results, no revenue figures, and no Krates user counts.
-- **Launch language stays out:** no "now in pilots", and no framing of Krates as a product sold to Icelandic enterprises. Krates is a completed build sprint (March to October 2026) that continues as a side company.
+- **Absences that must not be fabricated:** no testimonials, no customer logos, no revenue figures, and no Krates user counts.
+- **Launch language stays out:** no framing of Krates as a product sold to Icelandic enterprises. Krates is a completed build sprint (March to October 2026) that continues as a side company.
 
 ## Product Principles
 
