@@ -1,95 +1,72 @@
-# How to
+# Hákon Freyr — portfolio
 
+Source for [hakonfreyr.com](https://hakonfreyr.com), Hákon Freyr Gunnarsson's personal portfolio and companion to his CV. The site presents projects, engineering evidence, experience, skills, education and contact details.
 
-## Setup a domain in AWS
-1. Buy a domain and create an AWS account
-2. TODO: host the domain in route53
+## Stack
 
-## Create an S3 bucket to host your html
-Go to AWS and into S3
+- Next.js 16, React 19 and TypeScript.
+- Tailwind CSS 4.
+- Static export to `out/`, hosted on Amazon S3 behind CloudFront.
+- pnpm 10 and Node.js 22, matching the deployment workflow.
 
-Create an S3 bucket with the following settings:
-1. Set "Block all public access" to "Off"
-2. Under "properties", enable "Static website hosting"
-3. Then under "Index document", in the static website settings, write "index.html"
+## Local development
 
-## Cloudfront
-Go to AWS and into Cloudfront
+Install Node.js 22 and pnpm 10, then run:
 
-Create a distribution
-1. Under "Origin domain", select your s3 bucket
-2. Choose "Use website endpoint"
-3. You can select "Do not enable security protections"
-
-Once the distribution has been created, go to settings and edit it
-1. Under "Alternate domain name (CNAME) - optional" set your domain that you bought
-2. Under "Default root object - optional" write "index.html"
-
-Take note of the Distribution Id!
-
-
-## Create the permissions to change the bucket for github actions
-Go to AWS and into IAM
-
-Got to users and create a user
-
-Create a policy for the user when asked and copy this one
-
-```
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:ListBucket"
-            ],
-            "Resource": [
-                "arn:aws:s3:::arn:aws:s3:::<name-of-your-bucket>"
-            ]
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:PutObject",
-                "s3:GetObject",
-                "s3:DeleteObject"
-            ],
-            "Resource": [
-                "arn:aws:s3:::<name-of-your-bucket>/*"
-            ]
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "cloudfront:CreateInvalidation"
-            ],
-            "Resource": "*"
-        }
-    ]
-}
+```sh
+git clone https://github.com/RationallyPrime/hakonfreyr.git
+cd hakonfreyr
+pnpm install --frozen-lockfile
+pnpm dev
 ```
 
-Then, once the user is created, go to the user and create an access key:
-1. In "Access key best practices & alternatives" select "Application running outside AWS"
-2. In "Set description tag" write "github-action"
-3. In "Retrieve access keys" copy both the access key and the secret to a file for the time being
+Open the local URL printed by Next.js.
 
-## Add access for github to your s3 bucket
-Go to your github repo -> settings -> secrets and variables -> actions
+## Production build
 
-Now take the
-- s3 bucket name
-- aws region you created your bucket
-- distribution id
-- access key
-- access secret
+```sh
+pnpm build
+```
 
-and create a secret for each one named:
-- S3_BUCKET
-- AWS_REGION
-- CLOUDFRONT_DISTRIBUTION_ID
-- AWS_ACCESS_KEY_ID
-- AWS_SECRET_ACCESS_KEY
-respectively.
+The build produces the static site in `out/`. There is no production Next.js server: `next.config.ts` enables `output: 'export'`, trailing slashes and unoptimised images. Deploy the exported files to static hosting.
 
+## Content and layout
+
+| Path | Purpose |
+| --- | --- |
+| `src/data/portfolio.ts` | Shared portfolio content; keep claims and metrics aligned with the CV. |
+| `src/app/page.tsx` | Homepage. |
+| `src/app/projects/[slug]/page.tsx` | Project detail pages at `/projects/<slug>/`. |
+| `src/app/layout.tsx` | Shared application layout. |
+| `src/app/globals.css` and `src/app/sheet.css` | Site styles. |
+| `public/` | Static assets, including the published CV PDF. |
+| `cv/Hakon-Freyr-Gunnarsson-CV.html` | CV source. |
+| [PRODUCT.md](PRODUCT.md) | Audience, positioning, content requirements and evidence. |
+| [DESIGN.md](DESIGN.md) | Design guidance. |
+
+The CV PDF is generated separately from its HTML source using headless Chrome with `--no-pdf-header-footer` and `--print-to-pdf`, and saved as `public/Hakon-Freyr-Gunnarsson-CV.pdf`. The site build does not regenerate it.
+
+## Deployment
+
+[The main deployment workflow](.github/workflows/upload-to-s3.yaml) runs on every push to `main`. It:
+
+1. Installs Node.js 22 and pnpm 10.
+2. Installs dependencies from the lockfile and builds the static export.
+3. Syncs `out/` to the configured S3 bucket.
+4. Invalidates the CloudFront cache.
+
+The workflow requires these repository Actions secrets:
+
+- `AWS_ACCESS_KEY_ID`
+- `AWS_SECRET_ACCESS_KEY`
+- `AWS_REGION`
+- `S3_BUCKET`
+- `CLOUDFRONT_DISTRIBUTION_ID`
+
+The S3 bucket and CloudFront distribution must already exist. The deployment identity needs permission to list the bucket, upload and delete objects, and create CloudFront invalidations.
+
+### Residual Modeling explorer
+
+The main deployment preserves `residual-modeling` and `projects/residual-modeling/explorer`, including their contents, rather than deleting or replacing those separately managed assets.
+
+[The explorer deployment workflow](.github/workflows/deploy-residual-modeling.yaml) is manually dispatched with a release tag and the SHA-256 digest of a reviewed `residual-modeling-site.zip` release asset. It verifies the archive, publishes only `/projects/residual-modeling/explorer`, and invalidates that application's CloudFront paths.
