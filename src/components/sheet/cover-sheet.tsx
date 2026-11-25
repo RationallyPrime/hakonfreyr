@@ -1,10 +1,10 @@
-import { drawingIndex, personalInfo } from '@/data/portfolio'
+import { personalInfo, portfolioRevision, projectLetter, selectedProjects } from '@/data/portfolio'
 import { RevisionCloud } from './revision-cloud'
 
 const locators = [
   { sheet: '02', href: '#krates', label: 'Sheet 02, Krates' },
   { sheet: '03', href: '#the-weave', label: 'Sheet 03, The Weave' },
-  { sheet: '04', href: '#homegrown-hero-films', label: 'Sheet 04, Homegrown Hero Films' },
+  { sheet: '04', href: '#homegrown-hero-films', label: 'Sheet 04, H3Forge for Homegrown Hero Films' },
   { sheet: '05', href: '#conceptstudio', label: 'Sheet 05, ConceptStudio' },
   { sheet: '06', href: '#experience', label: 'Sheet 06, Experience' },
 ]
@@ -52,22 +52,20 @@ export function CoverSheet() {
             </colgroup>
             <thead>
               <tr>
-                <th scope="col">Sheet</th>
+                <th scope="col">Detail</th>
                 <th scope="col">Title</th>
                 <th scope="col">Key dimension</th>
               </tr>
             </thead>
             <tbody>
-              {drawingIndex.map((row) => (
-                <tr key={row.sheet} data-current={row.current ? '' : undefined}>
+              {selectedProjects.map((project, i) => (
+                <tr key={project.slug} data-current={i === 0 ? '' : undefined}>
                   <td>
-                    {row.sheet}
+                    {projectLetter(i)}
                     <RevisionCloud />
                   </td>
-                  <th scope="row">
-                    <a href={row.href}>{row.title}</a>
-                  </th>
-                  <td>{row.keyDimension}</td>
+                  <th scope="row"><a href={`/projects/${project.slug}/`}>{project.name}</a></th>
+                  <td>{project.keyDimension}</td>
                 </tr>
               ))}
             </tbody>
@@ -94,7 +92,7 @@ export function CoverSheet() {
         </figure>
 
         <p className="cover-titleblock">
-          Cover sheet · Sheet 1 of 6 · Rev 2026-10 · Drawn H.F.G.
+          Cover sheet · Sheet 1 of 6 · Rev {portfolioRevision} · Drawn H.F.G.
         </p>
       </div>
     </div>

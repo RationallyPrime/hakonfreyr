@@ -87,20 +87,19 @@
   </div>
   <div class="contact">
     Garðabær, Iceland<br>
-    +354 660-9570 · <a href="mailto:hakon@sokrates.is">hakon@sokrates.is</a><br>
+    +354 660-9570 · <a href="mailto:rationallyprime@gmail.com">rationallyprime@gmail.com</a><br>
     <a href="https://hakonfreyr.com">hakonfreyr.com</a> · <a href="https://github.com/RationallyPrime">github.com/RationallyPrime</a>
   </div>
 </header>
 
 <section>
   <h2>Profile</h2>
-  <p class="summary">
-    AI engineer with a mathematics and statistics foundation (BSc mathematics, MSc AI and data science, two years as a
-    statistician at deCODE genetics) and production systems shipped in genomics, finance, travel and enterprise software.
-    From March to October 2026 I ran a build sprint at my own company, Krates, taking agent-first back-office software
-    and the AI engineering team that develops it to an independently verified working core. That system now largely
-    runs on its own, and I'm returning to full-time engineering to build AI systems that can be trusted with real work.
-    I trust measurements over demos.
+  <p class="summary num">
+    AI engineer. I build production software at the pace of a full engineering team by running my own team of AI agents:
+    1,742 pull requests merged between March and October 2026, including accounting and payroll systems that ran a
+    simulated company's month with every figure correct. Mathematics and statistics foundation (BSc mathematics, MSc AI
+    and data science), with production systems in genomics, finance, travel and enterprise software. Looking for a
+    full-time role building AI systems that can be trusted with real work. I trust measurements over demos.
   </p>
 </section>
 
@@ -110,33 +109,38 @@
   <div class="job">
     <div class="job-head">
       <div><span class="role">Founder &amp; Lead Engineer</span> <span class="org">· Krates ehf.</span></div>
-      <div class="dates">Mar 2026 – present</div>
+      <div class="dates">Mar 2026 – Oct 2026</div>
     </div>
-    <p class="lede">A seven-month build sprint taking agent-first back-office software from design to a verified core.
-      Krates continues as a side company, with development carried mainly by the agent team.</p>
+    <p class="lede">Designed and built back-office software that AI agents operate, and the engineering organisation that
+      produces it. Build complete and verified; the company is on hold while I work full time.</p>
     <ul class="num">
-      <li><span class="lead">Krepis:</span> seven event-sourced, idempotent kernels (accounting, payroll, workforce, payments,
-        inventory and more) with a dry run on every action. Business rules are Logica laws compiled to DuckDB SQL that
-        return violation sets. <a class="more" href="https://hakonfreyr.com/projects/krepis/">hakonfreyr.com/projects/krepis</a></li>
-      <li><span class="lead">Verified unsupervised:</span> AI agents ran a fictional 12-employee company's month through six
-        kernels. An independent checker found zero differences across 4,913 comparisons, and payroll was exact to the króna.</li>
-      <li><span class="lead">Sókrates:</span> an on-premises NixOS appliance for agent back-office work. Execution is crash-safe
-        (DBOS), and every external action carries a signed consent token and an audit trail.
-        <a class="more" href="https://hakonfreyr.com/projects/sokrates/">hakonfreyr.com/projects/sokrates</a></li>
-      <li><span class="lead">The Weave:</span> designed and led a five-agent AI engineering team: 106 merged changes a week
-        (July to mid-September 2026), 94% independently reviewed, 0.14% reverted, 250 ISK ($2) per change on average.
+      <li>Built and ran the Weave, my engineering team of five AI agents: 106 merged changes a week (July to mid-September
+        2026) at 250 ISK ($2) each, with 0.14% ever reverted.
         <a class="more" href="https://hakonfreyr.com/projects/the-weave/">hakonfreyr.com/projects/the-weave</a></li>
+      <li>Designed its quality system: a second agent reviews every code change before merge and finds issues in 83% of
+        them, and what reviewers catch is harvested daily into 40 standing procedures holding 414 lessons.</li>
+      <li>Built seven back-office kernels (accounting, payroll, rostering, stock, payments and more). AI agents then ran a
+        simulated twelve-person guesthouse's full month through six of them with no human in the loop: 180 shifts,
+        payroll, stock, 14 payments and the books. The expected results were worked out blind beforehand, and all 4,913
+        figures matched (<a href="https://claude.ai/artifact/2s9dS11CxGsqxFBVUG3Akr">case file</a>).
+        <a class="more" href="https://hakonfreyr.com/projects/krepis/">hakonfreyr.com/projects/krepis</a></li>
+      <li>Built Sókrates, an on-premises appliance that connects a company's existing systems to those agents, with every
+        external action crash-safe, approved by a human and logged.
+        <a class="more" href="https://hakonfreyr.com/projects/sokrates/">hakonfreyr.com/projects/sokrates</a></li>
     </ul>
   </div>
 
   <div class="job">
     <div class="job-head">
-      <div><span class="role">Backend Engineer</span> <span class="org">· Wise lausnir (Microsoft Dynamics partner)</span></div>
+      <div><span class="role">Backend Engineer</span> <span class="org">· Wise lausnir</span></div>
       <div class="dates">Oct 2024 – Mar 2026</div>
     </div>
+    <p class="lede">Microsoft Dynamics partner.</p>
     <ul>
-      <li>Designed and deployed Grimoire, an internal knowledge platform on Azure (Container Apps, Bicep IaC, Neo4j AuraDB)
-        that Claude uses as an MCP server, rolled out to every technical employee through Claude Team admin. A full OAuth 2.0 stack (RFC 7591, 8414, 9728) lets colleagues sign in with their company email and nothing to install.
+      <li>Designed and deployed Grimoire, an internal knowledge platform on Azure that gives Claude the company's
+        Confluence, GitHub and code-analysis knowledge, rolled out to every technical employee through Claude Team admin.
+        Colleagues sign in with their company email and nothing to install (OAuth 2.0, RFC 7591/8414/9728; Container Apps,
+        Bicep, Neo4j AuraDB).
         <a class="more" href="https://hakonfreyr.com/projects/grimoire/">hakonfreyr.com/projects/grimoire</a></li>
       <li>Cut municipal onboarding from legacy on-premises systems into Fabric/OneLake from about three weeks to half a workday.
         Built the self-healing ETL framework for the Business Central solution using PySpark, a medallion architecture and models generated from OpenAPI schemas.</li>
@@ -150,14 +154,14 @@
     </div>
     <p class="lede">Rebuilt the data infrastructure and the financial automation of Iceland's largest travel marketplace.</p>
     <ul class="num">
-      <li><span class="lead">Forecasting:</span> a cash-flow forecasting model with a <strong>0.42% margin of error</strong>
+      <li>Built a cash-flow forecasting model with a <strong>0.42% margin of error</strong>
         on 2.4B ISK of volume over a six-month horizon.</li>
-      <li><span class="lead">Reconciliation:</span> automated payment reconciliation across Adyen, Teya and internal systems.
-        Unreconcilable transactions fell from <strong>1 in 35 to under 1 in 1,000</strong>.</li>
-      <li><span class="lead">Data platform:</span> a Kimball star schema in Snowflake, ETL across internal and external
-        systems, and Power BI reporting.</li>
-      <li><span class="lead">Operations:</span> reduced the booking department from seven contractors to two while improving
-        its performance. Started with no finance background and within months was producing annual reports that passed audit.</li>
+      <li>Automated payment reconciliation across Adyen, Teya and internal systems: unreconcilable transactions fell from
+        <strong>1 in 35 to under 1 in 1,000</strong>.</li>
+      <li>Built the data platform: a Kimball star schema in Snowflake, ETL across internal and external systems, and
+        Power BI reporting.</li>
+      <li>Reduced the booking department from seven contractors to two while improving its performance. Started with no
+        finance background and within months was producing annual reports that passed audit.</li>
     </ul>
   </div>
 
@@ -166,8 +170,11 @@
       <div><span class="role">Data Analyst &amp; Product Owner</span> <span class="org">· Alfreð Atvinnuleit</span></div>
       <div class="dates">May 2021 – Aug 2022</div>
     </div>
-    <p class="lede num">Product owner for the Giggó gig-economy platform (system architecture, data model). Built the BI environment
-      with real-time dashboards. Wrote the grant proposal that secured 30M ISK from Rannís.</p>
+    <ul class="num">
+      <li>Owned the Giggó gig-economy platform as product owner (system architecture, data model) and built the BI
+        environment with real-time dashboards.</li>
+      <li>Wrote the grant proposal that secured 30M ISK from Rannís.</li>
+    </ul>
   </div>
 
   <div class="job">
@@ -190,26 +197,53 @@
 
 <section>
   <h2>Selected projects</h2>
-  <div class="projects">
-    <div class="project">
-      <div class="name">Homegrown Hero Films · <a href="https://homegrownherofilms.com">homegrownherofilms.com</a></div>
-      <div class="meta">AI video · GPU pipelines · YouTube &amp; TikTok · 2026</div>
-      <p>Short films where a child is the hero. Behind them sits a video pipeline on rented GPUs, with my own <a href="https://github.com/RationallyPrime/ComfyUI-H3Forge">open-source extensions</a> to the MiniMax H3 video model, AI agents that review every film before release, upscaling and
-        frame-interpolation finishing, and scheduled publishing.</p>
-    </div>
-    <div class="project">
+  <div class="projects num">
+    <div class="project wide">
       <div class="name">Residual Modeling</div>
       <div class="meta">Python · LightGBM · Postgres/PostGIS · FastAPI · Next.js · 2026</div>
-      <p>Icelandic home valuation that splits each sale price into multiplicative layers (structure, location, local market,
-        liquidity and timing), fitted as residuals in log-price space, so every estimate shows where its value comes from.
+      <p>Icelandic home valuation that splits each sale price into layers (structure, location, local market, liquidity
+        and timing), so every estimate shows where its value comes from and can be re-priced under changed attributes.
         On 12,709 time-ordered out-of-fold sales the median error is 6.6%, and 5.9% for apartments.
         <a class="more" href="https://hakonfreyr.com/projects/residual-modeling/">hakonfreyr.com/projects/residual-modeling</a></p>
+    </div>
+    <div class="project wide">
+      <div class="name">ConceptStudio</div>
+      <div class="meta">Swift/SwiftUI · RealityKit · Blockout (ported) · Python · RunPod · 2026</div>
+      <p>Designed and built a native Mac app for making your own AI video, about 57,000 lines of Swift. It teaches an image
+        or video model a new concept from your photos: it captions the examples, rents a GPU within a set budget and
+        returns the trained adapter (10,004 steps for US$3.99). Its Shots workspace blocks a shot in 3D, solves the camera
+        from perspective lines drawn on a location photo, and exports the control videos, masks and prompt that drive
+        generation. Shots went from first commit to merged in a week, built in four parallel lanes against contracts
+        written up front.
+        <a class="more" href="https://hakonfreyr.com/projects/ConceptStudio/">hakonfreyr.com/projects/ConceptStudio</a></p>
+    </div>
+    <div class="project wide">
+      <div class="name">H3Forge</div>
+      <div class="meta">PyTorch · ComfyUI · video diffusion · open source · 2026</div>
+      <p>Extended the MiniMax H3 video model from 15-second clips to minute-long takes with synchronised sound, in under
+        50 GB of GPU memory. Designed a one-way hand-over between windows to replace the standard averaging: overlap
+        flicker fell from 0.49 to 0.03, and joins are as sharp as the rest of the take. Did the same for sound, restoring
+        the first two seconds of dialogue at each window start. Added prompt timelines where each beat carries its own
+        text and reference set, and cut a 30-second render from 39 minutes to about 7. Used for the films at
+        <a href="https://homegrownherofilms.com">homegrownherofilms.com</a>.
+        <a class="more" href="https://github.com/RationallyPrime/ComfyUI-H3Forge">github.com/RationallyPrime/ComfyUI-H3Forge</a></p>
+    </div>
+    <div class="project wide">
+      <div class="name">Sókrates IDR</div>
+      <div class="meta">Python/FastAPI · React/TypeScript · PostgreSQL · Neo4j · PGVector · 2025</div>
+      <p>Built, solo, an AI research and drafting platform for Icelandic law. Its knowledge graph holds tens of thousands
+        of verdicts from every level of the judiciary, with Supreme Court rulings back to 1920, the entire body of statute
+        law and most regulations. Everything is cross-linked, so a citation in a verdict leads to the ruling or article it
+        cites. Laws are broken down to chapter, article and sub-article, and verdicts into their sections. An agent works
+        over the graph inside a persistent personal workspace, with a word processor that shows it what you are drafting
+        as you write.
+        <a class="more" href="https://hakonfreyr.com/projects/sokrates-idr/">hakonfreyr.com/projects/sokrates-idr</a></p>
     </div>
     <div class="project wide">
       <div class="name">Autopod</div>
       <div class="meta">Go · Python/FastAPI · SQLite · Cloudflare R2 · speech-to-text · LLMs</div>
       <p>Drop in a video and it is published to YouTube, Spotify and Apple Podcasts with subtitles in three languages, a
-        summary and clips of the most quotable moments. My first Go project, shipped to multi-tenant production.
+        summary and clips of the most quotable moments. Shipped to multi-tenant production.
         <a class="more" href="https://hakonfreyr.com/projects/autopod/">hakonfreyr.com/projects/autopod</a></p>
     </div>
   </div>
@@ -219,14 +253,14 @@
   <h2>Skills</h2>
   <dl class="skills">
     <dt>AI &amp; agents</dt>
-    <dd>pydantic-ai, MCP, Anthropic/OpenAI/Gemini APIs, agent evaluation, RAG and embeddings, durable agent workflows,
-      tracing with Logfire/OpenTelemetry, local inference, diffusion models</dd>
+    <dd>Multi-agent engineering teams, pydantic-ai, MCP, Anthropic/OpenAI/Gemini APIs, agent evaluation, RAG and
+      embeddings, durable agent workflows, tracing with Logfire/OpenTelemetry, local inference, video diffusion models (PyTorch)</dd>
     <dt>Languages</dt>
-    <dd>Python (expert), SQL, TypeScript, Go, R, Logica</dd>
+    <dd>Python (expert), SQL, TypeScript, Swift, Go, R, Logica</dd>
     <dt>Data</dt>
     <dd>Postgres, DuckDB/DuckLake, Snowflake, Neo4j, Fabric/PySpark, Kimball modelling, event sourcing, Power BI</dd>
     <dt>Infrastructure</dt>
-    <dd>NixOS, Docker, Azure (Container Apps, Bicep), Cloudflare, Tailscale, GitHub Actions</dd>
+    <dd>NixOS, Docker, Azure (Container Apps, Bicep), Cloudflare, Tailscale, RunPod, GitHub Actions</dd>
     <dt>Engineering</dt>
     <dd>Domain-driven design, architecture enforced in CI (import-linter, tach), typed errors, uv/ruff/ty</dd>
     <dt>Spoken</dt>

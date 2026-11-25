@@ -1,4 +1,4 @@
-import { education, experience, featuredProjects, hiveStory, personalInfo, sheetCopy, skills } from '@/data/portfolio'
+import { education, experience, featuredProjects, hiveStory, personalInfo, portfolioRevision, professionalSummary, selectedProjects, sheetCopy, skills } from '@/data/portfolio'
 
 export function TitleBlock({ sheet, title }: { sheet: string; title: string }) {
   return (
@@ -21,7 +21,7 @@ export function TitleBlock({ sheet, title }: { sheet: string; title: string }) {
       </div>
       <div>
         <dt>Rev</dt>
-        <dd>2026-10</dd>
+        <dd>{portfolioRevision}</dd>
       </div>
     </dl>
   )
@@ -223,7 +223,7 @@ export function FilmsSheet() {
   const hhf = project('homegrown-hero-films')
   const copy = sheetCopy.films
   return (
-    <Sheet id="homegrown-hero-films" sheet="4 / 6" title="Homegrown Hero Films" lede={copy.lede}>
+    <Sheet id="homegrown-hero-films" sheet="4 / 6" title={hhf.name} lede={hhf.description}>
       <div className="sheet-body">
         <div className="elevation">
           {films.map((film) => (
@@ -245,8 +245,7 @@ export function FilmsSheet() {
         </div>
         <p className="sheet-links">
           <a href={hhf.url}>homegrownherofilms.com</a>
-          <a href={hhf.githubUrl}>Model extensions on GitHub</a>
-          <a href={`/projects/${hhf.slug}/`}>Detail: Homegrown Hero Films</a>
+          <a href={`/projects/${hhf.slug}/`}>Detail: {hhf.name}</a>
         </p>
       </div>
     </Sheet>
@@ -276,7 +275,7 @@ export function ConceptStudioSheet() {
       <div className="sheet-body sheet-body-drawing">
         <figure
           className="drawing flow dimensioned"
-          aria-label="ConceptStudio's nine screens: images, concepts, mapping, captioning, review and publish on the Mac; GPU pods, training and monitor on a rented GPU computer"
+          aria-label="ConceptStudio’s training workflow: images, concepts, mapping, captioning, review and publish on the Mac; GPU pods, training and monitor on a rented GPU computer"
         >
           <DimOn side="top" figure={copy.topDim} />
           <DimOn side="left" figure={copy.sideDim} />
@@ -329,11 +328,11 @@ export function ConceptStudioSheet() {
   )
 }
 
-const related = ['hive', 'residual-modeling', 'memory-palace', 'grimoire', 'autopod', 'sokrates-idr']
+const related = [...selectedProjects.map(({ slug }) => slug), 'hive', 'memory-palace', 'grimoire']
 
 export function ExperienceSheet() {
   return (
-    <Sheet id="experience" sheet="6 / 6" title="Experience" lede={sheetCopy.experience.lede}>
+    <Sheet id="experience" sheet="6 / 6" title="Experience" lede={professionalSummary}>
       <div className="sheet-body sheet-body-tables">
         <table className="parts parts-list">
           <caption>Parts list</caption>
@@ -355,7 +354,13 @@ export function ExperienceSheet() {
                 <td data-label="Period" className="nowrap">
                   {entry.period.replace('—', '–')}
                 </td>
-                <td data-label="Key result">{entry.keyResult}</td>
+                <td data-label="Key result">
+                  <details className="experience-details">
+                    <summary>{entry.keyResult}</summary>
+                    <p>{entry.description}</p>
+                    {entry.highlights && <ul>{entry.highlights.map((item) => <li key={item}>{item}</li>)}</ul>}
+                  </details>
+                </td>
               </tr>
             ))}
           </tbody>

@@ -2006,3 +2006,15 @@ body.drawing-set {
   .hive-evidence > div { grid-template-columns: 1fr; gap: 14px; }
   .hive-project .hive-caption { font-size: 16px; }
 }
+
+.experience-details summary {
+  cursor: pointer;
+  color: var(--drafting);
+}
+.experience-details p, .experience-details ul {
+  margin-block: 0.6em;
+}
+.experience-details ul {
+  padding-inline-start: 1.1em;
+  list-style: disc;
+}

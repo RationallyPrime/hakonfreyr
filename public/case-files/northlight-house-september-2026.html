@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Northlight House September</title>
+<style>
+:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}
+/* Layout: a month-end case file. A narrow reading column, broken by full-width ledger bands; figures set in mono, Icelandic number grouping. */
+:root {
+  --paper: #f3f5f6;
+  --sheet: #ffffff;
+  --ink: #15222b;
+  --muted: #5a6872;
+  --rule: #d5dde1;
+  --fjord: #1e5f6e;
+  --fjord-soft: #e1eef0;
+  --ember: #a5512a;
+  --ember-soft: #f6e6dc;
+  --ok: #2d7a4c;
+  --font-display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Public Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --font-figure: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0f171c; --sheet: #16222a; --ink: #e4ebee; --muted: #9aaab3; --rule: #2a3a44;
+    --fjord: #6fb8c6; --fjord-soft: #1b3139; --ember: #e39a74; --ember-soft: #3a261d; --ok: #6cc28f;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0f171c; --sheet: #16222a; --ink: #e4ebee; --muted: #9aaab3; --rule: #2a3a44;
+  --fjord: #6fb8c6; --fjord-soft: #1b3139; --ember: #e39a74; --ember-soft: #3a261d; --ok: #6cc28f;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 4rem;
+}
+.wrap { max-width: 68rem; margin: 0 auto; }
+.col { max-width: 42rem; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.15; text-wrap: balance; margin: 0; }
+h2 { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; }
+h3 { font-size: 1.125rem; font-weight: 700; }
+p { margin: 0; }
+.fig { font-family: var(--font-figure); font-variant-numeric: tabular-nums; }
+.label {
+  font-family: var(--font-figure); font-size: 0.75rem; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--muted);
+}
+a { color: var(--fjord); }
+a:focus-visible { outline: 2px solid var(--fjord); outline-offset: 2px; }
+
+/* Header */
+header.cover { padding-block: 3.5rem 2.5rem; display: grid; gap: 1.25rem; border-bottom: 1px solid var(--rule); }
+header.cover h1 { font-size: clamp(2.4rem, 7vw, 4.25rem); font-weight: 700; letter-spacing: -0.02em; }
+header.cover .lede { font-size: 1.2rem; color: var(--ink); max-width: 40rem; }
+.facts { display: flex; flex-wrap: wrap; gap: 0.5rem 1.75rem; color: var(--muted); font-size: 0.95rem; }
+.facts span strong { color: var(--ink); font-weight: 600; }
+.fiction { font-size: 0.875rem; color: var(--muted); max-width: 40rem; }
+
+section { padding-block: 3rem 0; display: grid; gap: 1.25rem; }
+section > .col { display: grid; gap: 1rem; }
+
+/* The month's sequence */
+.flow { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; counter-reset: step; }
+.flow li {
+  display: grid; grid-template-columns: 2.25rem minmax(0, 1fr); gap: 0 1rem;
+  padding-block: 1rem; border-top: 1px solid var(--rule);
+}
+.flow li:last-child { border-bottom: 1px solid var(--rule); }
+.flow li::before {
+  counter-increment: step; content: counter(step);
+  font-family: var(--font-figure); font-weight: 600; color: var(--fjord);
+  font-size: 0.95rem; padding-top: 0.15rem;
+}
+.flow .who { font-family: var(--font-figure); font-size: 0.8rem; color: var(--fjord); letter-spacing: 0.04em; }
+.flow p { color: var(--muted); font-size: 0.98rem; }
+.flow h3 { margin-bottom: 0.15rem; }
+
+/* Ledger bands */
+.band { background: var(--sheet); border: 1px solid var(--rule); border-radius: 6px; padding: 1.25rem; }
+.scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+table { border-collapse: collapse; width: 100%; font-size: 0.95rem; }
+th, td { text-align: left; padding: 0.55rem 0.75rem; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+th { font-family: var(--font-figure); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+td.n, th.n { text-align: right; font-family: var(--font-figure); font-variant-numeric: tabular-nums; }
+tfoot td { font-weight: 600; border-bottom: none; border-top: 2px solid var(--ink); }
+tr.grade-lead td:first-child::after {
+  content: "lead"; margin-left: 0.5rem; font-family: var(--font-figure); font-size: 0.68rem;
+  color: var(--fjord); background: var(--fjord-soft); padding: 0.1rem 0.4rem; border-radius: 3px; vertical-align: 1px;
+}
+.zero { color: var(--ok); }
+.note { font-size: 0.9rem; color: var(--muted); }
+
+/* Headline figures */
+.totals { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; }
+.totals div { background: var(--sheet); padding: 1rem 1.1rem; display: grid; gap: 0.2rem; min-width: 0; }
+.totals .v { font-family: var(--font-figure); font-variant-numeric: tabular-nums; font-size: 1.35rem; font-weight: 600; }
+.totals .k { font-size: 0.875rem; color: var(--muted); }
+
+/* Two-column ledger comparison */
+.split { display: grid; grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); gap: 1.25rem; }
+.split > * { min-width: 0; }
+
+/* Corrections and catches */
+.events { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: 1rem; }
+.event { border-left: 3px solid var(--fjord); padding: 0.25rem 0 0.25rem 1rem; display: grid; gap: 0.35rem; min-width: 0; }
+.event p { color: var(--muted); font-size: 0.95rem; }
+.catch { background: var(--ember-soft); border-radius: 6px; padding: 1.25rem; display: grid; gap: 0.75rem; }
+.catch h3 { color: var(--ember); }
+.catch ul { margin: 0; padding-left: 1.1rem; display: grid; gap: 0.4rem; }
+
+/* Checks */
+.checks { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.75rem; }
+.checks li { display: grid; grid-template-columns: 1.5rem minmax(0, 1fr); gap: 0.75rem; }
+.checks li::before { content: "✓"; color: var(--ok); font-weight: 700; }
+.limits { margin: 0; padding-left: 1.1rem; display: grid; gap: 0.5rem; color: var(--muted); font-size: 0.95rem; }
+
+footer { margin-top: 3.5rem; padding-top: 1.25rem; border-top: 1px solid var(--rule); font-size: 0.85rem; color: var(--muted); display: grid; gap: 0.4rem; }
+
+@media (max-width: 30rem) {
+  .band { padding: 0.75rem; }
+  th, td { padding: 0.5rem 0.55rem; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="cover">
+  <span class="label">Krepis · six-kernel back office · month-end case</span>
+  <h1>Northlight House, September 2026</h1>
+  <p class="lede">A twelve-person guesthouse in Reykjavík runs one full month through Krepis: hiring terms, the roster, clocked hours, payroll, housekeeping stock, supplier and wage payments, and the books. At the end, every figure matches an expected result that someone else worked out by hand beforehand.</p>
+  <div class="facts">
+    <span><strong>12</strong> staff</span>
+    <span><strong>180</strong> eight-hour shifts</span>
+    <span><strong>14</strong> payments settled</span>
+    <span><strong>6</strong> kernels, one database</span>
+    <span>Atlantic/Reykjavik, UTC+0</span>
+  </div>
+  <p class="fiction">Northlight House, its staff and its supplier are fictional. The pay rules are invented test policies, not Icelandic labour or tax law. Amounts are whole krónur, written the Icelandic way: 4.125.040 kr.</p>
+</header>
+
+<section>
+  <div class="col">
+    <h2>The house and its rules</h2>
+    <p>One role, house duty, covers reception, guest help and housekeeping. Every day has three windows: day 06:00–14:00, evening 14:00–22:00 and night 22:00–06:00, with two people on each. Four staff are leads at 3.200 kr. an hour and eight are attendants at 2.400 kr.</p>
+    <p>Night minutes earn a 25% supplement. Staff pay 4% of gross into the staff pension, and the house adds 11,5%. Nobody may work twice in one civil day, and there must be at least eleven hours between shifts. The books open on 1 September with 8.000.000 kr. in the bank against the owner's capital.</p>
+  </div>
+</section>
+
+<section>
+  <div class="col">
+    <h2>How the month moves through the system</h2>
+    <p>Each kernel owns one part of the business. They hand work to each other directly; nobody re-types anything between them.</p>
+  </div>
+  <ol class="flow col">
+    <li><div><span class="who">Chreos · agreements</span><h3>Employment terms</h3><p>Twelve employment agreements set each person's start date, grade and pay group. Staffing and payroll both read them from here.</p></div></li>
+    <li><div><span class="who">Taxis · rostering and time</span><h3>Roster, then clocks</h3><p>180 shifts are proposed and confirmed against the rest rules. Clock-ins and clock-outs then become worked time, including a mid-month swap and a late correction.</p></div></li>
+    <li><div><span class="who">Misthos · payroll</span><h3>Payroll for September</h3><p>Worked minutes are priced against the wage table, night band, pension deduction and employer contribution. The run is previewed, checked against the expected figures, then committed.</p></div></li>
+    <li><div><span class="who">Apotheke · stock</span><h3>Housekeeping supplies</h3><p>Two deliveries of five items from Hekla Hygiene ehf., daily consumption, a stock count, and a closing valuation.</p></div></li>
+    <li><div><span class="who">Obolos · payments</span><h3>Paying everyone</h3><p>Twelve wage payments, one combined pension remittance and one supplier payment go out on 3 October through a sandbox payment rail. A payment only counts once the rail confirms it.</p></div></li>
+    <li><div><span class="who">Zygos · the books</span><h3>The general ledger</h3><p>Payroll, stock and settlements post themselves into one operating book. Running a posting step again adds nothing.</p></div></li>
+  </ol>
+</section>
+
+<section>
+  <div class="col">
+    <h2>Payroll</h2>
+    <p>Gross pay is worked minutes times the grade rate, plus the night supplement. The 30 September night shift runs into October, so only its first two hours count for September; the other twelve hours wait for October's run.</p>
+  </div>
+  <div class="totals">
+    <div><span class="v">4.125.040</span><span class="k">Gross wages, kr.</span></div>
+    <div><span class="v">165.002</span><span class="k">Staff pension, 4%</span></div>
+    <div><span class="v">3.960.038</span><span class="k">Net wages paid</span></div>
+    <div><span class="v">474.380</span><span class="k">House contribution, 11,5%</span></div>
+    <div><span class="v">85.692</span><span class="k">September minutes worked</span></div>
+  </div>
+  <div class="band scroll">
+    <table>
+      <thead>
+        <tr><th>Employee</th><th class="n">Shifts</th><th class="n">Minutes</th><th class="n">Night min.</th><th class="n">Gross</th><th class="n">Pension 4%</th><th class="n">Net</th><th class="n">House 11,5%</th></tr>
+      </thead>
+      <tbody>
+        <tr class="grade-lead"><td>Elín Björk Sigurðardóttir</td><td class="n">16</td><td class="n">7.320</td><td class="n">7.320</td><td class="n">488.000</td><td class="n">19.520</td><td class="n">468.480</td><td class="n">56.120</td></tr>
+        <tr class="grade-lead"><td>Aron Þór Halldórsson</td><td class="n">16</td><td class="n">7.692</td><td class="n">0</td><td class="n">410.240</td><td class="n">16.410</td><td class="n">393.830</td><td class="n">47.178</td></tr>
+        <tr class="grade-lead"><td>Katla Rós Jónsdóttir</td><td class="n">17</td><td class="n">8.160</td><td class="n">0</td><td class="n">435.200</td><td class="n">17.408</td><td class="n">417.792</td><td class="n">50.048</td></tr>
+        <tr class="grade-lead"><td>Birkir Már Einarsson</td><td class="n">13</td><td class="n">6.240</td><td class="n">0</td><td class="n">332.800</td><td class="n">13.312</td><td class="n">319.488</td><td class="n">38.272</td></tr>
+        <tr><td>Sigrún Heiða Ólafsdóttir</td><td class="n">16</td><td class="n">7.320</td><td class="n">7.320</td><td class="n">366.000</td><td class="n">14.640</td><td class="n">351.360</td><td class="n">42.090</td></tr>
+        <tr><td>Jónas Pétur Guðmundsson</td><td class="n">14</td><td class="n">6.720</td><td class="n">6.720</td><td class="n">336.000</td><td class="n">13.440</td><td class="n">322.560</td><td class="n">38.640</td></tr>
+        <tr><td>Freyja Lilja Stefánsdóttir</td><td class="n">14</td><td class="n">6.720</td><td class="n">6.720</td><td class="n">336.000</td><td class="n">13.440</td><td class="n">322.560</td><td class="n">38.640</td></tr>
+        <tr><td>Dagur Ari Kristjánsson</td><td class="n">16</td><td class="n">7.680</td><td class="n">0</td><td class="n">307.200</td><td class="n">12.288</td><td class="n">294.912</td><td class="n">35.328</td></tr>
+        <tr><td>Hildur Sól Sveinsdóttir</td><td class="n">14</td><td class="n">6.720</td><td class="n">0</td><td class="n">268.800</td><td class="n">10.752</td><td class="n">258.048</td><td class="n">30.912</td></tr>
+        <tr><td>Trausti Óskar Bjarnason</td><td class="n">14</td><td class="n">6.720</td><td class="n">0</td><td class="n">268.800</td><td class="n">10.752</td><td class="n">258.048</td><td class="n">30.912</td></tr>
+        <tr><td>Ragna Dís Magnúsdóttir</td><td class="n">16</td><td class="n">7.680</td><td class="n">0</td><td class="n">307.200</td><td class="n">12.288</td><td class="n">294.912</td><td class="n">35.328</td></tr>
+        <tr><td>Vésteinn Logi Árnason</td><td class="n">14</td><td class="n">6.720</td><td class="n">0</td><td class="n">268.800</td><td class="n">10.752</td><td class="n">258.048</td><td class="n">30.912</td></tr>
+      </tbody>
+      <tfoot>
+        <tr><td>Total</td><td class="n">180</td><td class="n">85.692</td><td class="n">28.080</td><td class="n">4.125.040</td><td class="n">165.002</td><td class="n">3.960.038</td><td class="n">474.380</td></tr>
+      </tfoot>
+    </table>
+  </div>
+  <p class="note col">Elín and Sigrún each worked the 30 September night shift, so six of its hours belong to October for each of them. Aron's extra 12 minutes come from a corrected clock-out on 10 September. Katla's 17 shifts and Birkir's 13 come from the swap on 16 September.</p>
+</section>
+
+<section>
+  <div class="col">
+    <h2>What changed mid-month</h2>
+    <p>Real months are not tidy. Each of these was recorded as a correction on top of the original, which stays in the history.</p>
+  </div>
+  <div class="events">
+    <div class="event"><span class="label">16 September</span><h3>Shift swap</h3><p>Birkir's evening shift went to Katla. The roster amendment was confirmed against the rest rules, and payroll followed it without anyone touching pay.</p></div>
+    <div class="event"><span class="label">10 September</span><h3>Late clock-out</h3><p>Aron's day shift actually ended at 14:12. The correction replaced the old time record, and he is paid for the extra 12 minutes.</p></div>
+    <div class="event"><span class="label">Deliveries</span><h3>Wrong product codes</h3><p>Ten deliveries were booked against supplier SKUs instead of the stock system's own item IDs. They were re-pointed at the right items in place, without receiving the goods twice.</p></div>
+    <div class="event"><span class="label">Stock count</span><h3>Two rolls short</h3><p>The count found two fewer rolls of guest toilet paper than the records showed. A 370 kr. shortage was booked separately from ordinary use.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="col">
+    <h2>The books</h2>
+    <p>The same book read at two dates. On 30 September everything is owed and nothing is paid. By 3 October the payments have cleared every liability and the cash has gone down by exactly what was paid.</p>
+  </div>
+  <div class="split">
+    <div class="band scroll">
+      <table>
+        <thead><tr><th>Account</th><th class="n">30 Sep</th><th class="n">3 Oct</th></tr></thead>
+        <tbody>
+          <tr><td>Cash at bank</td><td class="n">8.000.000</td><td class="n">3.164.880</td></tr>
+          <tr><td>Housekeeping inventory</td><td class="n">100.390</td><td class="n">100.390</td></tr>
+          <tr><td>Wages payable</td><td class="n">−3.960.038</td><td class="n zero">0</td></tr>
+          <tr><td>Pension clearing</td><td class="n">−639.382</td><td class="n zero">0</td></tr>
+          <tr><td>Trade payables</td><td class="n">−235.700</td><td class="n zero">0</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="band scroll">
+      <table>
+        <thead><tr><th>Payment</th><th class="n">Count</th><th class="n">kr.</th></tr></thead>
+        <tbody>
+          <tr><td>Net wages</td><td class="n">12</td><td class="n">3.960.038</td></tr>
+          <tr><td>Pension, staff + house</td><td class="n">1</td><td class="n">639.382</td></tr>
+          <tr><td>Hekla Hygiene ehf.</td><td class="n">1</td><td class="n">235.700</td></tr>
+        </tbody>
+        <tfoot><tr><td>Total paid</td><td class="n">14</td><td class="n">4.835.120</td></tr></tfoot>
+      </table>
+    </div>
+  </div>
+  <p class="note col">8.000.000 kr. opening cash less 4.835.120 kr. paid leaves 3.164.880 kr. The staff pension and the house contribution are owed to the same fund, so they share one clearing account and go out as one 639.382 kr. remittance.</p>
+</section>
+
+<section>
+  <div class="col">
+    <h2>Housekeeping stock</h2>
+    <p>Supplies received for 235.700 kr. Ordinary use cost 134.940 kr. and the count shortage 370 kr. What is left on the shelf is worth 100.390 kr., and the stock count agrees with the system to the unit.</p>
+  </div>
+  <div class="band scroll">
+    <table>
+      <thead><tr><th>Item</th><th>Unit</th><th class="n">Price</th><th class="n">On hand 30 Sep</th></tr></thead>
+      <tbody>
+        <tr><td>Neutral laundry detergent</td><td>litre</td><td class="n">890</td><td class="n">30</td></tr>
+        <tr><td>All-purpose cleaner</td><td>litre</td><td class="n">640</td><td class="n">20</td></tr>
+        <tr><td>Guest toilet paper</td><td>roll</td><td class="n">185</td><td class="n">106</td></tr>
+        <tr><td>Cotton guest hand towel</td><td>piece</td><td class="n">1.250</td><td class="n">30</td></tr>
+        <tr><td>Bin liners, 50-pack</td><td>pack</td><td class="n">420</td><td class="n">9</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="col">
+    <h2>How we know it is right</h2>
+    <p>One team wrote the business facts and worked out the expected results before any software ran. A second team operated the system without seeing those answers. A third compared the two.</p>
+  </div>
+  <ul class="checks col">
+    <li><span>Payroll, the ledger, stock quantities and stock value all match the hand-calculated expectation. The independent checker reported 4.913 comparisons with no differences.</span></li>
+    <li><span>A double-booked shift was refused by the roster's overlap rule, and a journal off by 1 kr. was refused by the ledger's balance rule. Neither left a trace in the records.</span></li>
+    <li><span>Sending a payment to the rail does not post anything. Only the rail's confirmation does, so 14 confirmations produced exactly 14 postings.</span></li>
+    <li><span>Re-running every handoff and resending the payroll and receiving requests changed nothing.</span></li>
+    <li><span>The whole system was restarted. All six kernels' records, including every event log, balance, stock level and payment record, were identical before and after.</span></li>
+  </ul>
+  <div class="catch col">
+    <h3>The first attempt failed, usefully</h3>
+    <p>The first run on 2 October came out 42.000 kr. too high on gross pay. Payroll had counted all of Elín's and Sigrún's 30 September night shift in September, including the six hours each that fell in October. The expected figures were not adjusted to fit. Instead the run exposed five gaps, each fixed in the product:</p>
+    <ul>
+      <li>Splitting a shift that crosses midnight at the payroll period boundary.</li>
+      <li>Reading pay terms straight from the employment agreements instead of re-entering them.</li>
+      <li>Correcting a delivery that cited the wrong item, without receiving it twice.</li>
+      <li>Posting a supplier payment to the right book automatically.</li>
+      <li>Clearing a combined pension payment through one account, with no manual reversal.</li>
+    </ul>
+    <p>The rerun on 3 October used the same source facts, unchanged, and every figure matched.</p>
+  </div>
+</section>
+
+<section>
+  <div class="col">
+    <h2>Not covered yet</h2>
+    <p>This month is the hourly, single pay group case. Four limits found during review are known and still open:</p>
+    <ul class="limits">
+      <li>Two separately configured rule sets can reuse the same rule ID, and one may be silently dropped.</li>
+      <li>A hand-written placement that cites the wrong agreement can still be reported as clean.</li>
+      <li>After manual rebinding, the pay-terms import can check a different rule version from the one payroll uses.</li>
+      <li>For salaried staff, a later termination date can shorten pay without a warning. Hourly pay, as used here, is not affected.</li>
+    </ul>
+  </div>
+</section>
+
+<footer class="col">
+  <span>Clean rerun on 3 October 2026, on merged main at <span class="fig">e0d85be</span>, in an isolated six-kernel stack with one PostgreSQL database.</span>
+  <span>Expected figures from the independently authored source pack, frozen 2 October 2026 before any money was read.</span>
+</footer>
+
+</div>
+</body>
+</html>

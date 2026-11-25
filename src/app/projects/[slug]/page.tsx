@@ -2,7 +2,7 @@ import { DrawIn } from '@/components/sheet/draw-in'
 import { ContactBlock, Dim, Notes, Sheet } from '@/components/sheet/sheets'
 import { ValuationExplorer } from '@/components/sheet/valuation-explorer'
 import { HiveProject } from '@/components/sheet/hive-project'
-import { featuredProjects, personalInfo } from '@/data/portfolio'
+import { featuredProjects, personalInfo, projectLetter } from '@/data/portfolio'
 import { notFound } from 'next/navigation'
 
 export function generateStaticParams() {
@@ -24,7 +24,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   const index = featuredProjects.findIndex((p) => p.slug === slug)
   if (index < 0) notFound()
   const project = featuredProjects[index]
-  const letter = String.fromCharCode(65 + index)
+  const letter = projectLetter(index)
 
   return (
     <>
@@ -83,6 +83,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             </div>
             <p className="sheet-links">
               {slug === 'residual-modeling' && <a href="#live-valuation">Try the live valuation model</a>}
+              {project.caseFile && <a href={project.caseFile}>Read the Northlight House case file</a>}
               {project.url && <a href={project.url}>{project.urlLabel ?? project.url}</a>}
               {project.githubUrl && project.githubLabel !== 'Private' && (
                 <a href={project.githubUrl}>Code on GitHub</a>
