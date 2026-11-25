@@ -5,44 +5,25 @@ export const personalInfo = {
   status: 'Open to full-time roles',
   company: 'Krates ehf.',
   location: 'Garðabær, Iceland',
-  email: 'hakon@sokrates.is',
+  email: 'rationallyprime@gmail.com',
   phone: '+354 660-9570',
   github: 'https://github.com/RationallyPrime',
   website: 'https://hakonfreyr.com',
 }
 
 export const professionalSummary =
-  "AI engineer with a mathematics and statistics foundation (BSc mathematics, MSc AI and data science, two years as a statistician at deCODE genetics) and production systems shipped in genomics, finance, travel and enterprise software. From March to October 2026 I ran a build sprint at my own company, Krates, taking agent-first back-office software and the AI engineering team that develops it to an independently verified working core. That system now largely runs on its own, and I'm returning to full-time engineering to build AI systems that can be trusted with real work."
+  "AI engineer. I build production software at the pace of a full engineering team by running my own team of AI agents: 1,742 pull requests merged between March and October 2026, including accounting and payroll systems that ran a simulated company's month with every figure correct. Mathematics and statistics foundation (BSc mathematics, MSc AI and data science), with production systems in genomics, finance, travel and enterprise software. Looking for a full-time role building AI systems that can be trusted with real work. I trust measurements over demos."
 
 export const designPrinciple =
   'One habit across every domain: put the guarantees in the architecture, so a system is correct by construction rather than by care.'
 
-export interface IndexSheet {
-  sheet: string
-  title: string
-  keyDimension: string
-  href: string
-  current?: boolean
-}
-
-// The cover sheet's drawing index: one row per sheet on the home page.
-export const drawingIndex: IndexSheet[] = [
-  { sheet: '02', title: 'Krates', keyDimension: '4,913 checks, 0 differences', href: '#krates', current: true },
-  {
-    sheet: '03',
-    title: 'The Weave',
-    keyDimension: '106 merged changes / week',
-    href: '#the-weave',
-  },
-  { sheet: '04', title: 'Homegrown Hero Films', keyDimension: '60 fps', href: '#homegrown-hero-films' },
-  { sheet: '05', title: 'ConceptStudio', keyDimension: '10,004 steps for US$3.99', href: '#conceptstudio' },
-  { sheet: '06', title: 'Experience', keyDimension: '6 organisations', href: '#experience' },
-]
+export const portfolioRevision = '2026-11'
 
 export interface Project {
   slug: string
   name: string
   subtitle: string
+  keyDimension?: string
   techStack: string
   description: string
   longDescription: string
@@ -53,9 +34,177 @@ export interface Project {
   githubLabel?: string
   url?: string
   urlLabel?: string
+  caseFile?: string
 }
 
 export const featuredProjects: Project[] = [
+  {
+    slug: 'residual-modeling',
+    keyDimension: '6.6% median error',
+    name: 'Residual Modeling',
+    subtitle: 'Interpretable, Counterfactual Valuation of Icelandic Homes',
+    techStack: 'Python, LightGBM, Postgres/PostGIS, FastAPI, Next.js, Pydantic, uv workspace',
+    description:
+      'A stack of gradient-boosted residual layers that values Icelandic homes, explains every price in krónur per layer, and re-prices a home under what-if changes.',
+    longDescription:
+      'A valuation model for Icelandic residential property built as a stack of gradient-boosted residual layers. A sale price is treated as a product of independent signals: the property itself, its broad location, the local market around it, liquidity and timing, and the agency that sold it. In house-price-index-deflated log-price space each signal becomes an additive term, and each LightGBM layer is trained on the residual the layers before it leave. The estimate is therefore a sum of attributable parts, and every valuation comes back as krónur contributed by each layer rather than as one opaque number. The same model answers counterfactual questions: change the floor area, rooms, floor, construction year or selling agency, and it re-prices the home and shows which layers moved.',
+    highlights: [
+      'Gradient-boosted residual stacking: one LightGBM model per layer, each fitted to what the earlier layers could not explain, in HPI-deflated log-price space.',
+      'Interpretable by construction: every valuation returns the krónur contributed by structure, broad location, local market, and liquidity and timing, each layer with its own cross-validated R², ready for a waterfall chart.',
+      'Counterfactual pricing: a batch scenarios endpoint re-prices a property under changed rooms, floor area, lot size, floor, construction year, property type, postal code, view or selling agency, and returns the price delta and the per-layer breakdown for each scenario.',
+      'Comparables done properly: the local-market layer learns only comparable-sale deltas, anchored on the frozen structure-and-location prediction and recomputed out of fold, so training and serving use the same comparables.',
+      'Leakage hunted down: early cross-validation scores of 94.5% traced back to asking-price and assessment leakage and random splits. The model is now judged only on time-ordered out-of-fold sales.',
+    ],
+    metrics: [
+      { stat: '12,709', text: 'time-ordered out-of-fold sales in the evaluation' },
+      { stat: '6.6%', text: 'median absolute error across all sales' },
+      { stat: '5.9%', text: 'median absolute error for apartments (9,507 sales)' },
+      { stat: '11', text: 'packages in a uv workspace with an enforced dependency graph' },
+    ],
+    architectureNotes: [
+      'Agency effects use empirical-Bayes shrinkage per agency, so small agencies are pulled toward the market rather than over-fitted.',
+      'A listing-presentation layer is quarantined until it beats the holdout: it raised cross-validation scores without improving held-out sales.',
+      'Spatial structure combines a postal-area prior with a continuous-coordinate residual, promoted to depth 10 after an ablation study.',
+      'Every trained model carries its lineage, and the serving cache is refreshed from the production artifacts so the API and the model never disagree.',
+      'Served end to end: precomputed market baselines in Postgres, live inference that applies agency effects on request, a FastAPI service and a Next.js valuation app with a waterfall of layer contributions and a scenarios panel.',
+    ],
+  },
+  {
+    slug: 'ConceptStudio',
+    keyDimension: '124 frames in 1.64 s',
+    name: 'ConceptStudio',
+    subtitle: 'Concept Training and 3D Shot Planning on a Mac',
+    techStack:
+      'Swift, SwiftUI, RealityKit, Blockout (ported from Sam Wasserman’s Apache-2.0 motion engine), Python, pydantic-ai, FastAPI, Docker, RunPod, Hugging Face, AI Toolkit, LTX trainer, vLLM, Agent Skills',
+    description:
+      'I built a native Mac app that trains an image or video model on your photos and lets you stage a shot in 3D and export the controls for video generation.',
+    longDescription:
+      'I designed and built ConceptStudio to make AI video on a Mac. To teach a model a person, product, style or movement, you crop and caption your own photos or clips. The app rents a GPU within your budget and returns the trained adapter on Hugging Face. I ran that workflow end to end in a signed, notarised build on 14 October 2026. In the Shots workspace you plan what the camera will see, when people move and how a video model should follow the scene.',
+    highlights: [
+      'I built a 3D stage with stand-in figures, set pieces, timed marks and a virtual camera with real lens settings. Draw perspective lines on a location photo and Shots solves the lens, tilt and roll to match it.',
+      'You can block a shot from a one-line description, adjust it on the stage, then turn the finished shot back into staging text and a generation prompt.',
+      'Shots exports a validated package for MiniMax H3 in ComfyUI with guide stills, pose and layout control videos, a mask for each character, staging text and the prompt.',
+      'Captions shaped for the model being trained: caption instructions are an Agent Skills directory with one profile per caption style, so modern image models get dense prose, SDXL gets short lines that fit CLIP, and MiniMax H3 gets its structured shot fields. Every caption names the concept with its trigger and describes everything outside it.',
+      'Any captioning model, chosen at run time: sign in with a ChatGPT plan, connect OpenRouter, use a provider key, or point at a self-hosted vLLM server. An optional second model reviews each caption and can send it back once with notes.',
+      'Stronger defaults where they are measured: regularisation images drawn from the base model itself and captioned by the project’s own captioner keep the model’s sense of the class, and REPA aligns its features with a frozen DINOv2 encoder. Both are on by default for Qwen-Image-2.1.',
+      'Matched comparisons: the base and the trained model render the same prompts with the same seeds, so the effect of the adapter is the only difference on screen.',
+      'Built-in help explains every term in a 177-entry glossary, each entry in two readings: plain language for a beginner and the technical detail behind it.',
+    ],
+    metrics: [
+      { stat: '1.64 s', text: 'full 124-frame shot export on an M4 Mac' },
+      { stat: '8.9 × 10⁻¹⁶', text: 'maximum difference between the Swift motion engine and the original Blockout engine across about 24,700 values in eight scenes' },
+      {
+        stat: '10,004',
+        text: 'training steps in 1 h 19 min for US$3.99 of rented GPU, against a US$10 run budget: the first run driven entirely through the app (14 October 2026)',
+      },
+      {
+        stat: '0.05 → 0.34',
+        text: 'face match to held-out photos for a likeness adapter on Qwen-Image-2.1, from the base model to 2,500 training steps on ConceptStudio’s GPU images (15 October 2026)',
+      },
+      { stat: '26', text: 'trainable models in one shared table: 6 with tested recipes and 20 more through AI Toolkit' },
+      { stat: '9', text: 'screens, from a folder of photos to a trained adapter' },
+    ],
+    architectureNotes: [
+      'I wrote one deterministic evaluator for the shot timeline. Playback, scrubbing, still capture and export all ask it for the same scene at a given frame.',
+      'I defined the contracts up front and built Shots in four parallel lanes. I made the first commit on 25 October 2026 and merged all four lanes by 1 November. The wider Shots work through 15 November spans about 40 merged pull requests. The whole app contains about 57,000 lines of Swift.',
+      'One model table, two readers: every supported model is one reviewed row of a JSON table. The Mac app builds its pickers, defaults and limits from it, and the GPU images carry the same file to write the trainer’s configuration, so adding a model is a row and an image rebuild rather than new code paths.',
+      'My own GPU images: each rented computer runs a container image I build, with a small control agent. The app talks to it over one authenticated HTTP API, and services start from a fixed catalogue, never from shell strings.',
+      'Money is guarded in the design: spending is capped per run and per computer, an idle computer is stopped (but not while the app is still uploading to it), and a computer holding a result that has not been saved cannot be removed.',
+      'Pinned upstream: trainer commits and Hugging Face weight revisions are pinned in code, so a training run never follows a moving main branch, and moving a pin is a reviewed change.',
+      'Native and private: SwiftUI, sandboxed, credentials in the Keychain, projects in ordinary folders the user chooses, and no subprocesses. The Python package behind it is the reference implementation and command-line tool for the same job file and caption skill.',
+    ],
+    githubUrl: 'https://github.com/RationallyPrime/concept-studio',
+    githubLabel: 'source',
+  },
+  {
+    slug: 'homegrown-hero-films',
+    keyDimension: '60.4 s with sound',
+    name: 'H3Forge',
+    subtitle: 'Minute-long video takes with synchronised sound',
+    techStack: 'PyTorch, ComfyUI, MiniMax H3, RunPod, NVIDIA RTX VSR, RIFE, YouTube Data API, Next.js',
+    description:
+      'I extended MiniMax H3 from roughly 15-second clips to minute-long takes with synchronised sound for Homegrown Hero Films.',
+    longDescription:
+      'I built H3Forge to carry a continuous shot beyond the roughly 15 seconds MiniMax H3 was trained on. I window picture and sound together on the model’s joint stream, placing each window at its actual time in the take. In one pass I rendered 60.4 seconds of 1344 × 768 video at 24 fps with synchronised audio, using under 50 GB of GPU memory.',
+    highlights: [
+      'I designed a one-way hand-over between windows. The earlier window owns the picture in the overlap, and the later window reads it at reduced noise. The tools I built on, including ComfyUI core, WanVideoWrapper and FlowLong, average the windows there. On the comparison take, overlap flicker fell from 0.49 to 0.03 and the joins were as sharp as the rest of the take.',
+      'I applied the same hand-over to sound. In a dialogue test it restored the first two seconds of a line that began at a window boundary.',
+      'I give each beat its own text and references on a prompt timeline and keep the pose-control video in step with its window. To avoid jumps I repeat the setting in each beat and state the subject’s size in frame and final pose.',
+      'I measure each join in a partially denoised draft and redo the joins that need it. This is the default in my production kit.',
+      'I adapted the six-step workflow for long takes. A 30-second render took about seven minutes, down from 39.',
+    ],
+    metrics: [
+      { stat: '60.4 s', text: 'continuous take with sound, rendered in one pass under 50 GB of GPU memory' },
+      { stat: '0.49 → 0.03', text: 'measured flicker in the overlapping frames after the one-way hand-over' },
+    ],
+    architectureNotes: [
+      'For Homegrown Hero Films I make short films, animated or photoreal, in which a child is the hero. I generate the footage on rented GPUs with H3Forge’s sparse attention, FETA and joint audio-video windows.',
+      'I built a frame-by-frame quality check for story, identity continuity and photorealism before release. I upscale each shot with NVIDIA RTX VSR and interpolate it to 60 fps with RIFE, so interpolation never blends two shots. I schedule the finished films for YouTube and TikTok.',
+    ],
+    url: 'https://homegrownherofilms.com',
+    urlLabel: 'Watch Homegrown Hero Films',
+    githubUrl: 'https://github.com/RationallyPrime/ComfyUI-H3Forge',
+  },
+  {
+    slug: 'sokrates-idr',
+    keyDimension: 'Rulings back to 1920',
+    name: 'Sókrates IDR',
+    subtitle: 'AI Research and Drafting for Icelandic Law',
+    techStack: 'Python/FastAPI, React/TypeScript, PostgreSQL, Neo4j, MinIO, PGVector, Celery',
+    description:
+      'I built a research and drafting workspace that connects Icelandic judgments, statutes and regulations down to the ruling or article cited.',
+    longDescription:
+      'I built Sókrates IDR solo in 2025 as a working research and drafting platform for Icelandic law. Its knowledge graph connects tens of thousands of verdicts from every level of the judiciary, including Hæstiréttur (Supreme Court) rulings back to 1920, with the entire body of statute law and most regulations. From a citation in a verdict, you can follow the link directly to the ruling or article it cites.',
+    highlights: [
+      'I indexed laws by chapter, article and sub-article so a citation can point to the precise provision.',
+      'I indexed each verdict by its component sections, from Reifun and Inngangur through Ágreiningsefni, Málsatvik, Málsástæður and Löggjöf (reasoning) to Niðurstaða.',
+      'I built a persistent personal workspace with drafting templates and a word processor. The research agent can follow what you are writing in near real time and consult the same graph from inside the draft.',
+    ],
+    metrics: [
+      { stat: '4', text: 'Persistence backends (PostgreSQL, Neo4j, MinIO, PGVector)' },
+      { stat: '13+', text: 'OpenTelemetry instrumentations for full observability' },
+      { stat: 'E2E', text: 'Playwright tests from login to document' },
+    ],
+    architectureNotes: [
+      'DDD with architectural boundaries enforced by import-linter contracts (not just convention): domain → core → infrastructure → api. Repository pattern with protocol-based interfaces. Dependency injection throughout (dependency-injector)',
+      'Polyglot persistence: PostgreSQL (asyncpg + SQLAlchemy + Alembic migrations), Neo4j (knowledge graph), MinIO (S3-compatible document storage), PGVector (embeddings)',
+      'OpenTelemetry with 13+ instrumentations: FastAPI, Starlette, ASGI, asyncpg, SQLAlchemy, httpx, requests, aiohttp, Celery, gRPC, Jinja2. Logfire + Sentry + structlog',
+      'Comprehensive testing: pytest-asyncio, factory-boy, freezegun, Playwright E2E. Automatic TypeScript client generation from OpenAPI specs via Orval',
+      'JWT/bcrypt authentication, Celery distributed task queues, Docker multi-stage builds, GitHub Actions CI/CD',
+    ],
+  },
+  {
+    slug: 'autopod',
+    keyDimension: '3 subtitle languages',
+    name: 'Autopod',
+    subtitle: 'Multi-Tenant Podcast Orchestrator',
+    techStack: 'Go, Python/FastAPI, SQLite, Docker, Cloudflare R2/Tunnel',
+    description:
+      'I built a multi-tenant production system that publishes a video to YouTube, Spotify and Apple Podcasts with subtitles in English, Icelandic and Polish, a summary, tags and hashtags, and clips of the most quotable moments.',
+    longDescription:
+      'A multi-tenant podcast automation system built with a Go control plane driving a Python/FastAPI data plane. Handles the full pipeline from audio extraction through transcription, subtitles in English, Icelandic and Polish, summaries, tags and hashtags, extraction of the most quotable clips, thumbnail creation, and multi-platform upload — all with crash-resilient state management and per-customer isolation enforced by directory structure and encryption boundaries.',
+    highlights: [
+      'Control plane / data plane split: Go orchestrator drives a 7-step pipeline by calling stateless Python/FastAPI endpoints with typed HTTP contracts mirrored across languages',
+      'Crash-resilient job state machine with SQLite persistence — every state transition writes to disk before proceeding, GetActiveJobs() resumes all in-flight jobs on startup',
+      'Multi-tenancy by construction: per-customer watch directories, age-encrypted secrets decrypted at runtime, namespaced cloud storage on Cloudflare R2',
+      '21 Go tests + 36 Python tests, GitHub Actions CI with -race flag, Docker multi-stage builds',
+    ],
+    metrics: [
+      { stat: '7-step', text: 'Automated pipeline from ingestion to multi-platform publish' },
+      { stat: '57', text: 'Combined Go + Python tests with race detection' },
+      { stat: '2-lang', text: 'Typed HTTP contracts mirrored across Go and Python' },
+    ],
+    architectureNotes: [
+      'Goroutine semaphore (chan struct{}, capacity 2) with mutex-protected file map preventing watcher re-triggering on pipeline-generated outputs',
+      'File stability detection polls size every 2s until stable (30s timeout) to handle large Google Drive sync uploads',
+      'Idiomatic Go: internal/ package layout, sql.NullString, table-driven tests, httptest.NewServer for contract verification, error wrapping with %w',
+      'OAuth consent flow → token capture → age encrypt → save. Stale flow pruning (10-min TTL)',
+      'AI-powered error recovery: ffprobe analysis → Gemini diagnosis → suggested ffmpeg fix → validated execution',
+      'Systemd timer for Google Drive sync with randomized delay (thundering herd prevention)',
+    ],
+    githubUrl: 'https://github.com/RationallyPrime/autopod',
+    githubLabel: 'Private',
+  },
   {
     slug: 'sokrates',
     name: 'Sókrates',
@@ -93,18 +242,19 @@ export const featuredProjects: Project[] = [
     subtitle: 'Back-Office Software Designed for AI Agents',
     techStack: 'Python, Pydantic, Postgres, Event sourcing, Logica, FastAPI, OpenAPI',
     description:
-      'Accounting, payroll and workforce management rebuilt from first principles for AI agents, rather than for people clicking through screens.',
+      'I built seven back-office kernels for accounting, payroll, workforce management and related work. Six ran a simulated Reykjavík guesthouse for a full month without human intervention.',
     longDescription:
-      "Business software is built for people who navigate screens: menus, forms and formatted tables. Agents work through APIs and logs, and before anyone trusts them with money or payroll they need guarantees that today's suites don't give. Krepis starts from one question: what would an accounting system look like if it were designed for agents? The answer is a family of kernels, each limited to the critical core of its domain, in which every action can be previewed, retried and traced. Customer-specific policy lives above the kernels as logic, so the guarantees extend to the parts of each domain the kernels don't cover.",
+      'I tested Krepis on Northlight House, a simulated twelve-person guesthouse in Reykjavík. Six kernels ran September 2026 in one process on PostgreSQL with no human in the loop. They handled 180 shifts, payroll under the guesthouse’s invented test policies, two supplier deliveries, the stock close, 14 payments and the books.',
     highlights: [
-      'Operated by agents, unsupervised: AI agents ran a fictional 12-employee company’s September (180 shifts, payroll, two supplier deliveries, inventory close, 14 payments and the books) through six kernels in one process on PostgreSQL, with no human supervising at any point. An independent checker that computed every expected figure from the source facts found zero differences across 4,913 comparisons (3 October 2026).',
+      'The check was blind and involved three parties. The first wrote the source facts and calculated the expected results by hand, then froze both on 2 October before the software ran. The second operated Krepis without seeing the answers. The third compared the output with the frozen figures.',
+      'The first run on 2 October overstated gross pay by 42,000 ISK. A night shift that started on 30 September crossed midnight into October. I fixed five product gaps and reran the same facts on 3 October. All 4,913 comparisons matched the original expected results.',
       'Seven kernels: double-entry accounting, payroll, workforce management, money movement, inventory, commitments and a work ledger.',
       'Event-sourced and append-only: balances are computed from the log rather than stored, so every number traces back to the events behind it.',
       'Safe for agents by construction: every action is idempotent and has a dry run, so an agent can preview any effect and retry without doubling it.',
       'Rules as logic: business policy is expressed as Logica predicates above the kernels, so it can change without touching kernel code.',
     ],
     metrics: [
-      { stat: '4,913', text: 'independent checks against the source facts, zero differences, in a business month run entirely by AI agents with no human supervisor' },
+      { stat: '4,913', text: 'comparisons against results calculated and frozen before the first run. Zero differences on 3 October 2026.' },
       { stat: '4,125,040', text: 'ISK gross payroll for 12 employees, exact to the króna' },
       { stat: '14', text: 'payments settled (4,835,120 ISK), each matching its source amount, into a 27-transaction ledger with zero unbalanced entries' },
       { stat: '30/30', text: 'stored records identical after a restart; replayed handoffs and duplicate submissions created no new effects' },
@@ -115,6 +265,9 @@ export const featuredProjects: Project[] = [
       'One Postgres: a schema per kernel, mirrored into a lakehouse for analytics.',
       "Contracts for agents: each kernel publishes its OpenAPI contract, which Sókrates compiles into the agents' tools.",
     ],
+    url: 'https://claude.ai/artifact/2s9dS11CxGsqxFBVUG3Akr',
+    urlLabel: 'Original case file on Claude',
+    caseFile: '/case-files/northlight-house-september-2026.html',
   },
   {
     slug: 'the-weave',
@@ -122,18 +275,18 @@ export const featuredProjects: Project[] = [
     subtitle: 'An Engineering Organisation Staffed by AI Agents',
     techStack: 'Claude, Codex, TypeScript, Bun, Slack, Linear, GitHub Actions, Tailscale',
     description:
-      'The team that builds Krates: five named AI engineers who plan, write, review, repair and merge production software around the clock.',
+      'I built and run an engineering team of five AI agents. Each has its own machine and role. Together they plan, write, review, repair and merge production software.',
     longDescription:
-      "Most people use AI to write code. The Weave uses it to run an engineering team. Five named AI engineers (Claude and Codex), each with its own machine and role, work under a written doctrine and a shared library of standard operating procedures. They file their own tickets, write the code, review each other's changes, fix what the reviewers find and merge, and reviews always come from an agent other than the author. A scheduler gives each task to the agent best placed to take it, weighing remaining subscription capacity, skills, availability and parallelism limits. From July to mid-September 2026 it merged 106 changes a week. By September, 94% of code changes got an independent review before merge. Reviewers caught issues in 83% of those, and only 0.14% of merged changes have ever been reverted. My role is the one a CTO plays: architecture, standards, and the calls that should stay with a human.",
+      'I built the Weave to run the engineering cycle from ticket to merge. I set the architecture and standards, wrote the operating procedures and built the scheduler that assigns work to Claude and Codex. Across my repositories I merged 1,742 pull requests between March and October 2026. From July to mid-September the team averaged 106 merged changes a week. A second agent reviews every code change before merge. Reviewers found issues in 83% of the changes they reviewed, and 0.14% of merged changes were reverted.',
     highlights: [
-      'Independent review: changes are reviewed by an agent other than the one that wrote them, and repairs go back through review before the merge gate.',
+      'When a reviewer finds an issue, the author repairs it and sends the changed code back through review before it can merge.',
       'Capacity-aware scheduling: work is routed by remaining subscription capacity, skills, availability and parallelism, turning AI subscriptions into reviewed production software at an average of 250 ISK ($2) per merged change.',
       "Mistakes become procedure: a daily harvest turns what reviewers catch into 40 standard operating procedures holding 414 recorded lessons, which every agent loads before it touches the code they govern. The team's expertise compounds instead of resetting with each session.",
       'Event-driven wake fabric: a self-built broker with outbound-only edges over Tailscale wakes the right agent on the right machine from Slack, Linear and GitHub events.',
     ],
     metrics: [
       { stat: '106/week', text: 'Merged changes, July to mid-September 2026' },
-      { stat: '94%', text: 'Code changes independently reviewed (September)' },
+      { stat: 'Every code change', text: 'Reviewed by a second agent before merge' },
       { stat: '250 ISK', text: 'Subscription cost per merged change' },
     ],
     architectureNotes: [
@@ -141,99 +294,6 @@ export const featuredProjects: Project[] = [
       "Usage telemetry: per-agent collectors report remaining subscription capacity, which feeds the scheduler's view of who can take the next task.",
       'Linear as the ledger: a ticket marked ready for an agent wakes the team, and an agent claims it by assigning itself.',
       'Review is measured too: findings are graded by severity, and a finding that recurs at the same line across review rounds is tracked as a repair that did not stick.',
-    ],
-  },
-  {
-    slug: 'homegrown-hero-films',
-    name: 'Homegrown Hero Films',
-    subtitle: 'Short Films Where a Child Is the Hero',
-    techStack: 'MiniMax H3, PyTorch, ComfyUI, RunPod, NVIDIA RTX VSR, RIFE, YouTube Data API, Next.js',
-    description:
-      'Short films, photoreal or animated, where a child is the hero of their own adventure, made with an AI video pipeline I built end to end.',
-    longDescription:
-      'Homegrown Hero Films makes short films in which a child is the hero. Behind them is a production pipeline: generation on rented GPUs with my own open-source extensions to the MiniMax H3 video model, AI agents that review every film for story, continuity and photorealism before release, upscaling and frame-interpolation finishing, and scheduled publishing to YouTube and TikTok.',
-    highlights: [
-      'Model extensions: sparse attention, FETA and synchronized audio/video context windows for MiniMax H3, released as open source.',
-      'An AI quality gate: a reviewing agent checks every candidate film frame by frame for story, identity continuity and photorealism, and sends its findings back to the producing agent before a human sees the film.',
-      'Finishing: NVIDIA RTX VSR upscaling and RIFE frame interpolation to 60 fps, applied shot by shot so interpolation never blends two shots.',
-    ],
-    metrics: [
-      { stat: '60 fps', text: 'Upscaled vertical finishing' },
-      { stat: 'AI-reviewed', text: 'Every film before release' },
-      { stat: '2', text: 'Platforms: YouTube and TikTok' },
-    ],
-    url: 'https://homegrownherofilms.com',
-    urlLabel: 'homegrownherofilms.com',
-    githubUrl: 'https://github.com/RationallyPrime/ComfyUI-H3Forge',
-    githubLabel: 'model extensions',
-  },
-  {
-    slug: 'ConceptStudio',
-    name: 'ConceptStudio',
-    subtitle: 'Teach an Image or Video Model Something New, from a Mac',
-    techStack:
-      'Swift, SwiftUI, Python, pydantic-ai, FastAPI, Docker, RunPod, Hugging Face, AI Toolkit, LTX trainer, vLLM, Agent Skills',
-    description:
-      'A native Mac app that turns a folder of photos or clips into a trained LoRA: it writes the captions, rents the GPU within your budget, trains and brings the adapter back.',
-    longDescription:
-      'ConceptStudio teaches a diffusion model one new concept (a person, a pet, a product, a style or a movement) from your own photos or clips, on a Mac with no graphics card and no machine-learning background. The Mac does the preparation: choosing and cropping the examples, captioning them with a language model of your choice, and reviewing every caption beside its media. Training runs on a GPU computer the app rents and controls within the budget you set, and the trained adapter arrives on Hugging Face. On 14 October 2026 the full workflow ran end to end in a signed, notarised build. I designed the product and its contracts and directed the AI engineers (Claude and Codex) who wrote it.',
-    highlights: [
-      'Captions shaped for the model being trained: caption instructions are an Agent Skills directory with one profile per caption style, so modern image models get dense prose, SDXL gets short lines that fit CLIP, and MiniMax H3 gets its structured shot fields. Every caption names the concept with its trigger and describes everything outside it.',
-      'Any captioning model, chosen at run time: sign in with a ChatGPT plan, connect OpenRouter, use a provider key, or point at a self-hosted vLLM server. An optional second model reviews each caption and can send it back once with notes.',
-      'Stronger defaults where they are measured: regularisation images drawn from the base model itself and captioned by the project’s own captioner keep the model’s sense of the class, and REPA aligns its features with a frozen DINOv2 encoder. Both are on by default for Qwen-Image-2.1.',
-      'Matched comparisons: the base and the trained model render the same prompts with the same seeds, so the effect of the adapter is the only difference on screen.',
-      'Built-in help explains every term in a 177-entry glossary, each entry in two readings: plain language for a beginner and the technical detail behind it.',
-    ],
-    metrics: [
-      {
-        stat: '10,004',
-        text: 'training steps in 1 h 19 min for US$3.99 of rented GPU, against a US$10 run budget: the first run driven entirely through the app (14 October 2026)',
-      },
-      {
-        stat: '0.05 → 0.34',
-        text: 'face match to held-out photos for a likeness adapter on Qwen-Image-2.1, from the base model to 2,500 training steps on ConceptStudio’s GPU images (15 October 2026)',
-      },
-      { stat: '26', text: 'trainable models in one shared table: 6 with tested recipes and 20 more through AI Toolkit' },
-      { stat: '9', text: 'screens, from a folder of photos to a trained adapter' },
-    ],
-    architectureNotes: [
-      'One model table, two readers: every supported model is one reviewed row of a JSON table. The Mac app builds its pickers, defaults and limits from it, and the GPU images carry the same file to write the trainer’s configuration, so adding a model is a row and an image rebuild rather than new code paths.',
-      'My own GPU images: each rented computer runs a container image I build, with a small control agent. The app talks to it over one authenticated HTTP API, and services start from a fixed catalogue, never from shell strings.',
-      'Money is guarded in the design: spending is capped per run and per computer, an idle computer is stopped (but not while the app is still uploading to it), and a computer holding a result that has not been saved cannot be removed.',
-      'Pinned upstream: trainer commits and Hugging Face weight revisions are pinned in code, so a training run never follows a moving main branch, and moving a pin is a reviewed change.',
-      'Native and private: SwiftUI, sandboxed, credentials in the Keychain, projects in ordinary folders the user chooses, and no subprocesses. The Python package behind it is the reference implementation and command-line tool for the same job file and caption skill.',
-    ],
-    githubUrl: 'https://github.com/RationallyPrime/concept-captioner',
-    githubLabel: 'source',
-  },
-  {
-    slug: 'residual-modeling',
-    name: 'Residual Modeling',
-    subtitle: 'Interpretable, Counterfactual Valuation of Icelandic Homes',
-    techStack: 'Python, LightGBM, Postgres/PostGIS, FastAPI, Next.js, Pydantic, uv workspace',
-    description:
-      'A stack of gradient-boosted residual layers that values Icelandic homes, explains every price in krónur per layer, and re-prices a home under what-if changes.',
-    longDescription:
-      'A valuation model for Icelandic residential property built as a stack of gradient-boosted residual layers. A sale price is treated as a product of independent signals: the property itself, its broad location, the local market around it, liquidity and timing, and the agency that sold it. In house-price-index-deflated log-price space each signal becomes an additive term, and each LightGBM layer is trained on the residual the layers before it leave. The estimate is therefore a sum of attributable parts, and every valuation comes back as krónur contributed by each layer rather than as one opaque number. The same model answers counterfactual questions: change the floor area, rooms, floor, construction year or selling agency, and it re-prices the home and shows which layers moved.',
-    highlights: [
-      'Gradient-boosted residual stacking: one LightGBM model per layer, each fitted to what the earlier layers could not explain, in HPI-deflated log-price space.',
-      'Interpretable by construction: every valuation returns the krónur contributed by structure, broad location, local market, and liquidity and timing, each layer with its own cross-validated R², ready for a waterfall chart.',
-      'Counterfactual pricing: a batch scenarios endpoint re-prices a property under changed rooms, floor area, lot size, floor, construction year, property type, postal code, view or selling agency, and returns the price delta and the per-layer breakdown for each scenario.',
-      'Comparables done properly: the local-market layer learns only comparable-sale deltas, anchored on the frozen structure-and-location prediction and recomputed out of fold, so training and serving use the same comparables.',
-      'Leakage hunted down: early cross-validation scores of 94.5% traced back to asking-price and assessment leakage and random splits. The model is now judged only on time-ordered out-of-fold sales.',
-    ],
-    metrics: [
-      { stat: '12,709', text: 'time-ordered out-of-fold sales in the evaluation' },
-      { stat: '6.6%', text: 'median absolute error across all sales' },
-      { stat: '5.9%', text: 'median absolute error for apartments (9,507 sales)' },
-      { stat: '11', text: 'packages in a uv workspace with an enforced dependency graph' },
-    ],
-    architectureNotes: [
-      'Agency effects use empirical-Bayes shrinkage per agency, so small agencies are pulled toward the market rather than over-fitted.',
-      'A listing-presentation layer is quarantined until it beats the holdout: it raised cross-validation scores without improving held-out sales.',
-      'Spatial structure combines a postal-area prior with a continuous-coordinate residual, promoted to depth 10 after an ablation study.',
-      'Every trained model carries its lineage, and the serving cache is refreshed from the production artifacts so the API and the model never disagree.',
-      'Served end to end: precomputed market baselines in Postgres, live inference that applies agency effects on request, a FastAPI service and a Next.js valuation app with a waterfall of layer contributions and a scenarios panel.',
     ],
   },
   {
@@ -295,65 +355,6 @@ export const featuredProjects: Project[] = [
     ],
   },
   {
-    slug: 'sokrates-idr',
-    name: 'Sókrates IDR',
-    subtitle: 'Legal Document Intelligence Platform',
-    techStack: 'Python/FastAPI, React/TypeScript, PostgreSQL, Neo4j, MinIO, PGVector, Celery',
-    description:
-      'A full-stack legal document intelligence platform, built solo in 2025.',
-    longDescription:
-      'A full-stack enterprise legal document intelligence platform, built solo in 2025. Features Domain-Driven Design with enforced architectural boundaries, polyglot persistence across four database systems, OpenTelemetry with 13+ instrumentations, and comprehensive testing from unit to E2E with Playwright.',
-    highlights: [
-      'DDD with architectural boundaries enforced by import-linter contracts: domain → core → infrastructure → api. Repository pattern with protocol-based interfaces',
-      'Polyglot persistence: PostgreSQL (asyncpg + SQLAlchemy + Alembic), Neo4j knowledge graph, MinIO document storage, PGVector embeddings',
-      'OpenTelemetry with 13+ instrumentations, Logfire + Sentry + structlog for structured observability',
-      'Comprehensive testing: pytest-asyncio, factory-boy, Playwright E2E. Automatic TypeScript client generation from OpenAPI specs',
-    ],
-    metrics: [
-      { stat: '4', text: 'Persistence backends (PostgreSQL, Neo4j, MinIO, PGVector)' },
-      { stat: '13+', text: 'OpenTelemetry instrumentations for full observability' },
-      { stat: 'E2E', text: 'Playwright tests from login to document' },
-    ],
-    architectureNotes: [
-      'DDD with architectural boundaries enforced by import-linter contracts (not just convention): domain → core → infrastructure → api. Repository pattern with protocol-based interfaces. Dependency injection throughout (dependency-injector)',
-      'Polyglot persistence: PostgreSQL (asyncpg + SQLAlchemy + Alembic migrations), Neo4j (knowledge graph), MinIO (S3-compatible document storage), PGVector (embeddings)',
-      'OpenTelemetry with 13+ instrumentations: FastAPI, Starlette, ASGI, asyncpg, SQLAlchemy, httpx, requests, aiohttp, Celery, gRPC, Jinja2. Logfire + Sentry + structlog',
-      'Comprehensive testing: pytest-asyncio, factory-boy, freezegun, Playwright E2E. Automatic TypeScript client generation from OpenAPI specs via Orval',
-      'JWT/bcrypt authentication, Celery distributed task queues, Docker multi-stage builds, GitHub Actions CI/CD',
-    ],
-  },
-  {
-    slug: 'autopod',
-    name: 'Autopod',
-    subtitle: 'Multi-Tenant Podcast Orchestrator',
-    techStack: 'Go, Python/FastAPI, SQLite, Docker, Cloudflare R2/Tunnel',
-    description:
-      'Drop in a video and it is published to YouTube, Spotify and Apple Podcasts with subtitles in English, Icelandic and Polish, a summary, tags and hashtags, and clips of the most quotable moments. My first Go project, in multi-tenant production.',
-    longDescription:
-      'A multi-tenant podcast automation system built with a Go control plane driving a Python/FastAPI data plane. Handles the full pipeline from audio extraction through transcription, subtitles in English, Icelandic and Polish, summaries, tags and hashtags, extraction of the most quotable clips, thumbnail creation, and multi-platform upload — all with crash-resilient state management and per-customer isolation enforced by directory structure and encryption boundaries.',
-    highlights: [
-      'Control plane / data plane split: Go orchestrator drives a 7-step pipeline by calling stateless Python/FastAPI endpoints with typed HTTP contracts mirrored across languages',
-      'Crash-resilient job state machine with SQLite persistence — every state transition writes to disk before proceeding, GetActiveJobs() resumes all in-flight jobs on startup',
-      'Multi-tenancy by construction: per-customer watch directories, age-encrypted secrets decrypted at runtime, namespaced cloud storage on Cloudflare R2',
-      '21 Go tests + 36 Python tests, GitHub Actions CI with -race flag, Docker multi-stage builds',
-    ],
-    metrics: [
-      { stat: '7-step', text: 'Automated pipeline from ingestion to multi-platform publish' },
-      { stat: '57', text: 'Combined Go + Python tests with race detection' },
-      { stat: '2-lang', text: 'Typed HTTP contracts mirrored across Go and Python' },
-    ],
-    architectureNotes: [
-      'Goroutine semaphore (chan struct{}, capacity 2) with mutex-protected file map preventing watcher re-triggering on pipeline-generated outputs',
-      'File stability detection polls size every 2s until stable (30s timeout) to handle large Google Drive sync uploads',
-      'Idiomatic Go: internal/ package layout, sql.NullString, table-driven tests, httptest.NewServer for contract verification, error wrapping with %w',
-      'OAuth consent flow → token capture → age encrypt → save. Stale flow pruning (10-min TTL)',
-      'AI-powered error recovery: ffprobe analysis → Gemini diagnosis → suggested ffmpeg fix → validated execution',
-      'Systemd timer for Google Drive sync with randomized delay (thundering herd prevention)',
-    ],
-    githubUrl: 'https://github.com/RationallyPrime/autopod',
-    githubLabel: 'Private',
-  },
-  {
     slug: 'hive',
     name: 'Hive',
     subtitle: 'Coordination for Agents. Attention for a Human',
@@ -369,6 +370,11 @@ export const featuredProjects: Project[] = [
   },
 ]
 
+// Detail letters are shared by the cover index and the project sheets.
+export const projectLetter = (index: number) => String.fromCharCode(65 + index)
+
+export const selectedProjects = featuredProjects.filter((project) => project.keyDimension)
+
 export interface ExperienceEntry {
   role: string
   company: string
@@ -382,46 +388,52 @@ export const experience: ExperienceEntry[] = [
   {
     role: 'Founder & Lead Engineer',
     company: 'Krates ehf.',
-    period: 'Mar 2026 — Present',
-    keyResult: 'Build sprint to a verified core: 4,913 checks, zero differences',
+    period: 'Mar 2026 — Oct 2026',
+    keyResult: 'Verified a guesthouse’s books and payroll against 4,913 expected figures with zero differences',
     description:
-      'A seven-month build sprint taking agent-first back-office software from design to a verified core. Krates continues as a side company, with development carried mainly by the agent team.',
+      'Designed and built back-office software that AI agents operate, and the engineering organisation that produces it. Build complete and verified; the company is on hold while I work full time.',
     highlights: [
-      'Krepis: seven event-sourced, idempotent kernels (accounting, payroll, workforce, payments, inventory and more) with a dry run on every action',
-      'Verified unsupervised: AI agents ran a fictional 12-employee company’s month through six kernels, and an independent checker found zero differences across 4,913 comparisons',
-      'Sókrates: an on-premises NixOS appliance for agent back-office work, with crash-safe execution and a signed consent token on every external action',
-      'The Weave: the five-agent AI engineering team I designed and led, at 106 merged changes a week',
+      'Built and ran the Weave, my engineering team of five AI agents. From July to mid-September 2026 it averaged 106 merged changes a week at 250 ISK ($2) each. Just 0.14% of merged changes were reverted.',
+      'Designed its quality system. A second agent reviews every code change before merge and found issues in 83% of the changes reviewed. I use those findings to maintain 40 standing procedures holding 414 lessons.',
+      'Built seven back-office kernels. Six ran the September books, payroll and stock of Northlight House, a simulated twelve-person guesthouse in Reykjavík, with 180 shifts, 14 payments and no human in the loop. A blind three-party check matched all 4,913 expected figures.',
+      'Built Sókrates, an on-premises appliance that connects a company’s existing systems to those agents. Every external action is crash-safe, approved by a human and logged.',
     ],
   },
   {
     role: 'Backend Engineer',
     company: 'Wise lausnir (Microsoft Dynamics partner)',
     period: 'Oct 2024 — Mar 2026',
-    keyResult: 'Fabric onboarding cut from about three weeks to half a workday',
-    description:
-      "Designed and deployed Grimoire, an internal knowledge platform on Azure that Claude uses as an MCP server, rolled out to every technical employee through Claude Team admin. Built a self-healing ETL framework for Microsoft Fabric with models generated from OpenAPI schemas; in the Business Central solution for municipalities it cut onboarding from legacy on-premises systems into Fabric/OneLake from about three weeks to half a workday, and its schema-driven design became the starting point for Sókrates's universal schema connector.",
+    keyResult: 'Cut municipal onboarding into Fabric/OneLake from about three weeks to half a workday',
+    description: 'Microsoft Dynamics partner.',
+    highlights: [
+      'Designed and deployed Grimoire on Azure to give Claude access to the company’s Confluence, GitHub and code-analysis knowledge. Rolled it out to every technical employee through Claude Team admin. Colleagues sign in with their company email and have nothing to install.',
+      'Cut municipal onboarding from legacy on-premises systems into Fabric/OneLake from about three weeks to half a workday. Built the self-healing ETL framework for the Business Central solution using PySpark, a medallion architecture and models generated from OpenAPI schemas.',
+    ],
   },
   {
     role: 'Data Scientist & Business Intelligence Lead',
     company: 'Travelshift',
     period: 'Aug 2022 — Sep 2024',
-    keyResult: '0.42% forecast error on 2.4B ISK of cash flow, six months out',
+    keyResult: 'Forecast 2.4B ISK of cash flow six months out with a 0.42% margin of error',
     description:
-      "Complete overhaul of data infrastructure, financial process automation, and predictive modeling for Iceland's largest travel marketplace.",
+      "Rebuilt the data infrastructure and the financial automation of Iceland's largest travel marketplace.",
     highlights: [
-      'Kimball-dimensional star schema in Snowflake, ETL pipelines, Power BI reporting',
-      'Cash flow forecasting with 0.42% margin of error on 2.4B ISK volume (6-month horizon)',
-      'Automated payment reconciliation: 1-in-35 → <1-in-1,000 unreconcilable transactions',
-      'Reduced booking department from 7 contractors to 2 while improving performance',
+      'Built a cash-flow forecasting model with a 0.42% margin of error on 2.4B ISK of volume over a six-month horizon.',
+      'Automated payment reconciliation across Adyen, Teya and internal systems. Unreconcilable transactions fell from 1 in 35 to under 1 in 1,000.',
+      'Built the data platform with a Kimball star schema in Snowflake, ETL across internal and external systems, and Power BI reporting.',
+      'Reduced the booking department from seven contractors to two while improving its performance. Started with no finance background and within months was producing annual reports that passed audit.',
     ],
   },
   {
     role: 'Data Analyst & Product Owner',
     company: 'Alfreð Atvinnuleit',
     period: 'May 2021 — Aug 2022',
-    keyResult: 'Grant proposal that secured 30M ISK from Rannís',
+    keyResult: 'Wrote the grant proposal that secured 30M ISK from Rannís',
     description:
-      'Product owner for the Giggó gig-economy platform. Established the BI environment with real-time dashboards. Authored the grant proposal that secured 30M ISK from Rannís.',
+      'Owned the Giggó gig-economy platform as product owner, including its system architecture and data model. Built the BI environment with real-time dashboards.',
+    highlights: [
+      'Wrote the grant proposal that secured 30M ISK from Rannís.',
+    ],
   },
   {
     role: 'Instructor, Department of Computer Science',
@@ -467,7 +479,7 @@ export const skills: SkillCategory[] = [
   },
   {
     name: 'Languages',
-    items: 'Python (expert), SQL, TypeScript, Go, R, Logica',
+    items: 'Python (expert), SQL, TypeScript, Swift, Go, R, Logica',
     iconName: 'code-square',
   },
   {
@@ -517,17 +529,17 @@ export const education: Education[] = [
 // Copy for the home page's sheets. Figures are the measured ones on the CV.
 export const sheetCopy = {
   krates: {
-    lede: 'A seven-month build sprint, March to October 2026, that took agent-first back-office software from design to an independently verified working core. It is correct by construction: agents do the work, rules are executable logic, and a human consents before anything leaves the box.',
+    lede: 'From March to October 2026 I designed and built back-office software for accounting, payroll and operations. I built its business rules as executable logic and put human approval on every external action.',
     revision: {
-      rev: '2026-10',
-      description: 'Build phase complete. Krates continues as a side company, with development carried mainly by the agent team.',
+      rev: portfolioRevision,
+      description: 'Build complete and verified. The company is on hold while Hákon works full time.',
     },
     widthDim: { value: '14', label: 'services in five credential-isolated containers' },
     heightDim: { value: '7', label: 'agent-first kernels' },
     sokrates: 'The on-premises AI department: one NixOS appliance that ingests a company’s systems and lets named agents do back-office work over Slack, Teams, WhatsApp and email.',
     krepis: 'Seven back-office kernels (accounting, payroll, workforce management and more) built for AI agents rather than for people clicking through screens.',
     notes: [
-      'Run by agents, unsupervised: AI agents operated a fictional 12-employee company’s whole month through all six Krepis kernels with no human supervisor. Payroll, 14 payments and the books came out exact: 4,913 independent checks, zero differences. Along the way the kernels rejected 11 invalid calls from the agents and wrote nothing for any of them.',
+      'I tested six Krepis kernels on Northlight House, a simulated twelve-person guesthouse in Reykjavík. They ran September’s 180 shifts, payroll, stock, 14 payments and the books without human intervention. A blind three-party check found zero differences across 4,913 comparisons. The kernels rejected 11 invalid calls and wrote nothing for any of them.',
       'Business rules are Logica laws compiled to DuckDB SQL; each returns the set of violations, not a pass or fail.',
       'An agent that dies mid-task never repeats an external action (DBOS, write-ahead attempt records).',
       'Every governed action carries a signed consent token and is its own trace span in a queryable audit store.',
@@ -536,9 +548,9 @@ export const sheetCopy = {
     ],
   },
   weave: {
-    lede: 'The engineering organisation that builds Krates: five named AI engineers (Claude and Codex), each with its own machine and role, working under a written doctrine. I designed it and lead it, in the role a CTO plays.',
+    lede: 'I built and run an engineering team of five named AI agents. I set the architecture and operating standards, and give each agent its own machine and role. Across my repositories I merged 1,742 pull requests between March and October 2026.',
     topDim: { value: '106', label: 'merged changes a week, July to mid-September 2026' },
-    sideDim: { value: '94%', label: 'independently reviewed before merge (September)' },
+    sideDim: { value: 'Every', label: 'code change reviewed by a second agent before merge' },
     bottomDim: { value: '250 ISK', label: '($2) of AI subscription per merged change' },
     caption: 'Reviews always come from an agent other than the author. Repairs go back through review before the merge gate.',
     notes: [
@@ -549,29 +561,26 @@ export const sheetCopy = {
     ],
   },
   films: {
-    lede: 'Short films, photoreal or animated, where a child is the hero of their own adventure, made with an AI video pipeline I built end to end.',
-    dim: { value: '60 fps', label: 'finishing: NVIDIA RTX VSR upscaling and RIFE interpolation, shot by shot' },
+    dim: { value: '60.4 s', label: 'one continuous take with sound, in one pass under 50 GB of GPU memory' },
     notes: [
-      'Generation runs on rented GPUs with my own open-source extensions to the MiniMax H3 video model.',
-      'Every film is reviewed frame by frame by an AI quality gate before a human sees it.',
-      'Interpolation never blends two shots: cuts are detected and every shot is finished on its own.',
+      'I replaced averaging at the join with a one-way hand-over between windows. Measured overlap flicker fell from 0.49 to 0.03.',
+      'I used the same hand-over for audio and recovered the first two seconds of dialogue in a line that started at the join.',
+      'I use H3Forge for Homegrown Hero Films. I check the footage for story and continuity, then upscale and interpolate each shot separately to 60 fps.',
     ],
   },
   conceptstudio: {
-    lede: 'A native Mac app that teaches an image or video model a new concept from your own photos or clips: it writes the training captions with a language model of your choice, rents a GPU within the budget you set, trains, and brings the adapter back. Development preview, October 2026.',
+    lede: 'I built a native Mac app for making AI video. It captions your photos or clips, rents a GPU within budget and brings back a trained adapter. Its Shots workspace lets you place the cast and camera on a 3D stage, then export the shot to MiniMax H3 in ComfyUI.',
     topDim: { value: '9', label: 'screens, from a folder of photos to a trained adapter' },
     sideDim: { value: '26', label: 'trainable models in one shared table' },
     bottomDim: { value: 'US$3.99', label: 'of rented GPU for a 10,004-step run through the app (14 October 2026)' },
     caption: 'The Mac does the preparation; a GPU computer the app rents and controls does the training, inside the budget and idle limit set before renting.',
     notes: [
+      'In Shots, perspective lines drawn on a location photo solve the camera lens, tilt and roll. A full 124-frame export took 1.64 seconds on an M4 Mac.',
       'One model table, two readers: the app builds its pickers and limits from it, and my GPU images write the trainer’s configuration from the same file.',
       'Captions are shaped for the model being trained by a swappable Agent Skill, written by any language model chosen at run time.',
       'Rented computers run my own container images; the app starts services from a fixed catalogue over one authenticated API, never from shell strings.',
       'A likeness adapter on Qwen-Image-2.1 went from 0.05 to 0.34 face match to held-out photos in 2,500 steps (15 October 2026).',
     ],
-  },
-  experience: {
-    lede: 'Mathematics and statistics first, then production systems in genomics, finance, travel and enterprise software, each a new domain learned within months.',
   },
 }
 
